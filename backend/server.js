@@ -17,8 +17,8 @@ app.use(express.urlencoded({extended: false}))
 
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/medicalFiles', require('./routes/medicalFileRoutes'))
-// app.use('/api/operations', require('./routes/operationRoutes'))
-// app.use('/api/managment', require('./routes/managementRoute'))
+app.use('/api/operations', require('./routes/operationRoutes'))
+app.use('/api/managment', require('./routes/managementRoute'))
 
 // Serve Frontend
 if (process.env.NODE_ENV === 'production') {
