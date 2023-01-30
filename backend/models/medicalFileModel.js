@@ -15,99 +15,127 @@ const medicalFileSchema = mongoose.Schema({
     },
     refName: {
         type: String,
-        required: [true, 'Please add refrence name']
+        required: [false]
     },
     refDesc: {
         type: String,
-        required: [true, 'Please add refrence description']
+        required: [false]
     },
     trappingAd: {
         type: String,
-        required: [true, 'Please add trapping address']
+        required: [false]
     },
     community: {
         type: String,
-        required: [true, 'Please add community']
+        required: [false]
     },
     feederName: {
         type: String,
-        required: [true, 'Please add feeder name']
+        required: [false]
     },
     phoneOne: {
         type: String,
-        required: [true, 'Please add phone number']
+        required: [false]
     },
     phoneTwo: {
         type: String,
-        required: [true, 'Please add phone number']
+        required: [false]
     },
     gender: {
         type: String,
-        required: [true, 'Please add cat gender']
+        required: [false]
     },
     neuteringStatus: {
-        type: Boolean,
-        required: [true, 'Please add cat neutering status ']
+        type: String,
+        required: [false]
     },
     age: {
-        type: Number,
-        required: [true, 'Please add cat age']
-    },
+        type: String,
+        required: [false]
+    },    
     color: {
         type: String,
-        required: [true, 'Please add cat color']
+        required: [false]
     },
     images: {
         type: [String],
-        required: [true, 'Please add images']
+        required: [false]
     },
     history: {
-        type: [String],
-        required: [true, 'Please add history']
+        type: String,
+        required: [false]
     },
     physicalCon: {
         type: Number,
-        required: [true, 'Please add cat physical condition']
+        required: [false]
     },
     severityLev: {
-        type: Number,
-        required: [true, 'Please add severity level']
+        type: String,
+        required: [false]
     },
     medicalProb: {
         type: String,
-        required: [true, 'Please add medical problem']
+        required: [false]
     },
     mainDiagnosis: {
         type: String,
-        required: [true, 'Please add main diagnosis']
+        required: [false]
     },
     secondaryDiagnosis: {
         type: String,
-        required: [true, 'Please add secondary diagnosis']
+        required: [false]
+    },
+    hospitalizationCageNum: {
+        type: Number,
+        required: [false]
     },
     hospitalStartDate: {
         type: Date,
-        required: [true, 'Please add hospitalization start date']
+        required: [false]
     },
     hospitalEndDate: {
         type: Date,
-        required: [true, 'Please add hospitalization end date']
+        required: [false]
     },
     totalHospitalDays: {
         type: Number,
-        required: [true, 'Please add total hospitalization days']
+        required: [false]
     },
     neuteringDate: {
         type: Date,
-        required: [true, 'Please add neutering date']
+        required: [false]
     },
     releaseDate: {
         type: Date,
-        required: [true, 'Please add release date']
+        required: [false]
     },
     releaseLocation: {
         type: String,
-        required: [true, 'Please add release location']
+        required: [false]
+    },
+    death: {
+        type: String,
+        required: [false]
+    },
+    userName: {
+        type: String,
+        required: [true, 'Please add user name']
+    },
+    examinations: {
+        type: String,
+        required: [false]
+    },
+    imaging: {
+        type: String,
+        required: [false]
+    },
+    nonSurgical: {
+        type: String,
+        required: [false]
+    },
+    surgical: {
+        type: String,
+        required: [false]
     }
 
 },

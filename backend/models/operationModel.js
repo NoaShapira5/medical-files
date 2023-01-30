@@ -19,7 +19,7 @@ const operationSchema = mongoose.Schema({
     },
     print: {
         type: Boolean,
-        required: [false]
+        required: [true, 'Please add print option']
     },
     comments: {
         type: String,
@@ -27,7 +27,7 @@ const operationSchema = mongoose.Schema({
     },
     file: {
         type: [String],
-        required: [true, 'Please add file']
+        required: [false]
     },
     userName: {
         type: String,
@@ -42,6 +42,10 @@ const operationSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: [true],
         ref: 'MedicalFile'
+    },
+    financed: {
+        type: Boolean,
+        required: [false]
     }
 },
 {

@@ -1,4 +1,12 @@
-import { Box, Paper, Table, TableContainer, TableHead, TableRow, TableCell, Button, TextField, MenuItem, TableBody, FormLabel } from "@mui/material"
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+import { Box, Paper, Button, TextField, MenuItem, FormLabel, Tooltip, IconButton } from "@mui/material"
+import { DataGrid } from '@mui/x-data-grid'
+import { createTheme } from '@mui/system';
+import { ThemeProvider } from '@mui/private-theming';
+import CustomToolBar from "../../components/CustomToolBar";
+import { heIL } from '@mui/x-data-grid';
+import { heIL as coreHeIl } from '@mui/material/locale';
 import { LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { DateTimePicker } from "@mui/x-date-pickers"
@@ -6,18 +14,30 @@ import { useState } from "react"
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import dayjs from "dayjs"
 import { useSelector, useDispatch } from "react-redux"
-import { createMedicalFileOperation, getMedicalFileOperations } from "../../features/operation/operationSlice"
-import {getMedicines, getTreatments, getExaminations} from '../../features/managment/managmentSlice'
+import { createMedicalFileOperation, deleteOperation, getMedicalFileOperations, editOperation } from "../../features/operation/operationSlice"
+import {getMedicines, getTreatments, getExaminations} from '../../features/management/managementSlice'
 import {toast} from 'react-toastify'
 import { useEffect } from "react"
 import {RadioGroup, FormControlLabel, Radio, FormControl} from "@mui/material"
+import Spinner from '../../components/Spinner'
+
+const theme = createTheme(
+    {
+      palette: {
+        primary: { main: '#5f9ea0' },
+      },
+    },
+    heIL, // x-data-grid translations
+    coreHeIl, // core translations
+  );
+  
 
 function SecondTabCreateNew() {
 
     const {user} = useSelector(state => state.auth)
     const {medicalFile} = useSelector(state => state.medicalFiles)
-    const {operation, operations} = useSelector(state => state.operation)
-    const {medicines, treatments, examinations} = useSelector(state => state.managment)
+    const {operations, isLoading} = useSelector(state => state.operation)
+    const {medicines, treatments, examinations} = useSelector(state => state.management)
 
     const dispatch = useDispatch()
 
@@ -30,8 +50,10 @@ function SecondTabCreateNew() {
 
         }
         
-    }, [dispatch, medicalFile, operation])
+    }, [dispatch, medicalFile])
 
+    const [edit, setEdit] = useState(false)
+    const [selected, setSelected] = useState([]);
     const [fileName, setFileName] = useState('')
     const [formInput, setFormInput] = useState({
         dateTime: dayjs().toDate(),
@@ -71,71 +93,108 @@ function SecondTabCreateNew() {
         .catch(toast.error)
     }
 
+    const handleSave = (e) => {
+        e.preventDefault()
+        dispatch(editOperation(formInput)).unwrap().then(() => {
+            setEdit(false)
+            setSelected([])
+            toast.success('הרשומה התעדכנה בהצלחה')
+        })
+        .catch(toast.error)
+    }
+
+    const onDelete = (operationIds) => {
+        if(window.confirm('האם אתה בטוח שאתה רוצה למחוק?')) {
+          dispatch(deleteOperation(operationIds)).unwrap().then(() => {
+            toast.success('המחיקה בוצעה בהצלחה')
+            setSelected([])
+          })
+          .catch(toast.error)      
+      }
+    }
+
+    const onEdit = (operationIds) => {
+        setEdit(true)
+        const operation = operations.filter(operation => operation._id === operationIds[0])
+        setFormInput({...operation[0], active: '', comment: ''})
+    }
+
     const types = ['טיפול', 'תרופה', 'בדיקה', 'הנחיות', 'הערות']
 
     const headCells = [
         {
-            id: 'dateTime',
-            label: 'תאריך ושעה'
+            field: 'dateTime',
+            headerName: 'תאריך ושעה',
+            valueFormatter: (cellValues) => new Date(cellValues?.value).toLocaleString('he-IL'),
+            width: 310
         },
         {
-            id: 'type',
-            label: 'סוג'
+            field: 'type',
+            headerName: 'סוג',
+            width: 310,
+
         },
         {
-            id: 'content',
-            label: 'תוכן'
+            field: 'content',
+            headerName: 'תוכן',
+            width: 310,
+
         },
         {
-            id: 'file',
-            label: 'קובץ מצורף'
+            field: 'file',
+            headerName: 'קובץ מצורף',
+            renderCell: (cellValues) => (<a href={cellValues.value}>{cellValues?.value[0]?.split('/')[4]}</a>),
+            width: 310,
+
         },
         {
-            id: 'userName',
-            label: 'שם'
+            field: 'userName',
+            headerName: 'שם',
+            width: 310,
+
         }
     ]
     if(!medicalFile) {
         toast.error('עליך ליצור קודם תיק רפואי')
         return 
     }
+    if(isLoading) {
+        return <Spinner />
+    }
   return (
     <Box sx={{ width: '100%' }}>
-        <Paper sx={{ width: '100%', mb: 2 }}>
-            <TableContainer>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            {headCells.map(headCell => (
-                            <TableCell 
-                            key={headCell.id}
-                            align="center">
-                                {headCell.label}
-                            </TableCell>))}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {operations.length > 0 && operations.map(row => (
-                            <TableRow
-                            hover
-                            key={row._id}
-                            >
-                                <TableCell align="center">{new Date(row.dateTime).toLocaleString('he-IL')}</TableCell>
-                                <TableCell align="center">{row.type}</TableCell>
-                                <TableCell align="center">{row.content}</TableCell>
-                                <TableCell align="center">
-                                    <a href={row.file}>{row.file[0].split('/')[4]}</a>
-                                </TableCell>
-                                <TableCell align="center">{row.userName}</TableCell>
+        <ThemeProvider theme={theme}>
+            <Paper sx={{ height: 400, width: '100%', mb: 2 }}>
+                {selected.length > 0 && (
+                <Tooltip title="Delete">
+                    <IconButton onClick={() => onDelete(selected)}>
+                    <DeleteIcon /> מחיקה
+                    </IconButton>
+                </Tooltip>)}
+                {selected.length === 1 && (
+                    <Tooltip title="Edit">
+                        <IconButton onClick={() => onEdit(selected)}>
+                        <EditIcon /> עריכה
+                        </IconButton>
+                </Tooltip>
+                )}
+                <DataGrid
+                columns={headCells}
+                rows={operations}
+                sx={{ height: 400, width: '100%'}}
+                getRowId={row => row._id}
+                checkboxSelection
+                components={{
+                    Toolbar: CustomToolBar,
+                }}
+                onSelectionModelChange={(newSelectionModel) => {
+                setSelected(newSelectionModel);
+                }}
+                selectionModel={selected}
+                />
 
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-
-        </Paper>
-
+            </Paper>
+        </ThemeProvider>
         <Paper
         dir="rtl"
         component="form"
@@ -284,6 +343,7 @@ function SecondTabCreateNew() {
                 id="content"
                 onChange={handleChange}
                 value={formInput.content}
+                multiline
                 label="הנחיות"
                 variant="filled"
                 sx={{ width: 220 }}
@@ -296,13 +356,6 @@ function SecondTabCreateNew() {
                     <RadioGroup row id='active' onChange={(e) => setFormInput({...formInput, active: e.target.value})} value={formInput.active}>
                         <FormControlLabel  value={true} control={<Radio />} label="כן"/>
                         <FormControlLabel id='active' value={false} control={<Radio />} label="לא"/>
-                    </RadioGroup>
-                </FormControl>
-                <FormControl sx={{marginLeft: '20px', marginRight: '20px'}}>
-                    <FormLabel>להדפסה:</FormLabel>
-                    <RadioGroup row id='print' onChange={(e) => setFormInput({...formInput, print: e.target.value})} value={formInput.print}> 
-                        <FormControlLabel value={true} control={<Radio />} label="כן"  />
-                        <FormControlLabel value={false} control={<Radio />} label="לא" />
                     </RadioGroup>
                 </FormControl>
                 </>
@@ -342,13 +395,32 @@ function SecondTabCreateNew() {
                         העלאת קובץ
                         <input type="file" max='1' accept='.jpg,.png,.jpeg,.pdf,.xlsx,.docx' hidden onChange={handleFileUpload} />
                     </Button>
+
+                    <FormControl sx={{marginLeft: '20px', marginRight: '20px'}}>
+                        <FormLabel>להדפסה:</FormLabel>
+                        <RadioGroup row id='print' onChange={(e) => setFormInput({...formInput, print: e.target.value})} value={formInput.print}> 
+                            <FormControlLabel value={true} control={<Radio />} label="כן"  />
+                            <FormControlLabel value={false} control={<Radio />} label="לא" />
+                        </RadioGroup>
+                    </FormControl>
+
                     <span style={{position: 'relative', top: '18px'}}>{fileName}</span>
+                    {edit ? 
+                    (
                     <Button 
                     variant="contained"
                     sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px'}}
-                    onClick={handleSubmit}>
-                        הוסף רשומה
+                    onClick={handleSave}>
+                        שמור רשומה
                     </Button>
+                    ) : (
+                        <Button 
+                        variant="contained"
+                        sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px'}}
+                        onClick={handleSubmit}>
+                         הוסף רשומה
+                         </Button>
+                    )}
         </Paper>
     </Box>
   )

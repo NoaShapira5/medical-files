@@ -7,7 +7,11 @@ const examinationSchema = mongoose.Schema({
     },
     price: {
         type: Number,
-        required: [true, 'Please enter price']
+        required: [false]
+    },
+    range: {
+        type: [Number],
+        required: [false]
     }
 })
 

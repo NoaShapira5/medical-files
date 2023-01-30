@@ -134,8 +134,8 @@ input[type=submit]:active {
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-left: 25px;
-  margin-right: 25px;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 
 .columns {
@@ -176,4 +176,19 @@ h2, a {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.header {
+  margin-left: 70px;
+  margin-right: 30px;
+}
+
+.btn {
+
 }

@@ -3,6 +3,62 @@ const asyncHandler = require('express-async-handler')
 const Medicine = require('../models/medicineModel')
 const Treatment = require('../models/treatmentModel')
 const Examination = require('../models/examinationModel')
+const Diagnosis = require('../models/diagnosisModel')
+const Community = require('../models/communityModel')
+
+// @desc Get community
+// @route GET /api/managment/community 
+// @access Private
+const getCommunity = asyncHandler(async (req, res) => {
+
+    const community = await Community.find({})
+
+    res.status(200).json({community})
+})
+
+// @desc Create new community
+// @route POST /api/managment/community
+// @access Private
+const createCommunity = asyncHandler(async (req, res) => {
+    const {communityName} = req.body
+
+    if(!communityName) {
+        res.status(400)
+        throw new Error('Please add all the fields')
+    }
+
+    const community = await Community.create({
+        communityName,
+    })
+    res.status(201).json(community)
+})
+
+// @desc Get diagnosis
+// @route GET /api/managment/diagnosis 
+// @access Private
+const getDiagnosis = asyncHandler(async (req, res) => {
+
+    const diagnosis = await Diagnosis.find({})
+
+    res.status(200).json({diagnosis})
+})
+
+// @desc Create new diagnosis
+// @route POST /api/managment/diagnosis
+// @access Private
+const createDiagnosis = asyncHandler(async (req, res) => {
+    const {diagnosisName} = req.body
+
+    if(!diagnosisName) {
+        res.status(400)
+        throw new Error('Please add all the fields')
+    }
+
+    const diagnosis = await Diagnosis.create({
+        diagnosisName,
+    })
+    res.status(201).json(diagnosis)
+})
 
 // @desc Get medicines
 // @route GET /api/managment/medicines 
@@ -45,17 +101,26 @@ const getTreatments = asyncHandler(async (req, res) => {
 // @route POST /api/managment/treatment
 // @access Private
 const createTreatment = asyncHandler(async (req, res) => {
-    const {treatmentName, price} = req.body
+    const {treatmentName, price, range} = req.body
+    let treatment
 
-    if(!treatmentName || !price) {
+    if(!treatmentName) {
         res.status(400)
         throw new Error('Please add all the fields')
     }
+    if(price) {
+        treatment = await Treatment.create({
+            treatmentName,
+            price,
+            range
+        })
+    } else {
+        treatment = await Treatment.create({
+            treatmentName
+        })
+    }
 
-    const treatment = await Treatment.create({
-        treatmentName,
-        price
-    })
+
     res.status(201).json(treatment)
 })
 
@@ -73,21 +138,33 @@ const getExaminations = asyncHandler(async (req, res) => {
 // @route POST /api/managment/examination
 // @access Private
 const createExamination = asyncHandler(async (req, res) => {
-    const {examinationName, price} = req.body
+    const {examinationName, price, range} = req.body
+    let examination
 
-    if(!examinationName || !price) {
+    if(!examinationName) {
         res.status(400)
-        throw new Error('Please add all the fields')
+        throw new Error('Please add name')
+    }
+    if(price) {
+        examination = await Examination.create({
+            examinationName,
+            price,
+            range
+        })
+    } else {
+        examination = await Examination.create({
+            examinationName
+        })
     }
 
-    const examination = await Examination.create({
-        examinationName,
-        price
-    })
     res.status(201).json(examination)
 })
 
 module.exports = {
+    getCommunity,
+    createCommunity,
+    getDiagnosis,
+    createDiagnosis,
     getMedicines,
     createMedicine,
     getTreatments,

@@ -23,7 +23,7 @@ function App() {
                   </PrivateRoute>} />
 
           <Route 
-          path='/medical-file/:refNum'
+          path='/medical-file/:medicalFileId'
           element={<PrivateRoute>
                     <EditMedicalFile/>
                   </PrivateRoute>} />

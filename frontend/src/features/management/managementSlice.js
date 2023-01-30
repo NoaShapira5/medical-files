@@ -1,19 +1,41 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit'
-import managmentService from './managmentService'
+import managementService from './managementService'
 import { extractErrorMessage } from '../../utils'
 
 const initialState = {
+    communities: [],
+    diagnoses: [],
     medicines: [],
     treatments: [],
     examinations: [],
     isLoading: false
 }
 
+// get communities
+export const getCommunities = createAsyncThunk('communities/getAll', async (_, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await managementService.getCommunities(token)
+    } catch (error) {
+        return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+})
+
+// get diagnoses
+export const getDiagnoses = createAsyncThunk('diagnoses/getAll', async (_, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await managementService.getDiagnoses(token)
+    } catch (error) {
+        return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+})
+
 // get medicenes
 export const getMedicines = createAsyncThunk('medicines/getAll', async (_, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token
-        return await managmentService.getMedicines(token)
+        return await managementService.getMedicines(token)
     } catch (error) {
         return thunkAPI.rejectWithValue(extractErrorMessage(error))
     }
@@ -23,7 +45,7 @@ export const getMedicines = createAsyncThunk('medicines/getAll', async (_, thunk
 export const getTreatments = createAsyncThunk('treatments/getAll', async (_, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token
-        return await managmentService.getTreatments(token)
+        return await managementService.getTreatments(token)
     } catch (error) {
         return thunkAPI.rejectWithValue(extractErrorMessage(error))
     }
@@ -33,17 +55,31 @@ export const getTreatments = createAsyncThunk('treatments/getAll', async (_, thu
 export const getExaminations = createAsyncThunk('examinations/getAll', async (_, thunkAPI) => {
     try {
         const token = thunkAPI.getState().auth.user.token
-        return await managmentService.getExaminations(token)
+        return await managementService.getExaminations(token)
     } catch (error) {
         return thunkAPI.rejectWithValue(extractErrorMessage(error))
     }
 })
 
 export const managmentSlice = createSlice({
-    name: 'managment',
+    name: 'management',
     initialState,
     extraReducers: (builder) => {
         builder
+            .addCase(getCommunities.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getCommunities.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.communities = action.payload.community
+            })
+            .addCase(getDiagnoses.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getDiagnoses.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.diagnoses = action.payload.diagnosis
+            })
             .addCase(getMedicines.pending, (state) => {
                 state.isLoading = true
             })

@@ -8,12 +8,17 @@ import { useSelector, useDispatch } from "react-redux";
 import {toast} from 'react-toastify'
 import {createMedicalFile} from '../../features/medicalFiles/medicalFilesSlice'
 import Spinner from "../../components/Spinner";
+import { useEffect } from "react";
+import { getCommunities, getDiagnoses } from "../../features/management/managementSlice";
 
 function FirstTabCreateNew() {
-    const {isLoading} = useSelector(state => state.medicalFiles)
+    const {isLoading, medicalFile} = useSelector(state => state.medicalFiles)
+    const {communities, diagnoses} = useSelector(state => state.management)
+    const {user} = useSelector(state => state.auth)
     const dispatch = useDispatch()
 
-    const communities = ['אפיקים', 'אמירים', 'ערוגות']
+    const severityLevels = ['קל', 'בינוני', 'קשה', 'אנוש']
+    const ages = ['גור (עד 6 חודשים)', 'צעיר (6-18 חודשים)', 'בוגר ( 1.5 -8 שנים)', 'מבוגר (מעל 8 שנים)']
     const genders = ['נקבה' ,'זכר']
     const [numOfFiles, setNumOfFiles] = useState(0)
     const [formInput, setFormInput] = useState({
@@ -27,26 +32,52 @@ function FirstTabCreateNew() {
         feederName: '',
         phoneOne: '',
         phoneTwo: '',
-        hospitalizationCageNum: '',
+        hospitalizationCageNum: 0,
         hospitalStartDate: null,
         hospitalEndDate: null,
-        totalHospitalDays: '',
+        totalHospitalDays: 0,
         gender: '',
         neuteringStatus: '',
         age: '',
         color: '',
-        images: {},
+        images: [],
         history: '',
-        physicalCon: '',
+        physicalCon: 0,
         severityLev: '',
         medicalProb: '',
         mainDiagnosis: '',
         secondaryDiagnosis: '',
         neuteringDate: null,
         releaseDate: null,
-        releaseLocation: ''
+        releaseLocation: '',
+        death: '',
+        userName: user.name,
+        examinations: '',
+        imaging: '',
+        nonSurgical: '',
+        surgical: ''
 
     })
+
+    useEffect(() => {
+        dispatch(getCommunities())
+        dispatch(getDiagnoses())
+        if(medicalFile) {
+            setFormInput(medicalFile)
+        }
+    }, [medicalFile, dispatch])
+
+    const getTotalDays = (date1, date2) => {
+        if(!date1 || !date2) {
+            return 0
+        }
+        // To calculate the time difference of two dates
+        const Difference_In_Time = date2.getTime() - date1.getTime();
+      
+        // To calculate the no. of days between two dates
+        const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+        return Difference_In_Days
+    }
 
     const handleChange = (e) => {
         setFormInput({
@@ -149,6 +180,7 @@ function FirstTabCreateNew() {
                 id="refDesc"
                 onChange={handleChange}
                 value={formInput.refDesc}
+                multiline
                 label="תלונת הפונה"
                 variant="filled"
                 sx={{ width: 220 }}
@@ -171,7 +203,7 @@ function FirstTabCreateNew() {
                 id="community"
                 onChange={e => setFormInput({...formInput, community: e.target.value})}
                 value={formInput.community}
-                label="ישוב"
+                label="שם הרשות"
                 select
                 variant="filled"
                 sx={{ width: 220 }}
@@ -180,8 +212,8 @@ function FirstTabCreateNew() {
                 }}
                 >
                     {communities.map(community => (
-                        <MenuItem key={community} value={community}>
-                            {community}
+                        <MenuItem key={community._id} value={community.communityName}>
+                            {community.communityName}
                         </MenuItem>
                     ))}
                 </TextField>
@@ -254,24 +286,30 @@ function FirstTabCreateNew() {
                     shrink: true,
                 }}
                 >
-                    {['לא' ,'כן'].map(option => (
-                    <MenuItem key={option} value={option === 'כן'? true : false}>
+                    {['מעוקרת' ,'מסורס', 'לא מעוקרת/מסורס'].map(option => (
+                    <MenuItem key={option} value={option}>
                         {option}
                     </MenuItem>
                     ))}
                 </TextField>
                 <TextField
                 id="age"
-                onChange={handleChange}
+                onChange={e => setFormInput({...formInput, age: e.target.value})}
                 value={formInput.age}
                 label="גיל"
-                type="number"
+                select
                 variant="filled"
                 sx={{ width: 220 }}
                 InputLabelProps={{
                     shrink: true,
                 }}
-                />
+                >
+                    {ages.map(age => (
+                        <MenuItem key={age} value={age}>
+                            {age}
+                        </MenuItem>
+                    ))}
+                </TextField>
                 <TextField
                 id="color"
                 onChange={handleChange}
@@ -324,23 +362,33 @@ function FirstTabCreateNew() {
                     shrink: true,
                 }}
                 />
+
                 <TextField
                 id="severityLev"
                 label="דרגת חומרה"
-                type='number'
                 onChange={e => setFormInput({...formInput, severityLev: e.target.value})}
                 value={formInput.severityLev}
+                select
                 variant="filled"
                 sx={{ width: 220 }}
                 InputProps={{ inputProps: { min: 1, max: 5 } }}
                 InputLabelProps={{
                     shrink: true,
                 }}
-                />
+                >
+                    {severityLevels.map(level => (
+                        <MenuItem key={level} value={level}>
+                            {level}
+                        </MenuItem>
+                    ))}
+                    
+                </TextField>
+                
                 <TextField
                 id="medicalProb"
                 onChange={handleChange}
                 value={formInput.medicalProb}
+                multiline
                 label="בעיה רפואית"
                 type="text"
                 variant="filled"
@@ -349,30 +397,44 @@ function FirstTabCreateNew() {
                     shrink: true,
                 }}
                 />
+
                 <TextField
                 id="mainDiagnosis"
-                onChange={handleChange}
+                onChange={e => setFormInput({...formInput, mainDiagnosis: e.target.value})}
                 value={formInput.mainDiagnosis}
+                select
                 label="אבחנה ראשית"
-                type="text"
                 variant="filled"
                 sx={{ width: 220 }}
                 InputLabelProps={{
                     shrink: true,
                 }}
-                />
-                                <TextField
+                >
+                    {diagnoses.map(diagnosis => (
+                        <MenuItem key={diagnosis._id} value={diagnosis.diagnosisName}>
+                            {diagnosis.diagnosisName}
+                        </MenuItem>
+                    ))}
+                </TextField>
+                
+                <TextField
                 id="secondaryDiagnosis"
-                onChange={handleChange}
+                onChange={e => setFormInput({...formInput, secondaryDiagnosis: e.target.value})}
                 value={formInput.secondaryDiagnosis}
+                select
                 label="אבחנה משנית"
-                type="text"
                 variant="filled"
                 sx={{ width: 220 }}
                 InputLabelProps={{
                     shrink: true,
                 }}
-                />
+                >
+                    {diagnoses.map(diagnosis => (
+                        <MenuItem key={diagnosis._id} value={diagnosis.diagnosisName}>
+                            {diagnosis.diagnosisName}
+                        </MenuItem>
+                    ))}
+                </TextField>
             </div>
             <div className="form-column">
                 <h2>אשפוז</h2>
@@ -409,7 +471,7 @@ function FirstTabCreateNew() {
                     <DatePicker 
                     inputFormat="DD/MM/YYYY"
                     value={formInput.hospitalEndDate}
-                    onChange={(newValue) => setFormInput({...formInput, hospitalEndDate: newValue.toDate()})}
+                    onChange={(newValue) => setFormInput({...formInput, hospitalEndDate: newValue.toDate(), totalHospitalDays: getTotalDays(formInput.hospitalStartDate, newValue.toDate())})}
                     renderInput={(params) => <TextField {...params}             
                     id="hospitalEndDate"
                     label="תאריך סיום"
@@ -475,7 +537,80 @@ function FirstTabCreateNew() {
                 onChange={handleChange}
                 value={formInput.releaseLocation}
                 label="לאן שוחרר"
-                type="text"
+                variant="filled"
+                sx={{ width: 220 }}
+                InputLabelProps={{
+                    shrink: true,
+                }}
+                />
+                <TextField
+                id="death"
+                onChange={e => setFormInput({...formInput, death: e.target.value})}
+                value={formInput.death}
+                select
+                label='מוות'
+                variant="filled"
+                sx={{ width: 220 }}
+                InputLabelProps={{
+                    shrink: true,
+                }}
+                >
+                    {['מת', 'המתת חסד'].map(option => (
+                    <MenuItem key={option} value={option}>
+                        {option}
+                    </MenuItem>
+                    ))}   
+                </TextField>
+                
+                
+            </div>
+            
+            <div className="form-column">
+                <h2>טיפולים ובדיקות</h2>
+
+                <TextField
+                id="examinations"
+                onChange={handleChange}
+                value={formInput.examinations}
+                multiline
+                label="בדיקות דם/שתן/צואה/ציטולוגיה"
+                variant="filled"
+                sx={{ width: 220 }}
+                InputLabelProps={{
+                    shrink: true,
+                }}
+                />
+                <TextField
+                id="imaging"
+                label="הדמייה"
+                variant="filled"
+                onChange={handleChange}
+                value={formInput.imaging}
+                multiline
+                sx={{ width: 220 }}
+                InputProps={{ inputProps: { min: 1, max: 5 } }}
+                InputLabelProps={{
+                    shrink: true,
+                }}
+                />
+                <TextField
+                id="nonSurgical"
+                onChange={handleChange}
+                value={formInput.nonSurgical}
+                multiline
+                label="טיפולים שאינם כירורגיים"
+                variant="filled"
+                sx={{ width: 220 }}
+                InputLabelProps={{
+                    shrink: true,
+                }}
+                />
+                <TextField
+                id="surgical"
+                onChange={handleChange}
+                value={formInput.surgical}
+                multiline
+                label="טיפולים כירורגיים"
                 variant="filled"
                 sx={{ width: 220 }}
                 InputLabelProps={{
@@ -483,13 +618,14 @@ function FirstTabCreateNew() {
                 }}
                 />
             </div>
-
         </div>
-        <Button 
-        onClick={handleSubmit}
-        variant='contained'
-        sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}}}>
-        יצירת תיק רפואי חדש</Button>
+        <div className="btn">
+            <Button 
+            onClick={handleSubmit}
+            variant='contained'
+            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}}}>
+            יצירת תיק רפואי חדש</Button>
+        </div>
       </Paper>
     );
 }

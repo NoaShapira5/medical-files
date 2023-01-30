@@ -29,9 +29,41 @@ const getMedicalFileOperations = async (medicalFileId, token) => {
     return response.data
 }
 
+// Delete operation
+const deleteOperation = async(operationIds, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        data: {
+            body: operationIds
+        }
+    }
+    const response = await axios.delete(API_URL + '/', config)
+    return response.data
+}
+
+// Edit operation
+const editOperation = async (operation, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const formData = new FormData();
+    formData.append("file", operation.file)
+    const res = await axios.post(API_URL + '/uploadFile', formData)
+    operation.file = res.data.files
+    const response = await axios.put(API_URL + '/' + operation._id, operation, config)
+    return response.data
+
+}
+
 const operationService = {
     createMedicalFileOperation,
-    getMedicalFileOperations
+    getMedicalFileOperations,
+    deleteOperation,
+    editOperation
 }
 
 export default operationService

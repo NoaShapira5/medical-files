@@ -47,10 +47,46 @@ const deleteMedicalFile = async (medicalFileIds, token) => {
     return response.data
 }
 
+// Get meidcal file
+const getMedicalFile = async (medicalFileId, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.get(API_URL + `/${medicalFileId}`, config)
+    return response.data
+}
+
+// Edit medical file
+const editMedicalFile = async (medicalFile, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const formData = new FormData();
+    for(const image of medicalFile.images) {
+        formData.append("images", image)
+    }
+    const res = await axios.post(API_URL + '/upload', formData)
+    medicalFile.images = res.data.files
+    const response = await axios.put(API_URL + '/' + medicalFile._id, medicalFile, config)
+    return response.data
+
+}
+
+
+//Back to medical files list
+const back = () => localStorage.removeItem('medicalFile')
+
 const medicalFileService = {
     createMedicalFile,
     getMedicalFiles,
-    deleteMedicalFile
+    deleteMedicalFile,
+    getMedicalFile,
+    editMedicalFile,
+    back
 }
 
 export default medicalFileService

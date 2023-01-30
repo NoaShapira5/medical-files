@@ -2,6 +2,28 @@ import axios from "axios";
 
 const API_URL = '/api/managment'
 
+// Get all communities
+const getCommunities = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.get(API_URL + '/community', config)
+    return response.data
+}
+
+// Get all diagnoses
+const getDiagnoses = async (token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    }
+    const response = await axios.get(API_URL + '/diagnosis', config)
+    return response.data
+}
+
 // Get all medicines
 const getMedicines = async (token) => {
     const config = {
@@ -36,6 +58,8 @@ const getExaminations = async (token) => {
 }
 
 const managmentService = {
+    getCommunities,
+    getDiagnoses,
     getMedicines,
     getExaminations,
     getTreatments
