@@ -23,7 +23,7 @@ const createMedicalFileOperation = asyncHandler(async (req, res) => {
     const {dateTime, type, content, comments, file, fileId, userName, active, print} = req.body
     if(!dateTime || !type || !content || !file) {
         res.status(400)
-        throw new Error('Please add all the fields')
+        throw new Error('נא למלא את כל השדות')
     }
 
     // Get medicalFile using id
@@ -54,6 +54,10 @@ const createMedicalFileOperation = asyncHandler(async (req, res) => {
         })
         
     } else if(type === 'תרופה') {
+        if(!comments) {
+            res.status(400)
+            throw new Error('נא למלא הערות')
+        }
         operation = await Operation.create({
             dateTime,
             type,
@@ -69,6 +73,10 @@ const createMedicalFileOperation = asyncHandler(async (req, res) => {
     } else {
         let financed
         let result
+        if(!comments) {
+            res.status(400)
+            throw new Error('נא למלא הערות')
+        }
         if(type === 'טיפול') {
             result = await Treatment.findOne({treatmentName: content})
         } else if(type === 'בדיקה') {
