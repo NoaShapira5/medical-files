@@ -250,12 +250,6 @@ function MedicalFilesList() {
               <div className="image">
                 <img src={subLogo} alt='איגוד ערים גוש דן' className='sub-logo' />
               </div>
-              {selected.length > 0 && (
-              <Tooltip title="Delete">
-                <IconButton onClick={() => onDelete(selected)}>
-                  <DeleteIcon />
-                </IconButton>
-              </Tooltip>)}
               <Button variant="contained" onClick={() => navigate('/create-file')}
               sx={{position: 'absolute', right: '50px', backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}}}>
                 הוסף
@@ -265,7 +259,12 @@ function MedicalFilesList() {
                 ניהול
               </Button>
                 </div>
-            
+                {selected.length > 0 && (
+              <Tooltip title="Delete">
+                <IconButton onClick={() => onDelete(selected)}>
+                  <DeleteIcon /> <span style={{fontSize: '19px'}}>מחיקה</span>
+                </IconButton>
+              </Tooltip>)}    
         <DataGrid
         columns={headCells}
         rows={medicalFiles}
