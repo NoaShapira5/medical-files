@@ -70,6 +70,11 @@ const updateMedicalFile = asyncHandler(async (req, res) => {
         throw new Error('Medical file not found')
     }
 
+    if(req.body.images.length > 3) {
+        res.status(400)
+        throw new Error('ניתן להעלות מקסימום 3 תמונות')
+    }
+
     const updatedMedicalFile = await MedicalFile.findByIdAndUpdate(req.params.medicalFileId, req.body, {new: true})
 
     res.status(200).json(updatedMedicalFile)

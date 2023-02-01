@@ -3,7 +3,7 @@ import { getMedicalFiles, back } from '../../features/medicalFiles/medicalFilesS
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Paper, Typography, Button, Tooltip, IconButton } from '@mui/material';
+import { Paper, Button, Tooltip, IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { heIL } from '@mui/x-data-grid';
 import { heIL as coreHeIl } from '@mui/material/locale';

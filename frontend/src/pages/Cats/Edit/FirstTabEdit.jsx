@@ -11,6 +11,8 @@ import Spinner from "../../../components/Spinner";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getDiagnoses, getCommunities } from "../../../features/management/managementSlice";
+import CustomizedDialogs from '../../../components/Dialog';
+import Images from '../../../components/Images';
 
 function FirstTabEdit() {
     const {isLoading, medicalFile} = useSelector(state => state.medicalFiles)
@@ -23,7 +25,6 @@ function FirstTabEdit() {
     const ages = ['גור (עד 6 חודשים)', 'צעיר (6-18 חודשים)', 'בוגר ( 1.5 -8 שנים)', 'מבוגר (מעל 8 שנים)']
     const genders = ['נקבה' ,'זכר']
 
-    const [numOfFiles, setNumOfFiles] = useState(0)
     const [formInput, setFormInput] = useState({
         arrivalDate: null,
         cageNum: '',
@@ -92,22 +93,12 @@ function FirstTabEdit() {
         })
     }
 
-    const handleFileUpload = (e) => {
-        if (!e.target.files) {
-          return;
-        }
-        setNumOfFiles(e.target.files.length)
-        setFormInput({
-            ...formInput,
-           images: e.target.files})
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault()
-        if(numOfFiles > 3) {
-            toast.error('ניתן להעלות מקסימום 3 תמונות')
-            return
-        }
+        // if(numOfFiles > 3) {
+        //     toast.error('ניתן להעלות מקסימום 3 תמונות')
+        //     return
+        // }
         dispatch(editMedicalFile(formInput)).unwrap().then(() => {
             toast.success('התיק הרפואי התעדכן בהצלחה')
         })
@@ -209,7 +200,7 @@ function FirstTabEdit() {
                 id="community"
                 onChange={e => setFormInput({...formInput, community: e.target.value})}
                 value={formInput.community}
-                label="מועצה אזורית"
+                label="רשות מקומית"
                 select
                 variant="filled"
                 sx={{ width: 220 }}
@@ -218,7 +209,7 @@ function FirstTabEdit() {
                 }}
                 >
                     {communities.map(community => (
-                        <MenuItem key={community._id} value={community.communityName}>
+                        <MenuItem key={community.communityName} value={community.communityName}>
                             {community.communityName}
                         </MenuItem>
                     ))}
@@ -327,18 +318,9 @@ function FirstTabEdit() {
                     shrink: true,
                 }}
                 />
-                <div style={{display: 'flex'}}>
-                    <Button
-                    component="label"
-                    variant="filled"
-                    startIcon={<FileUploadIcon />}
-                    sx={{ marginRight: "1rem" , backgroundColor: '#D3D3D3'}}
-                    >   
-                        העלאת תמונות
-                        <input type="file" max='3' accept='.jpg,.png,.jpeg' multiple hidden onChange={handleFileUpload} />
-                    </Button>
-                    <span>נבחרו {numOfFiles} תמונות</span>
-                </div>
+                <CustomizedDialogs>
+                    <Images images={medicalFile?.images} setFormInput={setFormInput} formInput={formInput}/>
+                </CustomizedDialogs>
             </div>
             <div className="form-column">
                 <h2>מצב רפואי</h2>

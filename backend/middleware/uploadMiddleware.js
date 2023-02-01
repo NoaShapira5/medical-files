@@ -1,5 +1,6 @@
 const {Storage} = require('@google-cloud/storage');
 const Multer = require('multer');
+const asyncHandler = require('express-async-handler')
 
 
 // Instantiate a storage client
@@ -74,8 +75,15 @@ const sendUploadToGCS = (req, res, next) => {
 }
 
 
+const deleteFile = asyncHandler(async(req, res)  => {
+  await storage.bucket(process.env.GCLOUD_STORAGE_BUCKET).file(req.body.image).delete();
+  res.status(200).json(req.body.image)
+})
+
+
 
 module.exports = {
     multer,
-    sendUploadToGCS
+    sendUploadToGCS,
+    deleteFile
 }

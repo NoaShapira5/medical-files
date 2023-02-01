@@ -20,7 +20,7 @@ function EditMedicalFile() {
 
     const onBack = () => {
         dispatch(back())
-        navigate('/')
+        navigate('/medicalfiles-cats')
     }
   
     return (

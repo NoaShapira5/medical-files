@@ -11,6 +11,24 @@ const initialState = {
     isLoading: false
 }
 
+// Delete image from gcp
+export const deleteImage = createAsyncThunk('medicalFile/delete-image', async (image, thunkAPI) => {
+    try {
+        return await medicalFileService.deleteImage(image)
+    } catch (error) {
+        return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+})
+
+// Upload images to gcp
+export const uploadImages = createAsyncThunk('medicalFile/upload-images', async (images, thunkAPI) => {
+    try {
+        return await medicalFileService.uploadImages(images)
+    } catch (error) {
+        return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+})
+
 // Create new medical file
 export const createMedicalFile = createAsyncThunk('medicalFile/create', async (medicalFileData, thunkAPI) => {
     try {
@@ -76,6 +94,12 @@ export const medicalFileSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(deleteImage.fulfilled, (state, action) => {
+                state.medicalFile = {...state.medicalFile, images: state.medicalFile.images.filter(image => !image.includes(action.payload))}
+            })
+            .addCase(uploadImages.fulfilled, (state, action) => {
+                state.medicalFile = {...state.medicalFile, images:[...state.medicalFile.images, ...action.payload]}
+            })
             .addCase(getMedicalFiles.pending, (state) => {
                 state.isLoading = true
             })
@@ -122,5 +146,4 @@ export const medicalFileSlice = createSlice({
     }
 })
 
-export const {reset} = medicalFileSlice.actions
 export default medicalFileSlice.reducer

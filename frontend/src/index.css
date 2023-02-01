@@ -183,3 +183,34 @@ h2, a {
   padding-left: 20px;
   margin-right: 10px;
 }
+
+.formLabel {
+  font-weight: 600;
+  display: block;
+}
+
+.formInputFile {
+  background-color: #ffffff;
+  font-weight: 600;
+  border-radius: 1rem;
+  font-size: 1rem;
+  font-family: 'Secular One';
+  border: none;
+  margin: 0.5rem 0.5rem 0 0;
+  width: 70%;
+}
+
+.formInputFile::-webkit-file-upload-button {
+  background-color: #4c7e80;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 1rem;
+  margin-right: 1rem;
+}
+
+.imagesLinks {
+  list-style-type: none;
+
+}

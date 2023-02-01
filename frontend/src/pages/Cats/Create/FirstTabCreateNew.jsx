@@ -3,7 +3,6 @@ import { useState } from "react";
 import {Button, Paper, MenuItem} from "@mui/material";
 import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers'
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { useSelector, useDispatch } from "react-redux";
 import {toast} from 'react-toastify'
 import {createMedicalFile} from '../../../features/medicalFiles/medicalFilesSlice'
@@ -64,6 +63,9 @@ function FirstTabCreateNew() {
         dispatch(getDiagnoses())
         if(medicalFile) {
             setFormInput(medicalFile)
+            // if(medicalFile.images.length > 0) {
+            //     setImages(medicalFile.images)
+            // }
         }
     }, [medicalFile, dispatch])
 
@@ -203,7 +205,7 @@ function FirstTabCreateNew() {
                 id="community"
                 onChange={e => setFormInput({...formInput, community: e.target.value})}
                 value={formInput.community}
-                label="שם הרשות"
+                label="רשות מקומית"
                 select
                 variant="filled"
                 sx={{ width: 220 }}
@@ -212,7 +214,7 @@ function FirstTabCreateNew() {
                 }}
                 >
                     {communities.map(community => (
-                        <MenuItem key={community._id} value={community.communityName}>
+                        <MenuItem key={community.communityName} value={community.communityName}>
                             {community.communityName}
                         </MenuItem>
                     ))}
@@ -321,17 +323,21 @@ function FirstTabCreateNew() {
                     shrink: true,
                 }}
                 />
-                <div style={{display: 'flex'}}>
-                    <Button
-                    component="label"
-                    variant="filled"
-                    startIcon={<FileUploadIcon />}
-                    sx={{ marginRight: "1rem" , backgroundColor: '#D3D3D3'}}
-                    >   
-                        העלאת תמונות
-                        <input type="file" max='3' accept='.jpg,.png,.jpeg' multiple hidden onChange={handleFileUpload} />
-                    </Button>
-                    <span>נבחרו {numOfFiles} תמונות</span>
+                <div className="formImages">
+                    <label className='formLabel' style={{textAlign: 'center'}}>תמונות</label>
+                    <p style={{textAlign: 'center'}}>
+                         מקסימום שלוש תמונות
+                    </p>    
+                    <input 
+                    className='formInputFile'
+                    type='file'
+                    id='images'
+                    name='images'
+                    onChange={handleFileUpload}
+                    max='3'
+                    accept='.jpg,.png,.jpeg'
+                    multiple
+                    />
                 </div>
             </div>
             <div className="form-column">
