@@ -10,6 +10,7 @@ import Spinner from "../../../components/Spinner";
 import { useEffect } from "react";
 import { getCommunities, getDiagnoses } from "../../../features/management/managementSlice";
 
+
 function FirstTabCreateNew() {
     const {isLoading, medicalFile} = useSelector(state => state.medicalFiles)
     const {communities, diagnoses} = useSelector(state => state.management)
@@ -63,9 +64,6 @@ function FirstTabCreateNew() {
         dispatch(getDiagnoses())
         if(medicalFile) {
             setFormInput(medicalFile)
-            // if(medicalFile.images.length > 0) {
-            //     setImages(medicalFile.images)
-            // }
         }
     }, [medicalFile, dispatch])
 

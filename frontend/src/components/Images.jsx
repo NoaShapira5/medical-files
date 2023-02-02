@@ -5,7 +5,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 import { deleteImage } from "../features/medicalFiles/medicalFilesSlice";
 
-function Images({images, setFormInput, formInput}) {
+function Images({images, setFormInput, formInput, setEdited}) {
 
     const dispatch = useDispatch()
 
@@ -19,10 +19,12 @@ function Images({images, setFormInput, formInput}) {
     };
 
     const handleDelete = (image) => {
+        setEdited(true)
         dispatch(deleteImage(image?.split('/')[4]))
     }
 
     const handleSubmitUpload = () => {
+        setEdited(true)
         dispatch(uploadImages(formInput.images))
     } 
 
@@ -41,7 +43,7 @@ function Images({images, setFormInput, formInput}) {
         multiple
         />
         <Button onClick={handleSubmitUpload} sx={{color: 'CadetBlue'}}>
-        הוספה התמונה לרשימת התמונות&nbsp;
+        שמירת הקובץ&nbsp;
           <AddIcon />     
         </Button>
     </div>

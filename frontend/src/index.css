@@ -50,7 +50,7 @@ body {
   margin-top: 0;
 }
 
-.login input[type=email], .login input[type=password] {
+.login input[type=email], .login input[type=password], .login input[type=text] {
   width: 278px;
 }
 
@@ -73,7 +73,7 @@ input {
   font-size: 14px;
 }
 
-input[type=email], input[type=password] {
+input[type=email], input[type=password], input[type=text] {
   margin: 5px;
   padding: 0 10px;
   width: 200px;
@@ -89,13 +89,13 @@ input[type=email], input[type=password] {
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
 }
 
-input[type=email]:focus, input[type=password]:focus {
+input[type=email]:focus, input[type=password]:focus, input[type=text]:focus {
   border-color: #7dc9e2;
   outline-color: #c8d8d8;
   outline-offset: 0;
 }
 
-.lt-ie9 input[type=email], .lt-ie9 input[type=password] {
+.lt-ie9 input[type=email], .lt-ie9 input[type=password], .lt-ie9 input[type=name] {
   line-height: 34px;
 }
 

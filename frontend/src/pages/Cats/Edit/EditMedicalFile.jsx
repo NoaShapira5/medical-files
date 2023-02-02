@@ -8,8 +8,10 @@ import { back } from '../../../features/medicalFiles/medicalFilesSlice';
 import { useNavigate } from 'react-router-dom';
 import subLogo from '../../../logos/subLogo.png'
 
-function EditMedicalFile() {
+
+function EditMedicalFile({edited, setEdited}) {
     const [tabIndex, setTabIndex] = useState(0);
+
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -19,8 +21,16 @@ function EditMedicalFile() {
     };
 
     const onBack = () => {
-        dispatch(back())
-        navigate('/medicalfiles-cats')
+        if(edited) {
+            if(window.confirm('האם אתה בטוח שאתה רוצה לעזוב את העמוד? השינוים לא ישמרו')) {
+                setEdited(false)
+                dispatch(back())
+                navigate('/medicalfiles-cats')
+            } 
+        } else {
+            dispatch(back())
+            navigate('/medicalfiles-cats')
+        }
     }
   
     return (
@@ -43,7 +53,7 @@ function EditMedicalFile() {
                 {tabIndex === 0 && (
                 <Box>
                     
-                    <FirstTabEdit />
+                    <FirstTabEdit setEdited={setEdited} />
                     
                 </Box>
                 )}
