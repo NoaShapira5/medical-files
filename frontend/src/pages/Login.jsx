@@ -53,8 +53,8 @@ function Login() {
     <div className="login">
       <h1>כניסה</h1>
       <form onSubmit={onSubmit}>
-          <p><input type="email" name="email" value={email} onChange={onChange} placeholder="אימייל" dir="rtl" required/></p>
-          <p><input type="password" name="password" value={password} onChange={onChange} placeholder="סיסמה" dir="rtl" required/></p>
+          <p><input type="email" name="email" id="email" value={email} onChange={onChange} placeholder="אימייל" dir="rtl" required/></p>
+          <p><input type="password" name="password" id="password" value={password} onChange={onChange} placeholder="סיסמה" dir="rtl" required/></p>
           <Button
           type="submit"
           variant='contained'
