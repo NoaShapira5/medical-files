@@ -60,10 +60,10 @@ function Register() {
     <div className="login">
       <h1>יצירת משתמש חדש</h1>
       <form onSubmit={onSubmit}>
-        <p><input type="text" name="name" value={name} onChange={onChange} placeholder="שם מלא" dir="rtl" required/></p>
-        <p><input type="email" name="email" value={email} onChange={onChange} placeholder="אימייל" dir="rtl" required/></p>
-        <p><input type="password" name="password" value={password} onChange={onChange} placeholder="סיסמה" dir="rtl" required/></p>
-        <p><input type="password" name="password2" value={password2} onChange={onChange} placeholder="אימות סיסמה" dir="rtl" required/></p>
+        <p><input type="text" id="name" name="name" value={name} onChange={onChange} placeholder="שם מלא" dir="rtl" required/></p>
+        <p><input type="email" id="email"  name="email" value={email} onChange={onChange} placeholder="אימייל" dir="rtl" required/></p>
+        <p><input type="password" id="password" name="password" value={password} onChange={onChange} placeholder="סיסמה" dir="rtl" required/></p>
+        <p><input type="password" id="password2" name="password2" value={password2} onChange={onChange} placeholder="אימות סיסמה" dir="rtl" required/></p>
           <Button
           type="submit"
           variant='contained'
