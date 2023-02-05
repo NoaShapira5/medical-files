@@ -10,7 +10,7 @@ const operationSchema = mongoose.Schema({
         required: [true, 'Please add type of operation']
     },
     content: {
-        type: String,
+        type: [String],
         required: [true, 'Please add content']
     },
     active: {

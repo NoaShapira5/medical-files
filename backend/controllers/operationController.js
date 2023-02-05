@@ -21,7 +21,7 @@ const getMedicalFileOperations = asyncHandler(async (req, res) => {
 // @access Private
 const createMedicalFileOperation = asyncHandler(async (req, res) => {
     const {dateTime, type, content, comments, file, fileId, userName, active, print} = req.body
-    if(!dateTime || !type || !content || !file) {
+    if(!type || !content) {
         res.status(400)
         throw new Error('נא למלא את כל השדות')
     }

@@ -1,5 +1,5 @@
 import { Paper, TextField} from "@mui/material"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { getExaminations, getTreatments } from "../../features/management/managementSlice"
 import { getMedicalFileOperations } from "../../features/operation/operationSlice"
@@ -15,10 +15,16 @@ function ThirdTabMedicalFile() {
     const {medicalFile} = useSelector(state => state.medicalFiles)
 
     const relOperations = operations.filter(operation => (operation.type === 'טיפול' || operation.type === 'בדיקה') && operation.financed)
-    const counts = relOperations.reduce((c, { content: key }) => (c[key] = (c[key] || 0) + 1, c), {})
+    const contents = relOperations.map(relOperations => relOperations.content)
+    const flatContents = contents.flat()
+    const counts = flatContents.reduce((accumulator, value) => {
+      accumulator[value] = ++accumulator[value] || 1;
+      return accumulator;
+    }, {})
     const relevantTreat = treatments.filter(treatment => treatment.price !== undefined)
     const relevantExam = examinations.filter(examination => examination.price !== undefined)
 
+    const [total, setTotal] = useState(0)
 
     useEffect(() => {
       if(medicalFile) {
@@ -46,7 +52,6 @@ function ThirdTabMedicalFile() {
             <h3 className="header">כמות</h3>
             <h3 className="header">עלות</h3>
         </div>
-
         {relevantExam.map(examination => (
             <div className="row" key={examination._id}>
                 <TextField
@@ -188,6 +193,18 @@ function ThirdTabMedicalFile() {
                     readOnly: true,
                   }}
                 />
+        </div>
+        <div className="row">
+        <h3 className="header">סך הכל:</h3>
+          <TextField
+          id="total"
+          size="small"
+          type='number'
+          value={total}
+          InputProps={{
+              readOnly: true,
+          }}
+          />
         </div>
     </Paper>
   )

@@ -1,6 +1,6 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Paper, Button, TextField, MenuItem, FormLabel, Tooltip, IconButton } from "@mui/material"
+import { Box, Paper, Button, TextField, MenuItem, FormLabel, Tooltip, IconButton, InputLabel, Select, Checkbox } from "@mui/material"
 import { DataGrid } from '@mui/x-data-grid'
 import { createTheme } from '@mui/system';
 import { ThemeProvider } from '@mui/private-theming';
@@ -20,6 +20,9 @@ import {toast} from 'react-toastify'
 import { useEffect } from "react"
 import {RadioGroup, FormControlLabel, Radio, FormControl} from "@mui/material"
 import Spinner from '../../components/Spinner'
+import ListItemText from '@mui/material/ListItemText';
+
+
 
 const theme = createTheme(
     {
@@ -47,18 +50,18 @@ function SecondTabMedicalFile() {
             dispatch(getMedicines())
             dispatch(getTreatments())
             dispatch(getExaminations())
-
         }
         
     }, [dispatch, medicalFile])
 
     const [edit, setEdit] = useState(false)
     const [selected, setSelected] = useState([]);
+    const [contents, setContents] = useState([])
     const [fileName, setFileName] = useState('')
     const initialState = {
         dateTime: dayjs().toDate(),
         type: '',
-        content: '',
+        content: [],
         active: '',
         print: true,
         comments: '',
@@ -86,10 +89,21 @@ function SecondTabMedicalFile() {
         })
     }
 
+    const handleMultipleChange = (event) => {
+        const {
+            target: { value },
+          } = event;
+          setContents(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+          );
+      };
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(createMedicalFileOperation(formInput)).unwrap().then(() => {
+        dispatch(createMedicalFileOperation({...formInput, content: contents.length > 0 ? contents : [formInput.content]})).unwrap().then(() => {
             setFormInput(initialState)
+            setContents([])
             toast.success('הרשומה נוצרה בהצלחה')
         })
         .catch(toast.error)
@@ -97,10 +111,11 @@ function SecondTabMedicalFile() {
 
     const handleSave = (e) => {
         e.preventDefault()
-        dispatch(editOperation(formInput)).unwrap().then(() => {
+        dispatch(editOperation({...formInput, content: contents.length > 0 ? contents : [formInput.content]})).unwrap().then(() => {
             setEdit(false)
             setSelected([])
             setFormInput(initialState)
+            setContents([])
             toast.success('הרשומה התעדכנה בהצלחה')
         })
         .catch(toast.error)
@@ -121,6 +136,7 @@ function SecondTabMedicalFile() {
          setSelected([])
         const operation = operations.filter(operation => operation._id === operationIds[0])
         setFormInput({...operation[0], active: '', comment: ''})
+        setContents(operation[0].content)
     }
 
     const types = ['טיפול', 'תרופה', 'בדיקה', 'הנחיות', 'הערות']
@@ -227,7 +243,10 @@ function SecondTabMedicalFile() {
 
                 <TextField
                 id="type"
-                onChange={e => setFormInput({...formInput, type: e.target.value, content: ''})}
+                onChange={e => {
+                    setContents([])
+                    setFormInput({...formInput, type: e.target.value, content: ''})
+                }}
                 value={formInput.type}
                 label="סוג"
                 select
@@ -246,7 +265,7 @@ function SecondTabMedicalFile() {
 
                 {formInput.type === 'טיפול' && (
                 <>
-                    <TextField
+                    {/* <TextField
                     id="content"
                     onChange={e => setFormInput({...formInput, content: e.target.value})}
                     value={formInput.content}
@@ -262,7 +281,26 @@ function SecondTabMedicalFile() {
                             {treatment.treatmentName}
                         </MenuItem>
                         ))}
-                    </TextField>
+                    </TextField> */}
+                    <FormControl sx={{ m: 1, width: 300 }}>
+                        <InputLabel shrink={true}>טיפול</InputLabel>
+                        <Select 
+                        id="content"
+                        multiple
+                        onChange={handleMultipleChange}
+                        value={contents}
+                        variant="filled"
+                        renderValue={(selected) => selected.join(', ')}
+                        fullWidth
+                        >
+                            {treatments.map(treatment => (
+                            <MenuItem key={treatment._id} value={treatment.treatmentName}>
+                                <Checkbox checked={contents.indexOf(treatment.treatmentName) > -1} />
+                                <ListItemText primary={treatment.treatmentName} />  
+                            </MenuItem>
+                        ))}
+                        </Select>
+                    </FormControl>
                     <TextField
                     id="comments"
                     onChange={handleChange}
@@ -278,7 +316,7 @@ function SecondTabMedicalFile() {
                 )}
                 {formInput.type === 'תרופה' && (
                 <>
-                    <TextField
+                    {/* <TextField
                     id="content"
                     onChange={e => setFormInput({...formInput, content: e.target.value})}
                     value={formInput.content}
@@ -294,7 +332,26 @@ function SecondTabMedicalFile() {
                             {medicine.medicineName}
                         </MenuItem>
                         ))}
-                    </TextField>
+                    </TextField> */}
+                    <FormControl sx={{ m: 1, width: 300 }}>
+                        <InputLabel shrink={true}>תרופה</InputLabel>
+                        <Select 
+                        id="content"
+                        multiple
+                        onChange={handleMultipleChange}
+                        value={contents}
+                        variant="filled"
+                        renderValue={(selected) => selected.join(', ')}
+                        fullWidth
+                        >
+                            {medicines.map(medicine => (
+                            <MenuItem key={medicine._id} value={medicine.medicineName}>
+                                <Checkbox checked={contents.indexOf(medicine.medicineName) > -1} />
+                                <ListItemText primary={medicine.medicineName} /> 
+                            </MenuItem>
+                        ))}
+                        </Select>
+                    </FormControl>
                     <TextField
                     id="comments"
                     onChange={handleChange}
@@ -311,7 +368,7 @@ function SecondTabMedicalFile() {
 
             {formInput.type === 'בדיקה' && (
             <>
-                <TextField
+                {/* <TextField
                 id="content"
                 onChange={e => setFormInput({...formInput, content: e.target.value})}
                 value={formInput.content}
@@ -327,7 +384,26 @@ function SecondTabMedicalFile() {
                         {examination.examinationName}
                     </MenuItem>
                     ))}
-                </TextField>
+                </TextField> */}
+                <FormControl sx={{ m: 1, width: 300 }}>
+                        <InputLabel shrink={true}>בדיקה</InputLabel>
+                        <Select 
+                        id="content"
+                        multiple
+                        onChange={handleMultipleChange}
+                        value={contents}
+                        variant="filled"
+                        renderValue={(selected) => selected.join(', ')}
+                        fullWidth
+                        >
+                            {examinations.map(examination => (
+                            <MenuItem key={examination._id} value={examination.examinationName}>
+                                <Checkbox checked={contents.indexOf(examination.examinationName) > -1} />
+                                <ListItemText primary={examination.examinationName} />  
+                            </MenuItem>
+                        ))}
+                        </Select>
+                    </FormControl>
                 <TextField
                 id="comments"
                 onChange={handleChange}
@@ -410,6 +486,8 @@ function SecondTabMedicalFile() {
                     </FormControl>
 
                     <span style={{position: 'relative', top: '18px'}}>{fileName}</span>
+
+
                     {edit ? 
                     (
                     <> 
