@@ -55,7 +55,7 @@ function SecondTabMedicalFile() {
     const [edit, setEdit] = useState(false)
     const [selected, setSelected] = useState([]);
     const [fileName, setFileName] = useState('')
-    const [formInput, setFormInput] = useState({
+    const initialState = {
         dateTime: dayjs().toDate(),
         type: '',
         content: '',
@@ -65,7 +65,8 @@ function SecondTabMedicalFile() {
         file: '',
         userName: user.name,
         fileId: medicalFile?._id
-    })
+    }
+    const [formInput, setFormInput] = useState(initialState)
 
     const handleFileUpload = (e) => {
         if (!e.target.files) {
@@ -88,6 +89,7 @@ function SecondTabMedicalFile() {
     const handleSubmit = (e) => {
         e.preventDefault()
         dispatch(createMedicalFileOperation(formInput)).unwrap().then(() => {
+            setFormInput(initialState)
             toast.success('הרשומה נוצרה בהצלחה')
         })
         .catch(toast.error)
@@ -98,6 +100,7 @@ function SecondTabMedicalFile() {
         dispatch(editOperation(formInput)).unwrap().then(() => {
             setEdit(false)
             setSelected([])
+            setFormInput(initialState)
             toast.success('הרשומה התעדכנה בהצלחה')
         })
         .catch(toast.error)

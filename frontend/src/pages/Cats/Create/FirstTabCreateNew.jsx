@@ -17,6 +17,9 @@ function FirstTabCreateNew() {
     const {user} = useSelector(state => state.auth)
     const dispatch = useDispatch()
 
+    const phoneFormat = /^(?:\(\d{3}\)|\d{3}-)\d{3}-\d{4}$/
+    const isPhoneValid = (phone) => phone.length === 0 || !(phone.length === 11) || !phone.includes('-') || !phone.startsWith(0) || !phoneFormat.test(phone)
+
     const severityLevels = ['קל', 'בינוני', 'קשה', 'אנוש']
     const ages = ['גור (עד 6 חודשים)', 'צעיר (6-18 חודשים)', 'בוגר ( 1.5 -8 שנים)', 'מבוגר (מעל 8 שנים)']
     const genders = ['נקבה' ,'זכר']
@@ -230,9 +233,10 @@ function FirstTabCreateNew() {
                 />
                 <TextField
                 id="phoneOne"
+                error={isPhoneValid(formInput.phoneOne)}
+                helperText={isPhoneValid(formInput.phoneOne) && 'שים לב לכתיבה בפורמט תקין xxx-xxxxxxx'}
                 onChange={handleChange}
                 value={formInput.phoneOne}
-                type='tel'
                 label="טלפון 1"
                 variant="filled"
                 sx={{ width: 220 }}
@@ -242,9 +246,10 @@ function FirstTabCreateNew() {
                 />
                 <TextField
                 id="phoneTwo"
+                error={isPhoneValid(formInput.phoneTwo)}
+                helperText={isPhoneValid(formInput.phoneTwo) && 'שים לב לכתיבה בפורמט תקין xxx-xxxxxxx'}
                 onChange={handleChange}
                 value={formInput.phoneTwo}
-                type='tel'
                 label="טלפון 2"
                 variant="filled"
                 sx={{ width: 220 }}

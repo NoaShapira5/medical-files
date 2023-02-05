@@ -18,7 +18,6 @@ function NewMedicalFile() {
     const onBack = () => {
         dispatch(back())
         navigate('/medicalfiles-cats')
-
     }
 
     const handleTabChange = (event, newTabIndex) => {

@@ -7,7 +7,7 @@ const Diagnosis = require('../models/diagnosisModel')
 const Community = require('../models/communityModel')
 
 // @desc Get community
-// @route GET /api/managment/community 
+// @route GET /api/management/community 
 // @access Private
 const getCommunity = asyncHandler(async (req, res) => {
 
@@ -17,7 +17,7 @@ const getCommunity = asyncHandler(async (req, res) => {
 })
 
 // @desc Create new community
-// @route POST /api/managment/community
+// @route POST /api/management/community
 // @access Private
 const createCommunity = asyncHandler(async (req, res) => {
     const {communityName} = req.body
@@ -31,6 +31,33 @@ const createCommunity = asyncHandler(async (req, res) => {
         communityName,
     })
     res.status(201).json(community)
+})
+
+// @desc Delete communities
+// @route DELETE /api/management/community
+// @access Private
+const deleteCommunities = asyncHandler(async (req, res) => {
+    const {body} = req.body
+    await Community.deleteMany({ _id: {
+        $in: body
+    }})
+    res.status(200).json(body)
+})
+
+// @desc Update community
+// @route PUT /api/management/community/:communityId
+// @access Private
+const updateCommunity = asyncHandler(async (req, res) => {
+    const community = await Community.findById(req.params.communityId)
+
+    if(!community) {
+        res.status(404)
+        throw new Error('הרשות המקומית לא נמצאה')
+    }
+
+    const updatedCommunity = await Community.findByIdAndUpdate(req.params.communityId, req.body, {new: true})
+
+    res.status(200).json(updatedCommunity)
 })
 
 // @desc Get diagnosis
@@ -60,6 +87,33 @@ const createDiagnosis = asyncHandler(async (req, res) => {
     res.status(201).json(diagnosis)
 })
 
+// @desc Delete diagnoses
+// @route DELETE /api/management/diagnosis
+// @access Private
+const deleteDiagnoses = asyncHandler(async (req, res) => {
+    const {body} = req.body
+    await Diagnosis.deleteMany({ _id: {
+        $in: body
+    }})
+    res.status(200).json(body)
+})
+
+// @desc Update diagnosis
+// @route PUT /api/management/diagnosis/:diagnosisId
+// @access Private
+const updateDiagnosis = asyncHandler(async (req, res) => {
+    const diagnosis = await Diagnosis.findById(req.params.diagnosisId)
+
+    if(!diagnosis) {
+        res.status(404)
+        throw new Error('האבחנה לא נמצאה')
+    }
+
+    const updatedDiagnosis = await Diagnosis.findByIdAndUpdate(req.params.diagnosisId, req.body, {new: true})
+
+    res.status(200).json(updatedDiagnosis)
+})
+
 // @desc Get medicines
 // @route GET /api/managment/medicines 
 // @access Private
@@ -85,6 +139,33 @@ const createMedicine = asyncHandler(async (req, res) => {
         medicineName,
     })
     res.status(201).json(medicine)
+})
+
+// @desc Delete medicines
+// @route DELETE /api/management/medicine
+// @access Private
+const deleteMedicines = asyncHandler(async (req, res) => {
+    const {body} = req.body
+    await Medicine.deleteMany({ _id: {
+        $in: body
+    }})
+    res.status(200).json(body)
+})
+
+// @desc Update medicine
+// @route PUT /api/management/medicine/:medicineId
+// @access Private
+const updateMedicine = asyncHandler(async (req, res) => {
+    const medicine = await Medicine.findById(req.params.medicineId)
+
+    if(!medicine) {
+        res.status(404)
+        throw new Error('התרופה לא נמצאה')
+    }
+
+    const updatedMedicine = await Medicine.findByIdAndUpdate(req.params.medicineId, req.body, {new: true})
+
+    res.status(200).json(updatedMedicine)
 })
 
 // @desc Get treatments
@@ -124,6 +205,33 @@ const createTreatment = asyncHandler(async (req, res) => {
     res.status(201).json(treatment)
 })
 
+// @desc Delete treatments
+// @route DELETE /api/management/treatment
+// @access Private
+const deleteTreatments = asyncHandler(async (req, res) => {
+    const {body} = req.body
+    await Treatment.deleteMany({ _id: {
+        $in: body
+    }})
+    res.status(200).json(body)
+})
+
+// @desc Update treatment
+// @route PUT /api/management/treatment/:treatmentId
+// @access Private
+const updateTreatment = asyncHandler(async (req, res) => {
+    const treatment = await Treatment.findById(req.params.treatmentId)
+
+    if(!treatment) {
+        res.status(404)
+        throw new Error('Treatment not found')
+    }
+
+    const updatedTreatment = await Treatment.findByIdAndUpdate(req.params.treatmentId, req.body, {new: true})
+
+    res.status(200).json(updatedTreatment)
+})
+
 // @desc Get examinations
 // @route GET /api/managment/examinations
 // @access Private
@@ -160,15 +268,52 @@ const createExamination = asyncHandler(async (req, res) => {
     res.status(201).json(examination)
 })
 
+// @desc Delete examinations
+// @route DELETE /api/management/examination
+// @access Private
+const deleteExaminations = asyncHandler(async (req, res) => {
+    const {body} = req.body
+    await Examination.deleteMany({ _id: {
+        $in: body
+    }})
+    res.status(200).json(body)
+})
+
+// @desc Update examination
+// @route PUT /api/management/examination/:examinationId
+// @access Private
+const updateExamination = asyncHandler(async (req, res) => {
+    const examination = await Examination.findById(req.params.examinationId)
+
+    if(!examination) {
+        res.status(404)
+        throw new Error('הבדיקה לא נמצאה')
+    }
+
+    const updatedExamination = await Examination.findByIdAndUpdate(req.params.examinationId, req.body, {new: true})
+
+    res.status(200).json(updatedExamination)
+})
+
 module.exports = {
     getCommunity,
     createCommunity,
+    deleteCommunities,
+    updateCommunity,
     getDiagnosis,
     createDiagnosis,
+    deleteDiagnoses,
+    updateDiagnosis,
     getMedicines,
     createMedicine,
+    deleteMedicines,
+    updateMedicine,
     getTreatments,
     createTreatment,
+    deleteTreatments,
+    updateTreatment,
     getExaminations,
-    createExamination
+    createExamination,
+    deleteExaminations,
+    updateExamination
 }
