@@ -63,6 +63,7 @@ function ManagementFirstTab() {
 
   const onEdit = (treatmentIds) => {
     setEdit(true)
+    setSelected([])
     const treatment = treatments.filter(treatment => treatment._id === treatmentIds[0])
     setFormInput({...treatment[0], price: treatment[0].price ? treatment[0].price : '', range: treatment[0].range ? treatment[0].range : ['', '']})
   }
@@ -201,12 +202,21 @@ function ManagementFirstTab() {
 
           {edit ? 
             (
+            <>
             <Button 
             variant="contained"
             sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px'}}
             onClick={handleSave}>
                 שמור טיפול
             </Button>
+            <Button 
+            variant="contained"
+            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px', marginLeft: '15px'}}
+            onClick={() => {setEdit(false)
+                            setFormInput(initialState)}}>
+                ביטול עריכה
+            </Button>
+            </>
             ) : (
                 <Button 
                 variant="contained"

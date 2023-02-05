@@ -61,6 +61,7 @@ function ManagementSecondTab() {
 
   const onEdit = (medicineIds) => {
     setEdit(true)
+    setSelected([])
     const medicine = medicines.filter(medicine => medicine._id === medicineIds[0])
     setFormInput(medicine[0])
   }
@@ -149,12 +150,21 @@ function ManagementSecondTab() {
 
           {edit ? 
             (
+            <>
             <Button 
             variant="contained"
             sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px'}}
             onClick={handleSave}>
                 שמור תרופה
             </Button>
+            <Button 
+            variant="contained"
+            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px', marginLeft: '15px'}}
+            onClick={() => {setEdit(false)
+                            setFormInput(initialState)}}>
+                ביטול עריכה
+            </Button>
+            </>
             ) : (
                 <Button 
                 variant="contained"

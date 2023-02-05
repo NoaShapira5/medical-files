@@ -61,6 +61,7 @@ function ManagementFourthTab() {
 
   const onEdit = (communityIds) => {
     setEdit(true)
+    setSelected([])
     const community = communities.filter(community => community._id === communityIds[0])
     setFormInput(community[0])
   }
@@ -149,12 +150,21 @@ function ManagementFourthTab() {
 
           {edit ? 
             (
+            <>
             <Button 
             variant="contained"
             sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px'}}
             onClick={handleSave}>
                 שמור רשות מקומית
             </Button>
+            <Button 
+            variant="contained"
+            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px', marginLeft: '15px'}}
+            onClick={() => {setEdit(false)
+                            setFormInput(initialState)}}>
+                ביטול עריכה
+            </Button>
+            </>
             ) : (
                 <Button 
                 variant="contained"

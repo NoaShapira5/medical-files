@@ -63,6 +63,7 @@ function ManagementFifthTab() {
 
   const onEdit = (diagnosisIds) => {
     setEdit(true)
+    setSelected([])
     const diagnosis = diagnoses.filter(diagnosis => diagnosis._id === diagnosisIds[0])
     setFormInput(diagnosis[0])
   }
@@ -150,12 +151,21 @@ function ManagementFifthTab() {
           />
           {edit ? 
             (
+            <>
             <Button 
             variant="contained"
             sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px'}}
             onClick={handleSave}>
                 שמור אבחנה
             </Button>
+            <Button 
+            variant="contained"
+            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px', marginLeft: '15px'}}
+            onClick={() => {setEdit(false)
+                            setFormInput(initialState)}}>
+                ביטול עריכה
+            </Button>
+            </>
             ) : (
                 <Button 
                 variant="contained"

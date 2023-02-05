@@ -118,6 +118,7 @@ function SecondTabMedicalFile() {
 
     const onEdit = (operationIds) => {
         setEdit(true)
+         setSelected([])
         const operation = operations.filter(operation => operation._id === operationIds[0])
         setFormInput({...operation[0], active: '', comment: ''})
     }
@@ -411,12 +412,21 @@ function SecondTabMedicalFile() {
                     <span style={{position: 'relative', top: '18px'}}>{fileName}</span>
                     {edit ? 
                     (
+                    <> 
                     <Button 
                     variant="contained"
                     sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px'}}
                     onClick={handleSave}>
                         שמור רשומה
                     </Button>
+                    <Button 
+                    variant="contained"
+                    sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px', marginLeft: '15px'}}
+                    onClick={() => {setEdit(false)
+                                    setFormInput(initialState)}}>
+                        ביטול עריכה
+                    </Button>
+                    </>
                     ) : (
                         <Button 
                         variant="contained"

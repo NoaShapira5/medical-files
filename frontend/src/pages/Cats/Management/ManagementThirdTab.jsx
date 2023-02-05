@@ -63,6 +63,7 @@ function ManagementThirdTab() {
 
   const onEdit = (examinationIds) => {
     setEdit(true)
+    setSelected([])
     const examination = examinations.filter(examination => examination._id === examinationIds[0])
     setFormInput({...examination[0], price: examination[0].price ? examination[0].price : '', range: examination[0].range ? examination[0].range : ['', '']})
   }
@@ -201,12 +202,21 @@ function ManagementThirdTab() {
 
           {edit ? 
             (
+            <>
             <Button 
             variant="contained"
             sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px'}}
             onClick={handleSave}>
                 שמור בדיקה
             </Button>
+            <Button 
+            variant="contained"
+            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px', marginLeft: '15px'}}
+            onClick={() => {setEdit(false)
+                            setFormInput(initialState)}}>
+                ביטול עריכה
+            </Button>
+            </>
             ) : (
                 <Button 
                 variant="contained"
