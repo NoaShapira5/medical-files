@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { getCommunities, getDiagnoses } from "../../../features/management/managementSlice";
 
 
-function FirstTabCreateNew() {
+function FirstTabCreateNew({setEdited}) {
     const {isLoading, medicalFile} = useSelector(state => state.medicalFiles)
     const {communities, diagnoses} = useSelector(state => state.management)
     const {user} = useSelector(state => state.auth)
@@ -83,6 +83,7 @@ function FirstTabCreateNew() {
     }
 
     const handleChange = (e) => {
+        setEdited(true)
         setFormInput({
             ...formInput,
             [e.target.id]: e.target.value
@@ -90,6 +91,7 @@ function FirstTabCreateNew() {
     }
 
     const handleFileUpload = (e) => {
+        setEdited(true)
         if (!e.target.files) {
           return;
         }
@@ -101,6 +103,7 @@ function FirstTabCreateNew() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        setEdited(false)
         if(numOfFiles > 3) {
             toast.error('ניתן להעלות מקסימום 3 תמונות')
             return
@@ -131,7 +134,10 @@ function FirstTabCreateNew() {
                     <DatePicker 
                     inputFormat="DD/MM/YYYY"
                     value={formInput.arrivalDate}
-                    onChange={(newValue) => setFormInput({...formInput, arrivalDate: newValue.toDate()})}
+                    onChange={(newValue) => {
+                        setFormInput({...formInput, arrivalDate: newValue.toDate()})
+                        setEdited(true)
+                    }}
                     renderInput={(params) => <TextField {...params}             
                     id="date"
                     label="תאריך הגעה"
@@ -204,7 +210,10 @@ function FirstTabCreateNew() {
                 />
                 <TextField
                 id="community"
-                onChange={e => setFormInput({...formInput, community: e.target.value})}
+                onChange={e => {
+                    setFormInput({...formInput, community: e.target.value})
+                    setEdited(true)
+                }}
                 value={formInput.community}
                 label="רשות מקומית"
                 select
@@ -266,7 +275,10 @@ function FirstTabCreateNew() {
                 label="מין"
                 select
                 variant="filled"
-                onChange={e => setFormInput({...formInput, gender: e.target.value})}
+                onChange={e => {
+                    setFormInput({...formInput, gender: e.target.value})
+                    setEdited(true)
+                }}
                 value={formInput.gender}
                 sx={{ width: 220 }}
                 InputLabelProps={{
@@ -283,7 +295,10 @@ function FirstTabCreateNew() {
                 id="neuteringStatus"
                 label="מעוקרת/מסורס (לפי חיתוך אוזן)"
                 select
-                onChange={e => setFormInput({...formInput, neuteringStatus: e.target.value})}
+                onChange={e => {
+                    setFormInput({...formInput, neuteringStatus: e.target.value})
+                    setEdited(true)
+                }}
                 value={formInput.neuteringStatus}
                 variant="filled"
                 sx={{ width: 220 }}
@@ -299,7 +314,10 @@ function FirstTabCreateNew() {
                 </TextField>
                 <TextField
                 id="age"
-                onChange={e => setFormInput({...formInput, age: e.target.value})}
+                onChange={e => {
+                    setFormInput({...formInput, age: e.target.value})
+                    setEdited(true)
+                }}
                 value={formInput.age}
                 label="גיל"
                 select
@@ -375,7 +393,10 @@ function FirstTabCreateNew() {
                 <TextField
                 id="severityLev"
                 label="דרגת חומרה"
-                onChange={e => setFormInput({...formInput, severityLev: e.target.value})}
+                onChange={e => {
+                    setFormInput({...formInput, severityLev: e.target.value})
+                    setEdited(true)
+                }}
                 value={formInput.severityLev}
                 select
                 variant="filled"
@@ -409,7 +430,10 @@ function FirstTabCreateNew() {
 
                 <TextField
                 id="mainDiagnosis"
-                onChange={e => setFormInput({...formInput, mainDiagnosis: e.target.value})}
+                onChange={e => {
+                    setFormInput({...formInput, mainDiagnosis: e.target.value})
+                    setEdited(true)
+                }}
                 value={formInput.mainDiagnosis}
                 select
                 label="אבחנה ראשית"
@@ -428,7 +452,10 @@ function FirstTabCreateNew() {
                 
                 <TextField
                 id="secondaryDiagnosis"
-                onChange={e => setFormInput({...formInput, secondaryDiagnosis: e.target.value})}
+                onChange={e => {
+                    setFormInput({...formInput, secondaryDiagnosis: e.target.value})
+                    setEdited(true)
+                }}
                 value={formInput.secondaryDiagnosis}
                 select
                 label="אבחנה משנית"
@@ -464,7 +491,10 @@ function FirstTabCreateNew() {
                     <DatePicker 
                     inputFormat="DD/MM/YYYY"
                     value={formInput.hospitalStartDate}
-                    onChange={(newValue) => setFormInput({...formInput, hospitalStartDate: newValue.toDate()})}
+                    onChange={(newValue) => {
+                        setFormInput({...formInput, hospitalStartDate: newValue.toDate()})
+                        setEdited(true)
+                    }}
                     renderInput={(params) => <TextField {...params}             
                     id="hospitalStartDate"
                     label="תאריך התחלה"
@@ -480,7 +510,10 @@ function FirstTabCreateNew() {
                     <DatePicker 
                     inputFormat="DD/MM/YYYY"
                     value={formInput.hospitalEndDate}
-                    onChange={(newValue) => setFormInput({...formInput, hospitalEndDate: newValue.toDate(), totalHospitalDays: getTotalDays(formInput.hospitalStartDate, newValue.toDate())})}
+                    onChange={(newValue) => {
+                        setFormInput({...formInput, hospitalEndDate: newValue.toDate(), totalHospitalDays: getTotalDays(formInput.hospitalStartDate, newValue.toDate())})
+                        setEdited(true)
+                    }}
                     renderInput={(params) => <TextField {...params}             
                     id="hospitalEndDate"
                     label="תאריך סיום"
@@ -513,7 +546,10 @@ function FirstTabCreateNew() {
                     <DatePicker 
                     inputFormat="DD/MM/YYYY"
                     value={formInput.neuteringDate}
-                    onChange={(newValue) => setFormInput({...formInput, neuteringDate: newValue.toDate()})}
+                    onChange={(newValue) => {
+                        setFormInput({...formInput, neuteringDate: newValue.toDate()})
+                        setEdited(true)
+                    }}
                     renderInput={(params) => <TextField {...params}             
                     id="neuteringDate"
                     label="תאריך עיקור/סירוס"
@@ -529,7 +565,10 @@ function FirstTabCreateNew() {
                     <DatePicker 
                     inputFormat="DD/MM/YYYY"
                     value={formInput.releaseDate}
-                    onChange={(newValue) => setFormInput({...formInput, releaseDate: newValue.toDate()})}
+                    onChange={(newValue) => {
+                        setFormInput({...formInput, releaseDate: newValue.toDate()})
+                        setEdited(true)
+                    }}
                     renderInput={(params) => <TextField {...params}             
                     id="releaseDate"
                     label="תאריך שחרור"
@@ -554,7 +593,10 @@ function FirstTabCreateNew() {
                 />
                 <TextField
                 id="death"
-                onChange={e => setFormInput({...formInput, death: e.target.value})}
+                onChange={e => {
+                    setFormInput({...formInput, death: e.target.value})
+                    setEdited(true)
+                }}
                 value={formInput.death}
                 select
                 label='מוות'
@@ -628,11 +670,11 @@ function FirstTabCreateNew() {
                 />
             </div>
         </div>
-        <div className="btn">
+        <div className="btn" style={{position: 'relative'}}>
             <Button 
             onClick={handleSubmit}
             variant='contained'
-            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}}}>
+            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'absolute', bottom: '8px', right: '16px'}}>
             יצירת תיק רפואי חדש</Button>
         </div>
       </Paper>

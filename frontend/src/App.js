@@ -46,7 +46,7 @@ function App() {
           <Route 
           path='/create-file' 
           element={<PrivateRoute>
-                    <NewMedicalFile />
+                    <NewMedicalFile setEdited={setEdited} edited={edited}/>
                   </PrivateRoute>} />
                   
           <Route path='/no-permission' element={<NoPermission />} />

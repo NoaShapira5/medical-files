@@ -65,9 +65,11 @@ export const operationSlice = createSlice({
         builder
             .addCase(getMedicalFileOperations.pending, (state) => {
                 state.operation = null
+                state.isLoading = true
             })
             .addCase(getMedicalFileOperations.fulfilled, (state, action) => {
                 state.operations = action.payload.operations
+                state.isLoading = false
             })
             .addCase(createMedicalFileOperation.pending, (state) => {
                 state.isLoading = true

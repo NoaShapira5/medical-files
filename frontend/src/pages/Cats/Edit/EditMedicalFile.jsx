@@ -25,7 +25,6 @@ function EditMedicalFile({edited, setEdited}) {
         } else {
             setTabIndex(newTabIndex);
         }
-      
     };
 
     const onBack = () => {

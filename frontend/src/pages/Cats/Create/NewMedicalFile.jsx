@@ -8,7 +8,7 @@ import { useDispatch } from 'react-redux';
 import { back } from '../../../features/medicalFiles/medicalFilesSlice';
 import subLogo from '../../../logos/subLogo.png'
 
-function NewMedicalFile() {
+function NewMedicalFile({edited, setEdited}) {
     const [tabIndex, setTabIndex] = useState(0);
 
     const dispatch = useDispatch()
@@ -16,12 +16,27 @@ function NewMedicalFile() {
     const navigate = useNavigate()
 
     const onBack = () => {
-        dispatch(back())
-        navigate('/medicalfiles-cats')
+        if(edited) {
+            if(window.confirm('האם אתה בטוח שאתה רוצה לעזוב את העמוד? השינוים לא ישמרו')) {
+                setEdited(false)
+                dispatch(back())
+                navigate('/medicalfiles-cats')
+            } 
+        } else {
+            dispatch(back())
+            navigate('/medicalfiles-cats')
+        }
     }
 
     const handleTabChange = (event, newTabIndex) => {
-      setTabIndex(newTabIndex);
+        if(edited) {
+            if(window.confirm('האם אתה בטוח שאתה רוצה לעזוב את העמוד? השינוים לא ישמרו')) {
+                setEdited(false)
+                setTabIndex(newTabIndex);
+            } 
+        } else {
+            setTabIndex(newTabIndex);
+        }
     };
   
     return (
@@ -44,7 +59,7 @@ function NewMedicalFile() {
                 {tabIndex === 0 && (
                 <Box>
                     
-                    <FirstTabCreateNew />
+                    <FirstTabCreateNew setEdited={setEdited}/>
                     
                 </Box>
                 )}

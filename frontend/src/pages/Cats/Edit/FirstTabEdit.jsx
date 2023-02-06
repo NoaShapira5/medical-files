@@ -119,13 +119,6 @@ function FirstTabEdit({setEdited}) {
       }}
       noValidate
       autoComplete="off">
-        <div className="btn">
-            <Button 
-            onClick={handleSubmit}
-            variant='contained'
-            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'absolute', right: '25px'}}>
-            שמירת שינוים</Button>
-        </div>
         <div className="columns">
             <div className="form-column">
                 <h2>פרטי האירוע</h2>
@@ -699,6 +692,13 @@ function FirstTabEdit({setEdited}) {
                 }}
                 />
             </div>
+        </div>
+        <div className="btn" style={{position: 'relative'}}>
+            <Button 
+            onClick={handleSubmit}
+            variant='contained'
+            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'absolute', bottom: '8px', right: '16px'}}>
+            שמירת שינוים</Button>
         </div>
       </Paper>
     );

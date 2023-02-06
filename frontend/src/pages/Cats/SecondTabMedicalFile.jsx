@@ -62,7 +62,7 @@ function SecondTabMedicalFile() {
         dateTime: dayjs().toDate(),
         type: '',
         content: [],
-        active: '',
+        active: true,
         print: true,
         comments: '',
         file: '',
