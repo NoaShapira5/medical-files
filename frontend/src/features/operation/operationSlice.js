@@ -38,6 +38,16 @@ export const deleteOperation = createAsyncThunk('operation/delete', async (opera
     }
 })
 
+// delete operation by medical file
+export const deleteOperationsByMedicalFile = createAsyncThunk('operationsMedicalFiles/delete', async (medicalFileIds, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await operationService.deleteOperationsByMedicalFile(medicalFileIds, token)
+    } catch (error) {
+        return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+})
+
 // edit operation
 export const editOperation = createAsyncThunk('operation/edit', async (operation, thunkAPI) => {
     try {

@@ -265,25 +265,8 @@ function SecondTabMedicalFile() {
 
                 {formInput.type === 'טיפול' && (
                 <>
-                    {/* <TextField
-                    id="content"
-                    onChange={e => setFormInput({...formInput, content: e.target.value})}
-                    value={formInput.content}
-                    label="טיפול"
-                    select
-                    variant="filled"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    >
-                        {treatments.map(treatment => (
-                        <MenuItem key={treatment._id} value={treatment.treatmentName}>
-                            {treatment.treatmentName}
-                        </MenuItem>
-                        ))}
-                    </TextField> */}
                     <FormControl sx={{ m: 1, width: 300 }}>
-                        <InputLabel shrink={true}>טיפול</InputLabel>
+                        <InputLabel shrink={true}>טיפולים לדוח תמיכה</InputLabel>
                         <Select 
                         id="content"
                         multiple
@@ -316,23 +299,6 @@ function SecondTabMedicalFile() {
                 )}
                 {formInput.type === 'תרופה' && (
                 <>
-                    {/* <TextField
-                    id="content"
-                    onChange={e => setFormInput({...formInput, content: e.target.value})}
-                    value={formInput.content}
-                    label="תרופה"
-                    select
-                    variant="filled"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                    >
-                        {medicines.map(medicine => (
-                        <MenuItem key={medicine._id} value={medicine.medicineName}>
-                            {medicine.medicineName}
-                        </MenuItem>
-                        ))}
-                    </TextField> */}
                     <FormControl sx={{ m: 1, width: 300 }}>
                         <InputLabel shrink={true}>תרופה</InputLabel>
                         <Select 
@@ -368,25 +334,8 @@ function SecondTabMedicalFile() {
 
             {formInput.type === 'בדיקה' && (
             <>
-                {/* <TextField
-                id="content"
-                onChange={e => setFormInput({...formInput, content: e.target.value})}
-                value={formInput.content}
-                label="בדיקה"
-                select
-                variant="filled"
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                >
-                    {examinations.map(examination => (
-                    <MenuItem key={examination._id} value={examination.examinationName}>
-                        {examination.examinationName}
-                    </MenuItem>
-                    ))}
-                </TextField> */}
                 <FormControl sx={{ m: 1, width: 300 }}>
-                        <InputLabel shrink={true}>בדיקה</InputLabel>
+                        <InputLabel shrink={true}>בדיקות לדוח תמיכה</InputLabel>
                         <Select 
                         id="content"
                         multiple

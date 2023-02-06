@@ -17,7 +17,15 @@ function EditMedicalFile({edited, setEdited}) {
     const navigate = useNavigate()
 
     const handleTabChange = (event, newTabIndex) => {
-      setTabIndex(newTabIndex);
+        if(edited) {
+            if(window.confirm('האם אתה בטוח שאתה רוצה לעזוב את העמוד? השינוים לא ישמרו')) {
+                setEdited(false)
+                setTabIndex(newTabIndex);
+            } 
+        } else {
+            setTabIndex(newTabIndex);
+        }
+      
     };
 
     const onBack = () => {
@@ -53,7 +61,7 @@ function EditMedicalFile({edited, setEdited}) {
                 {tabIndex === 0 && (
                 <Box>
                     
-                    <FirstTabEdit setEdited={setEdited} />
+                    <FirstTabEdit setEdited={setEdited}/>
                     
                 </Box>
                 )}

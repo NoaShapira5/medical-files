@@ -564,7 +564,7 @@ function FirstTabCreateNew() {
                     shrink: true,
                 }}
                 >
-                    {['מת', 'המתת חסד', ''].map(option => (
+                    {['מת', 'המתת חסד', 'חי'].map(option => (
                     <MenuItem key={option} value={option}>
                         {option}
                     </MenuItem>

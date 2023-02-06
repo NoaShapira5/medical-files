@@ -3,7 +3,6 @@ import { useState } from "react";
 import {Button, Paper, MenuItem} from "@mui/material";
 import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers'
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import FileUploadIcon from '@mui/icons-material/FileUpload';
 import { useSelector, useDispatch } from "react-redux";
 import {toast} from 'react-toastify'
 import {editMedicalFile, getMedicalFile} from '../../../features/medicalFiles/medicalFilesSlice'
@@ -120,6 +119,13 @@ function FirstTabEdit({setEdited}) {
       }}
       noValidate
       autoComplete="off">
+        <div className="btn">
+            <Button 
+            onClick={handleSubmit}
+            variant='contained'
+            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'absolute', right: '25px'}}>
+            שמירת שינוים</Button>
+        </div>
         <div className="columns">
             <div className="form-column">
                 <h2>פרטי האירוע</h2>
@@ -558,15 +564,25 @@ function FirstTabEdit({setEdited}) {
                 </LocalizationProvider>
                 <TextField
                 id="releaseLocation"
-                onChange={handleChange}
+                onChange={e => {
+                    setFormInput({...formInput, releaseLocation: e.target.value})
+                    setEdited(true)
+                }}                
                 value={formInput.releaseLocation}
                 label="לאן שוחרר"
+                select
                 variant="filled"
                 sx={{ width: 220 }}
                 InputLabelProps={{
                     shrink: true,
                 }}
-                />
+                >
+                    {['מקום הלכידה/איסוף','אימוץ', 'עמותה', 'אחר'].map(option => (
+                    <MenuItem key={option} value={option}>
+                        {option}
+                    </MenuItem>
+                    ))}
+                </TextField>
                 <TextField
                 id="death"
                 onChange={e => {
@@ -582,7 +598,7 @@ function FirstTabEdit({setEdited}) {
                     shrink: true,
                 }}
                 >
-                    {['מת', 'המתת חסד', ''].map(option => (
+                    {['מת', 'המתת חסד', 'חי'].map(option => (
                     <MenuItem key={option} value={option}>
                         {option}
                     </MenuItem>
@@ -683,13 +699,6 @@ function FirstTabEdit({setEdited}) {
                 }}
                 />
             </div>
-        </div>
-        <div className="btn">
-            <Button 
-            onClick={handleSubmit}
-            variant='contained'
-            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}}}>
-            שמירת שינוים</Button>
         </div>
       </Paper>
     );

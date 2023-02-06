@@ -115,6 +115,17 @@ const deleteOperarions = asyncHandler(async (req, res) => {
     res.status(200).json(body)
 })
 
+// @desc Delete operations by medical file
+// @route DELETE /api/operations/by-medicalfile
+// @access Private
+const deleteOperarionsByMedicalFile = asyncHandler(async (req, res) => {
+    const {body} = req.body
+    await Operation.deleteMany({ medicalFile: {
+        $in: body
+    }})
+    res.status(200).json(body)
+})
+
 // @desc Edit operation
 // @route PUT /api/operations/:operationId
 // @access Private
@@ -201,6 +212,7 @@ module.exports = {
     getMedicalFileOperations,
     createMedicalFileOperation,
     deleteOperarions,
+    deleteOperarionsByMedicalFile,
     updateOperation
 }
 

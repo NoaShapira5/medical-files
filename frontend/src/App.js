@@ -15,6 +15,7 @@ import Selection from './pages/Selection';
 import { useState } from 'react';
 import RegisterButton from './components/RegisterButton';
 import Register from './pages/Register'
+import ManagementButton from './components/ManagementButton';
 
 function App() {
   const [edited, setEdited] = useState(false)
@@ -55,6 +56,7 @@ function App() {
         <div>
           {user && (<Logout edited={edited} setEdited={setEdited}/>)}
           {user?.isAdmin && (<RegisterButton />)}
+          {user?.isAdmin && (<ManagementButton />)}
         </div>
       </Router>
       <ToastContainer />

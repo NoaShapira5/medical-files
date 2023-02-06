@@ -14,6 +14,7 @@ import { deleteMedicalFile } from '../../features/medicalFiles/medicalFilesSlice
 import {toast} from 'react-toastify'
 import Spinner from '../../components/Spinner'
 import subLogo from '../../logos/subLogo.png'
+import {deleteOperationsByMedicalFile} from '../../features/operation/operationSlice'
 
 const theme = createTheme(
   {
@@ -39,11 +40,17 @@ function MedicalFilesList() {
   const onDelete = (medicalFileIds) => {
     if(window.confirm('האם אתה בטוח שאתה רוצה למחוק?')) {
       dispatch(deleteMedicalFile(medicalFileIds)).unwrap().then(() => {
-        toast.success('המחיקה בוצעה בהצלחה')
-        setSelected([])
+        dispatch(deleteOperationsByMedicalFile(medicalFileIds)).unwrap().then(() => {
+          setSelected([])
+          toast.success('המחיקה בוצעה בהצלחה')
+        }).catch(toast.error)
+        
       })
       .catch(toast.error)      
-  }
+       
+
+      
+    }
   }
 
   const headCells = [
@@ -253,10 +260,6 @@ function MedicalFilesList() {
               <Button variant="contained" onClick={() => navigate('/create-file')}
               sx={{position: 'absolute', right: '50px', backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}}}>
                 הוסף
-              </Button>
-              <Button variant="contained" onClick={() => navigate('/management')}
-              sx={{position: 'absolute', right: '120px', backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}}}>
-                ניהול
               </Button>
                 </div>
                 {selected.length > 0 && (

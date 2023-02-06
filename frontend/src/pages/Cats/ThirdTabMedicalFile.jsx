@@ -1,10 +1,16 @@
-import { Paper, TextField} from "@mui/material"
-import { useEffect, useState } from "react"
+import { Paper } from "@mui/material"
+import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { getExaminations, getTreatments } from "../../features/management/managementSlice"
 import { getMedicalFileOperations } from "../../features/operation/operationSlice"
 import {toast} from 'react-toastify'
 import Spinner from '../../components/Spinner'
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
 function ThirdTabMedicalFile() {
 
@@ -22,9 +28,24 @@ function ThirdTabMedicalFile() {
       return accumulator;
     }, {})
     const relevantTreat = treatments.filter(treatment => treatment.price !== undefined)
-    const relevantExam = examinations.filter(examination => examination.price !== undefined)
+    const relevantExam = examinations.filter(examination => examination.price !== undefined)  
 
-    const [total, setTotal] = useState(0)
+    const calcAmount = (item) => {
+        if(item.examinationName) {
+            return counts[item.examinationName] ? (counts[item.examinationName] <= item.range[1] ? counts[item.examinationName] : item.range[1]) : 0
+        } else {
+            return counts[item.treatmentName] ? (counts[item.treatmentName] <= item.range[1] ? counts[item.treatmentName] : item.range[1]) : 0
+        }  
+    }
+    let totalCount = 0
+    for(const examination of relevantExam) {
+        totalCount += (calcAmount(examination) * examination.price)
+    }
+    for(const treatment of relevantTreat) {
+        totalCount += (calcAmount(treatment) * treatment.price)
+    }
+    totalCount += (medicalFile.totalHospitalDays * 30) + (medicalFile.death === 'המתת חסד' ? 90 : 0)
+
 
     useEffect(() => {
       if(medicalFile) {
@@ -42,171 +63,90 @@ function ThirdTabMedicalFile() {
       return <Spinner />
     }
   return (
-    <Paper 
-    component="form"
-    sx={{
-        '& .MuiTextField-root': { m: 1 },
-      }}>
-        <div className="row">
-            <h3 className="header">סיכום בדיקות</h3>
-            <h3 className="header">כמות</h3>
-            <h3 className="header">עלות</h3>
-        </div>
-        {relevantExam.map(examination => (
-            <div className="row" key={examination._id}>
-                <TextField
-                id="type"
-                size="small"
-                value={examination.examinationName}
-                InputProps={{
-                    readOnly: true,
-                  }}
-                />
-                
-                <TextField
-                id="amount"
-                size="small"
-                value={counts[examination.examinationName] ? (counts[examination.examinationName] <= examination.range[1] ? counts[examination.examinationName] : examination.range[1]) : 0}
-                type='number'
-                sx={{width: '90px', height: '20px'}}
-                InputProps={{
-                    readOnly: true,
-                    inputProps: { min: examination.range[0], max: examination.range[1] }
-                }}
-                />
-
-                <TextField
-                id="price"
-                size="small"
-                value={examination.price * (counts[examination.examinationName] ? (counts[examination.examinationName] <= examination.range[1] ? counts[examination.examinationName] : examination.range[1]) : 0)}
-                InputProps={{
-                    readOnly: true,
-                  }}
-                />
-
-                
-            </div>
-        ))}
-        <div className="row">
-            <h3 className="header">סיכום טיפולים</h3>
-            <h3 className="header">כמות</h3>
-            <h3 className="header">עלות</h3>
-        </div>
-
-        {relevantTreat.map(treatment => (
-            <div className="row" key={treatment._id}>
-                <TextField
-                id="type"
-                size="small"
-                value={treatment.treatmentName}
-                InputProps={{
-                    readOnly: true,
-                  }}
-                />
-                
-                <TextField
-                id="amount"
-                size="small"
-                value={counts[treatment.treatmentName] ? (counts[treatment.treatmentName] <= treatment.range[1] ? counts[treatment.treatmentName] : treatment.range[1]) : 0}
-                sx={{width: '90px', height: '20px'}}
-                type='number'
-                InputProps={{
-                    readOnly: true,
-                    inputProps: { min: treatment.range[0], max: treatment.range[1] }
-                }}
-                />
-
-                <TextField
-                id="price"
-                size="small"
-                value={treatment.price * (counts[treatment.treatmentName] ? counts[treatment.treatmentName] : 0)}
-                InputProps={{
-                    readOnly: true,
-                  }}
-                />
-
-                
-            </div>
-        ))}
-        <div className="row">
-            <h3 className="header">כללי</h3>
-            <h3 className="header">כמות</h3>
-            <h3 className="header">עלות</h3>
-        </div>
-        <div className="row">
-                <TextField
-                id="type"
-                size="small"
-                value='ימי אשפוז'
-                InputProps={{
-                    readOnly: true,
-                  }}
-                />
-                
-                <TextField
-                id="amount"
-                size="small"
-                value={medicalFile.totalHospitalDays}
-                sx={{width: '90px', height: '20px'}}
-                type='number'
-                InputProps={{
-                    readOnly: true,
-                }}
-                />
-
-                <TextField
-                id="price"
-                size="small"
-                value={30 * medicalFile.totalHospitalDays}
-                InputProps={{
-                    readOnly: true,
-                  }}
-                />
-
-        </div>
-        <div className="row">
-            <TextField
-                id="type"
-                size="small"
-                value='המתת חסד'
-                InputProps={{
-                    readOnly: true,
-                  }}
-                />
-                
-                <TextField
-                id="true/false"
-                size="small"
-                value={medicalFile.death === 'המתת חסד' ? 'כן' : 'לא'}
-                sx={{width: '90px', height: '20px'}}
-                InputProps={{
-                    readOnly: true,
-                }}
-                />
-
-                <TextField
-                id="price"
-                size="small"
-                type='number'
-                value={medicalFile.death === 'המתת חסד' ? 90 : 0}
-                InputProps={{
-                    readOnly: true,
-                  }}
-                />
-        </div>
-        <div className="row">
-        <h3 className="header">סך הכל:</h3>
-          <TextField
-          id="total"
-          size="small"
-          type='number'
-          value={total}
-          InputProps={{
-              readOnly: true,
-          }}
-          />
-        </div>
-    </Paper>
+    <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
+        <TableContainer component={Paper} sx={{ maxWidth: 350}}>
+            <Table aria-label="simple table">
+                <TableHead>
+                <TableRow>
+                    <TableCell>סיכום בדיקות</TableCell>
+                    <TableCell>כמות</TableCell>
+                    <TableCell>עלות</TableCell>
+                </TableRow>
+                </TableHead>
+                <TableBody>
+                {relevantExam.map((examination) => (
+                    <TableRow
+                    key={examination._id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                        <TableCell component="th" scope="row">
+                            {examination.examinationName}
+                        </TableCell>
+                        <TableCell>{calcAmount(examination)}</TableCell>
+                        <TableCell>{calcAmount(examination) * examination.price}</TableCell>
+                    </TableRow>
+                ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+        <TableContainer component={Paper} sx={{ maxWidth: 350}}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>סיכום טיפולים</TableCell>
+                        <TableCell>כמות</TableCell>
+                        <TableCell>עלות</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                {relevantTreat.map((treatment) => (
+                    <TableRow
+                    key={treatment._id}
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                        <TableCell component="th" scope="row">
+                            {treatment.treatmentName}
+                        </TableCell>
+                        <TableCell>{calcAmount(treatment)}</TableCell>
+                        <TableCell>{calcAmount(treatment) * treatment.price}</TableCell>
+                    </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+        <TableContainer component={Paper} sx={{ maxWidth: 350}}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>כללי</TableCell>
+                        <TableCell>כמות</TableCell>
+                        <TableCell>עלות</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    <TableRow
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                        <TableCell component="th" scope="row">
+                            ימי אישפוז
+                        </TableCell>
+                        <TableCell>{medicalFile.totalHospitalDays}</TableCell>
+                        <TableCell>{30 * medicalFile.totalHospitalDays}</TableCell>
+                    </TableRow>
+                    <TableRow
+                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                        <TableCell component="th" scope="row">
+                            המתת חסד
+                        </TableCell>
+                        <TableCell>{medicalFile.death === 'המתת חסד' ? 'כן' : 'לא'}</TableCell>
+                        <TableCell>{medicalFile.death === 'המתת חסד' ? 90 : 0}</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+            <h2 style={{textAlign: 'center'}}>סך הכל: {totalCount}</h2>
+        </TableContainer>
+    </div>
   )
 }
 

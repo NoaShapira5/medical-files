@@ -43,6 +43,20 @@ const deleteOperation = async(operationIds, token) => {
     return response.data
 }
 
+// Delete operations by medical file
+const deleteOperationsByMedicalFile = async(medicalFileIds, token) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${token}`
+        },
+        data: {
+            body: medicalFileIds
+        }
+    }
+    const response = await axios.delete(API_URL + '/by-medicalfile', config)
+    return response.data
+}
+
 // Edit operation
 const editOperation = async (operation, token) => {
     const config = {
@@ -63,6 +77,7 @@ const operationService = {
     createMedicalFileOperation,
     getMedicalFileOperations,
     deleteOperation,
+    deleteOperationsByMedicalFile,
     editOperation
 }
 
