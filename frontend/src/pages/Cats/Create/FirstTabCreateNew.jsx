@@ -5,11 +5,12 @@ import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers'
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import { useSelector, useDispatch } from "react-redux";
 import {toast} from 'react-toastify'
-import {createMedicalFile} from '../../../features/medicalFiles/medicalFilesSlice'
+import {createMedicalFile, editMedicalFile} from '../../../features/medicalFiles/medicalFilesSlice'
 import Spinner from "../../../components/Spinner";
 import { useEffect } from "react";
 import { getCommunities, getDiagnoses } from "../../../features/management/managementSlice";
-
+import CustomizedDialogs from '../../../components/Dialog';
+import Images from '../../../components/Images';
 
 function FirstTabCreateNew({setEdited}) {
     const {isLoading, medicalFile} = useSelector(state => state.medicalFiles)
@@ -110,6 +111,16 @@ function FirstTabCreateNew({setEdited}) {
         }
         dispatch(createMedicalFile(formInput)).unwrap().then(() => {
             toast.success('התיק הרפואי נוצר בהצלחה')
+            
+        })
+        .catch(toast.error)
+    }
+
+    const handleSave = (e) => {
+        e.preventDefault()
+        setEdited(false)
+        dispatch(editMedicalFile(formInput)).unwrap().then(() => {
+            toast.success('התיק הרפואי התעדכן בהצלחה')
         })
         .catch(toast.error)
     }
@@ -344,6 +355,11 @@ function FirstTabCreateNew({setEdited}) {
                     shrink: true,
                 }}
                 />
+                {medicalFile ? (                
+                <CustomizedDialogs>
+                    <Images images={medicalFile?.images} setFormInput={setFormInput} formInput={formInput} setEdited={setEdited}/>
+                </CustomizedDialogs>
+                ) : (
                 <div className="formImages">
                     <label className='formLabel' style={{textAlign: 'center'}}>תמונות</label>
                     <p style={{textAlign: 'center'}}>
@@ -360,6 +376,8 @@ function FirstTabCreateNew({setEdited}) {
                     multiple
                     />
                 </div>
+                )}
+
             </div>
             <div className="form-column">
                 <h2>מצב רפואי</h2>
@@ -670,13 +688,24 @@ function FirstTabCreateNew({setEdited}) {
                 />
             </div>
         </div>
-        <div className="btn" style={{position: 'relative'}}>
-            <Button 
-            onClick={handleSubmit}
-            variant='contained'
-            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'absolute', bottom: '8px', right: '16px'}}>
-            יצירת תיק רפואי חדש</Button>
-        </div>
+        {medicalFile ? (
+            <div className="btn" style={{position: 'relative'}}>
+                <Button 
+                onClick={handleSave}
+                variant='contained'
+                sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'absolute', bottom: '8px', right: '16px'}}>
+                שמירת שינוים</Button>
+             </div>
+        ) : (
+            <div className="btn" style={{position: 'relative'}}>
+                <Button 
+                onClick={handleSubmit}
+                variant='contained'
+                sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'absolute', bottom: '8px', right: '16px'}}>
+                יצירת תיק רפואי חדש</Button>
+            </div>
+
+        )}
       </Paper>
     );
 }

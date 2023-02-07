@@ -46,10 +46,7 @@ function MedicalFilesList() {
         }).catch(toast.error)
         
       })
-      .catch(toast.error)      
-       
-
-      
+      .catch(toast.error)        
     }
   }
 
