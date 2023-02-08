@@ -116,16 +116,6 @@ input[id=email]:focus, input[id=password]:focus, input[id=name]:focus, input[id=
   }
 }
 
-/* .column-responsive {
-  display: flex;
-}
-
-@media (max-width: 1200px) {
-  .column-responsive {
-    flex-direction: column;
-  }
-} */
-
 h2, a {
   font-family: Arial, Helvetica, sans-serif;
 

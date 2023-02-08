@@ -379,7 +379,6 @@ function FirstTabCreateNew({setEdited}) {
                 )}
 
             </div>
-            {/* <div className="column-responsive"> */}
                 <div className="form-column">
                     <h2>מצב רפואי</h2>
                     <TextField
@@ -555,8 +554,6 @@ function FirstTabCreateNew({setEdited}) {
                     }}
                     />
                 </div>
-            {/* </div> */}
-            {/* <div className="column-responsive"> */}
             <div className="form-column">
                 <h2>לאחר טיפול</h2>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -686,14 +683,15 @@ function FirstTabCreateNew({setEdited}) {
                 }}
                 />
             </div>
-        {/* </div> */}
         </div>
         {medicalFile ? (
             <div className="btn" style={{position: 'relative'}}>
                 <Button 
                 onClick={handleSave}
                 variant='contained'
-                sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'absolute', bottom: '8px', right: '16px'}}>
+                sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
+                '@media (min-width: 800px)': { position: 'absolute', bottom: '8px', right: '16px'}}}
+                >                
                 שמירת שינוים</Button>
              </div>
         ) : (
@@ -701,7 +699,9 @@ function FirstTabCreateNew({setEdited}) {
                 <Button 
                 onClick={handleSubmit}
                 variant='contained'
-                sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'absolute', bottom: '8px', right: '16px'}}>
+                sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
+                '@media (min-width: 800px)': { position: 'absolute', bottom: '8px', right: '16px'}}}
+                >
                 יצירת תיק רפואי חדש</Button>
             </div>
 
