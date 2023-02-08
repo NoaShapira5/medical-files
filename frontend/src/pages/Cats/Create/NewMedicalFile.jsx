@@ -42,7 +42,12 @@ function NewMedicalFile({edited, setEdited}) {
     return (
         <Box>
             <Box sx={{display: 'flex'}}>
-                <Tabs value={tabIndex} onChange={handleTabChange} sx={{ '& .MuiTabs-indicator': { backgroundColor: 'CadetBlue' },'& .Mui-selected': { color: 'CadetBlue' },}}>
+                <Tabs
+                value={tabIndex}
+                onChange={handleTabChange} 
+                TabIndicatorProps={{ sx: { display: 'none' } }}
+                sx={{ '& .MuiTabs-indicator': { backgroundColor: 'CadetBlue' },'& .Mui-selected': { color: 'CadetBlue' },'& .MuiTabs-flexContainer': {flexWrap: 'wrap'},}}
+                >
                     <Tab label="פרטי תיק רפואי" />
                     <Tab label="פירוט מהלך רפואי" />
                     <Tab label="סיכום למשרד החקלאות" />
@@ -50,8 +55,12 @@ function NewMedicalFile({edited, setEdited}) {
                 <div className="image">
                     <img src={subLogo} alt='איגוד ערים גוש דן' className='sub-logo' />
                 </div>                
-                <Button variant="contained" onClick={onBack}
-                sx={{position: 'absolute', right: '50px', backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}}}>
+                <Button 
+                variant="contained" 
+                onClick={onBack}
+                sx={{position: 'absolute', right: '50px',backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
+                '@media (max-width: 1200px)': {marginTop: '60px'}}}
+                >
                     חזרה
                 </Button>
             </Box>

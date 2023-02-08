@@ -379,185 +379,184 @@ function FirstTabCreateNew({setEdited}) {
                 )}
 
             </div>
-            <div className="form-column">
-                <h2>מצב רפואי</h2>
+            {/* <div className="column-responsive"> */}
+                <div className="form-column">
+                    <h2>מצב רפואי</h2>
+                    <TextField
+                    id="history"
+                    onChange={handleChange}
+                    value={formInput.history}
+                    label="היסטוריה"
+                    type="text"
+                    variant="filled"
+                    sx={{ width: 220 }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    />
+                    <TextField
+                    id="physicalCon"
+                    label="מצב גופני"
+                    type='number'
+                    variant="filled"
+                    onChange={handleChange}
+                    value={formInput.physicalCon}
+                    sx={{ width: 220 }}
+                    InputProps={{ inputProps: { min: 1, max: 5 } }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    />
 
-                <TextField
-                id="history"
-                onChange={handleChange}
-                value={formInput.history}
-                label="היסטוריה"
-                type="text"
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                />
-                <TextField
-                id="physicalCon"
-                label="מצב גופני"
-                type='number'
-                variant="filled"
-                onChange={handleChange}
-                value={formInput.physicalCon}
-                sx={{ width: 220 }}
-                InputProps={{ inputProps: { min: 1, max: 5 } }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                />
-
-                <TextField
-                id="severityLev"
-                label="דרגת חומרה"
-                onChange={e => {
-                    setFormInput({...formInput, severityLev: e.target.value})
-                    setEdited(true)
-                }}
-                value={formInput.severityLev}
-                select
-                variant="filled"
-                sx={{ width: 220 }}
-                InputProps={{ inputProps: { min: 1, max: 5 } }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                >
-                    {severityLevels.map(level => (
-                        <MenuItem key={level} value={level}>
-                            {level}
-                        </MenuItem>
-                    ))}
+                    <TextField
+                    id="severityLev"
+                    label="דרגת חומרה"
+                    onChange={e => {
+                        setFormInput({...formInput, severityLev: e.target.value})
+                        setEdited(true)
+                    }}
+                    value={formInput.severityLev}
+                    select
+                    variant="filled"
+                    sx={{ width: 220 }}
+                    InputProps={{ inputProps: { min: 1, max: 5 } }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    >
+                        {severityLevels.map(level => (
+                            <MenuItem key={level} value={level}>
+                                {level}
+                            </MenuItem>
+                        ))}
+                        
+                    </TextField>
                     
-                </TextField>
-                
-                <TextField
-                id="medicalProb"
-                onChange={handleChange}
-                value={formInput.medicalProb}
-                multiline
-                label="בעיה רפואית"
-                type="text"
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                />
-
-                <TextField
-                id="mainDiagnosis"
-                onChange={e => {
-                    setFormInput({...formInput, mainDiagnosis: e.target.value})
-                    setEdited(true)
-                }}
-                value={formInput.mainDiagnosis}
-                select
-                label="אבחנה ראשית"
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                >
-                    {diagnoses.map(diagnosis => (
-                        <MenuItem key={diagnosis._id} value={diagnosis.diagnosisName}>
-                            {diagnosis.diagnosisName}
-                        </MenuItem>
-                    ))}
-                </TextField>
-                
-                <TextField
-                id="secondaryDiagnosis"
-                onChange={e => {
-                    setFormInput({...formInput, secondaryDiagnosis: e.target.value})
-                    setEdited(true)
-                }}
-                value={formInput.secondaryDiagnosis}
-                select
-                label="אבחנה משנית"
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                >
-                    {diagnoses.map(diagnosis => (
-                        <MenuItem key={diagnosis._id} value={diagnosis.diagnosisName}>
-                            {diagnosis.diagnosisName}
-                        </MenuItem>
-                    ))}
-                </TextField>
-            </div>
-            <div className="form-column">
-                <h2>אשפוז</h2>
-
-                <TextField
-                id="hospitalizationCageNum"
-                onChange={handleChange}
-                value={formInput.hospitalizationCageNum}
-                type='number'
-                label="כלוב אשפוז מספר"
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                />
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker 
-                    inputFormat="DD/MM/YYYY"
-                    value={formInput.hospitalStartDate}
-                    onChange={(newValue) => {
-                        setFormInput({...formInput, hospitalStartDate: newValue.toDate()})
-                        setEdited(true)
-                    }}
-                    renderInput={(params) => <TextField {...params}             
-                    id="hospitalStartDate"
-                    label="תאריך התחלה"
+                    <TextField
+                    id="medicalProb"
+                    onChange={handleChange}
+                    value={formInput.medicalProb}
+                    multiline
+                    label="בעיה רפואית"
+                    type="text"
                     variant="filled"
                     sx={{ width: 220 }}
                     InputLabelProps={{
                         shrink: true,
-                    }} />}
-                    >
-                    </DatePicker>
-                </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker 
-                    inputFormat="DD/MM/YYYY"
-                    value={formInput.hospitalEndDate}
-                    onChange={(newValue) => {
-                        setFormInput({...formInput, hospitalEndDate: newValue.toDate(), totalHospitalDays: getTotalDays(formInput.hospitalStartDate, newValue.toDate())})
+                    }}
+                    />
+
+                    <TextField
+                    id="mainDiagnosis"
+                    onChange={e => {
+                        setFormInput({...formInput, mainDiagnosis: e.target.value})
                         setEdited(true)
                     }}
-                    renderInput={(params) => <TextField {...params}             
-                    id="hospitalEndDate"
-                    label="תאריך סיום"
+                    value={formInput.mainDiagnosis}
+                    select
+                    label="אבחנה ראשית"
                     variant="filled"
                     sx={{ width: 220 }}
                     InputLabelProps={{
                         shrink: true,
-                    }} />}
+                    }}
                     >
-                    </DatePicker>
-                </LocalizationProvider>
-                <TextField
-                id="totalHospitalDays"
-                onChange={handleChange}
-                value={formInput.totalHospitalDays}
-                type='number'
-                label="סך הכל ימי אשפוז"
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                />
-            </div>
-            
-            
+                        {diagnoses.map(diagnosis => (
+                            <MenuItem key={diagnosis._id} value={diagnosis.diagnosisName}>
+                                {diagnosis.diagnosisName}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                    
+                    <TextField
+                    id="secondaryDiagnosis"
+                    onChange={e => {
+                        setFormInput({...formInput, secondaryDiagnosis: e.target.value})
+                        setEdited(true)
+                    }}
+                    value={formInput.secondaryDiagnosis}
+                    select
+                    label="אבחנה משנית"
+                    variant="filled"
+                    sx={{ width: 220 }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    >
+                        {diagnoses.map(diagnosis => (
+                            <MenuItem key={diagnosis._id} value={diagnosis.diagnosisName}>
+                                {diagnosis.diagnosisName}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                </div>
+                <div className="form-column">
+                    <h2>אשפוז</h2>
+                    <TextField
+                    id="hospitalizationCageNum"
+                    onChange={handleChange}
+                    value={formInput.hospitalizationCageNum}
+                    type='number'
+                    label="כלוב אשפוז מספר"
+                    variant="filled"
+                    sx={{ width: 220 }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    />
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker 
+                        inputFormat="DD/MM/YYYY"
+                        value={formInput.hospitalStartDate}
+                        onChange={(newValue) => {
+                            setFormInput({...formInput, hospitalStartDate: newValue.toDate()})
+                            setEdited(true)
+                        }}
+                        renderInput={(params) => <TextField {...params}             
+                        id="hospitalStartDate"
+                        label="תאריך התחלה"
+                        variant="filled"
+                        sx={{ width: 220 }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }} />}
+                        >
+                        </DatePicker>
+                    </LocalizationProvider>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker 
+                        inputFormat="DD/MM/YYYY"
+                        value={formInput.hospitalEndDate}
+                        onChange={(newValue) => {
+                            setFormInput({...formInput, hospitalEndDate: newValue.toDate(), totalHospitalDays: getTotalDays(formInput.hospitalStartDate, newValue.toDate())})
+                            setEdited(true)
+                        }}
+                        renderInput={(params) => <TextField {...params}             
+                        id="hospitalEndDate"
+                        label="תאריך סיום"
+                        variant="filled"
+                        sx={{ width: 220 }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }} />}
+                        >
+                        </DatePicker>
+                    </LocalizationProvider>
+                    <TextField
+                    id="totalHospitalDays"
+                    onChange={handleChange}
+                    value={formInput.totalHospitalDays}
+                    type='number'
+                    label="סך הכל ימי אשפוז"
+                    variant="filled"
+                    sx={{ width: 220 }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    />
+                </div>
+            {/* </div> */}
+            {/* <div className="column-responsive"> */}
             <div className="form-column">
                 <h2>לאחר טיפול</h2>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -687,6 +686,7 @@ function FirstTabCreateNew({setEdited}) {
                 }}
                 />
             </div>
+        {/* </div> */}
         </div>
         {medicalFile ? (
             <div className="btn" style={{position: 'relative'}}>

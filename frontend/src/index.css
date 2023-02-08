@@ -103,12 +103,27 @@ input[id=email]:focus, input[id=password]:focus, input[id=name]:focus, input[id=
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-left: 5px;
-  margin-right: 5px;
 }
 
 .columns {
   display: flex;
+  justify-content: space-evenly;
+}
+
+@media (max-width: 800px) {
+  .columns {
+    flex-direction: column;
+  }
+}
+
+.column-responsive {
+  display: flex;
+}
+
+@media (max-width: 1200px) {
+  .column-responsive {
+    flex-direction: column;
+  }
 }
 
 h2, a {
@@ -166,7 +181,6 @@ h2, a {
 
 .sub-logo {
   width: 45px;
-
 }
 
 .container {
@@ -212,5 +226,35 @@ h2, a {
 
 .imagesLinks {
   list-style-type: none;
-
 }
+
+.MuiDataGrid-root.MuiDataGrid-root--densityStandard {
+  direction: ltr;
+  transform: rotateY(180deg);
+} 
+
+  .MuiButtonBase-root.MuiButton-root.MuiButton-text.MuiButton-textPrimary {
+    transform: rotateY(180deg);
+    color: #141414;
+  }
+
+  .MuiDataGrid-columnHeaderTitle {
+    transform: rotateY(180deg);
+  }
+
+  .MuiDataGrid-cellContent {
+    transform: rotateY(180deg);
+  }
+
+  .MuiDataGrid-footerContainer {
+    transform: rotateY(180deg);
+  }
+
+  .MuiButton-startIcon.MuiButton-iconSizeSmall {
+    margin-left: -2px ;
+    margin-right: 8px ;
+  }
+
+  .backBtn {
+    margin-top: 50px;
+  }

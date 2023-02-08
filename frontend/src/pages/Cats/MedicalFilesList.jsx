@@ -246,40 +246,43 @@ function MedicalFilesList() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper sx={{ height: 470, width: '100%' }}>
-            <div className="container">
-              <div className="title">
-                <h3>תיקים רפואיים</h3>
-              </div>
-              <div className="image">
-                <img src={subLogo} alt='איגוד ערים גוש דן' className='sub-logo' />
-              </div>
-              <Button variant="contained" onClick={() => navigate('/create-file')}
-              sx={{position: 'absolute', right: '50px', backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}}}>
-                הוסף
-              </Button>
-                </div>
-                {selected.length > 0 && (
-              <Tooltip title="Delete">
-                <IconButton onClick={() => onDelete(selected)}>
-                  <DeleteIcon /> <span style={{fontSize: '19px'}}>מחיקה</span>
-                </IconButton>
-              </Tooltip>)}    
-        <DataGrid
-        columns={headCells}
-        rows={medicalFiles}
-        sx={{ height: 400, width: '100%', cursor: 'pointer' }}
-        getRowId={row => row._id}
-        checkboxSelection
-        onRowClick={(row) => navigate(`/medical-file/${row.id}`)}
-        components={{
-          Toolbar: CustomToolBar,
-        }}
-        onSelectionModelChange={(newSelectionModel) => {
-          setSelected(newSelectionModel);
-        }}
-        selectionModel={selected}
-        />
+      <Paper
+       sx={{ height: 470, width: '100%' }}
+       >
+          <div className="container">
+            <div className="title">
+              <h3>תיקים רפואיים</h3>
+            </div>
+            <div className="image">
+              <img src={subLogo} alt='איגוד ערים גוש דן' className='sub-logo' />
+            </div>
+            <Button variant="contained" onClick={() => navigate('/create-file')}
+            sx={{position: 'absolute', right: '50px', backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}}}>
+              הוסף
+            </Button>
+          </div>
+          {selected.length > 0 && (
+          <Tooltip title="Delete">
+            <IconButton onClick={() => onDelete(selected)}>
+              <DeleteIcon /> <span style={{fontSize: '19px'}}>מחיקה</span>
+            </IconButton>
+          </Tooltip>)}
+          
+          <DataGrid
+          columns={headCells}
+          rows={medicalFiles}
+          sx={{ height: 400, width: '100%', cursor: 'pointer' }}
+          getRowId={row => row._id}
+          checkboxSelection
+          onRowClick={(row) => navigate(`/medical-file/${row.id}`)}
+          components={{
+            Toolbar: CustomToolBar,
+          }}
+          onSelectionModelChange={(newSelectionModel) => {
+            setSelected(newSelectionModel);
+          }}
+          selectionModel={selected}
+          />
       </Paper>
     </ThemeProvider>
   )
