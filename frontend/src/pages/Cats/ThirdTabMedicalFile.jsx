@@ -63,8 +63,8 @@ function ThirdTabMedicalFile() {
       return <Spinner />
     }
   return (
-    <div style={{display: 'flex', justifyContent: 'space-evenly'}}>
-        <TableContainer component={Paper} sx={{ maxWidth: 350}}>
+    <div className='tables'>
+        <TableContainer component={Paper} sx={{ maxWidth: 350, marginBottom: '30px'}}>
             <Table aria-label="simple table">
                 <TableHead>
                 <TableRow>
@@ -89,7 +89,7 @@ function ThirdTabMedicalFile() {
                 </TableBody>
             </Table>
         </TableContainer>
-        <TableContainer component={Paper} sx={{ maxWidth: 350}}>
+        <TableContainer component={Paper} sx={{ maxWidth: 350, marginBottom: '30px'}}>
             <Table>
                 <TableHead>
                     <TableRow>
@@ -114,7 +114,7 @@ function ThirdTabMedicalFile() {
                 </TableBody>
             </Table>
         </TableContainer>
-        <TableContainer component={Paper} sx={{ maxWidth: 350}}>
+        <TableContainer component={Paper} sx={{ maxWidth: 350, marginBottom: '30px'}}>
             <Table>
                 <TableHead>
                     <TableRow>

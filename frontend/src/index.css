@@ -254,7 +254,27 @@ h2, a {
     margin-left: -2px ;
     margin-right: 8px ;
   }
-
-  .backBtn {
-    margin-top: 50px;
+  
+  .tables {
+    display: flex;
+    justify-content: space-evenly;
   }
+
+@media (max-width: 800px) {
+  .tables {
+    display: block;
+  }
+}
+
+@media (max-width: 800px) {
+  .btn {
+    text-align: center;
+  }
+}
+
+@media (min-width: 800px) {
+  .btn {
+    position: relative;
+  }
+}
+

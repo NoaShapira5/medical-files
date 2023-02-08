@@ -693,11 +693,12 @@ function FirstTabEdit({setEdited}) {
                 />
             </div>
         </div>
-        <div className="btn" style={{position: 'relative'}}>
+        <div className="btn">
             <Button 
             onClick={handleSubmit}
             variant='contained'
-            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'absolute', bottom: '8px', right: '16px'}}>
+            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
+            '@media (min-width: 800px)': { position: 'absolute', bottom: '8px', right: '16px'}}}>
             שמירת שינוים</Button>
         </div>
       </Paper>
