@@ -15,7 +15,7 @@ function Selection() {
         <Button
         variant='contained'
         onClick={() => navigate('/medicalfiles-cats')}
-        sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, display: 'block', marginLeft: 'auto', marginRight: 'auto', marginTop: '20px', width: '150px', height: '100px', fontSize: '20px'}}
+        sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, display: 'block', marginLeft: 'auto', marginRight: 'auto', marginTop: '20px', marginBottom: '20px',width: '150px', height: '100px', fontSize: '20px'}}
         >
             חתולים
         </Button>

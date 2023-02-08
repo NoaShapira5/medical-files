@@ -457,7 +457,7 @@ function SecondTabMedicalFile() {
                     ) : (
                         <Button 
                         variant="contained"
-                        sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px'}}
+                        sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, '@media (min-width: 800px)': {position: 'relative', top: '18px'}}}
                         onClick={handleSubmit}>
                          הוסף רשומה
                          </Button>

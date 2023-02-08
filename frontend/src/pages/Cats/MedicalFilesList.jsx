@@ -269,6 +269,7 @@ function MedicalFilesList() {
           </Tooltip>)}
           
           <DataGrid
+          className='data-grid'
           columns={headCells}
           rows={medicalFiles}
           sx={{ height: 400, width: '100%', cursor: 'pointer' }}

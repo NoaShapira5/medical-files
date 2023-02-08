@@ -42,7 +42,11 @@ function Images({images, setFormInput, formInput, setEdited}) {
         accept='.jpg,.png,.jpeg'
         multiple
         />
-        <Button onClick={handleSubmitUpload} sx={{color: 'CadetBlue'}}>
+        <Button     
+        variant='outlined' 
+        onClick={handleSubmitUpload}
+        sx={{color: 'CadetBlue', marginTop: '10px'}}
+        >
         שמירת הקובץ&nbsp;
           <AddIcon />     
         </Button>
