@@ -1,4 +1,4 @@
-import { useState} from "react"
+import { useState, useEffect} from "react"
 import {useDispatch, useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import { login } from "../features/auth/authSlice"
@@ -18,7 +18,13 @@ function Login() {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const {isLoading} = useSelector(state => state.auth)
+    const {isLoading, user} = useSelector(state => state.auth)
+
+    useEffect(() => {
+      if(user) {
+        navigate('/')
+      }
+    }, [user, navigate])
 
     const onChange = (e) => {
         setFormData(prevState => ({
@@ -45,6 +51,7 @@ function Login() {
     if(isLoading) {
         return <Spinner />
     }
+
   return (
     <>
     <header>

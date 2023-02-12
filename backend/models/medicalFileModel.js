@@ -66,7 +66,7 @@ const medicalFileSchema = mongoose.Schema({
         required: [false]
     },
     physicalCon: {
-        type: Number,
+        type: String,
         required: [false]
     },
     severityLev: {

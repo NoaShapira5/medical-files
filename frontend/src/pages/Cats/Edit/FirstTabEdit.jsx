@@ -1,6 +1,5 @@
-import {TextField} from "@mui/material";
 import { useState } from "react";
-import {Button, Paper, MenuItem} from "@mui/material";
+import {Button, Paper, MenuItem, Autocomplete, TextField} from "@mui/material";
 import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers'
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import { useSelector, useDispatch } from "react-redux";
@@ -12,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { getDiagnoses, getCommunities } from "../../../features/management/managementSlice";
 import CustomizedDialogs from '../../../components/Dialog';
 import Images from '../../../components/Images';
+import PDFdocument from "../../../components/PDFdocument";
 
 function FirstTabEdit({setEdited}) {
     const {isLoading, medicalFile} = useSelector(state => state.medicalFiles)
@@ -132,7 +132,7 @@ function FirstTabEdit({setEdited}) {
                     }}
                     renderInput={(params) => <TextField {...params}             
                     id="date"
-                    label="תאריך הגעה"
+                    label="*תאריך הגעה"
                     variant="filled"
                     sx={{ width: 220 }}
                     InputLabelProps={{
@@ -146,7 +146,7 @@ function FirstTabEdit({setEdited}) {
                 id="cageNum"
                 onChange={handleChange}
                 value={formInput.cageNum}
-                label="כלוב מספר"
+                label="*כלוב מספר"
                 type="number"
                 variant="filled"
                 sx={{ width: 220 }}
@@ -158,7 +158,7 @@ function FirstTabEdit({setEdited}) {
                 id="refNum"
                 onChange={handleChange}
                 value={formInput.refNum}
-                label="מספר פנייה"
+                label="*מספר פנייה"
                 type="number"
                 variant="filled"
                 sx={{ width: 220 }}
@@ -200,27 +200,16 @@ function FirstTabEdit({setEdited}) {
                     shrink: true,
                 }}
                 />
-                <TextField
+                <Autocomplete 
                 id="community"
-                onChange={e => {
-                    setFormInput({...formInput, community: e.target.value})
+                value={formInput.community}
+                onChange={(e, newValue) => {
+                    setFormInput({...formInput, community: newValue})
                     setEdited(true)
                 }}
-                value={formInput.community}
-                label="רשות מקומית"
-                select
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                >
-                    {communities.map(community => (
-                        <MenuItem key={community.communityName} value={community.communityName}>
-                            {community.communityName}
-                        </MenuItem>
-                    ))}
-                </TextField>
+                options={[...communities.map(community => community.communityName), '']}
+                renderInput={(params) => <TextField {...params} label="רשות מקומית" InputLabelProps={{shrink: true,}} variant="filled" />}
+                />
                 <TextField
                 id="feederName"
                 onChange={handleChange}
@@ -260,69 +249,38 @@ function FirstTabEdit({setEdited}) {
             <div className="form-column">
                 <h2>פרטי החתול</h2>
 
-                <TextField
+                <Autocomplete 
                 id="gender"
-                label="מין"
-                select
-                variant="filled"
-                onChange={e => {
-                    setFormInput({...formInput, gender: e.target.value})
-                    setEdited(true)
-                }}
                 value={formInput.gender}
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
+                onChange={(e, newValue) => {
+                    setFormInput({...formInput, gender: newValue})
+                    setEdited(true)
                 }}
-                >
-                    {genders.map(gender => (
-                        <MenuItem key={gender} value={gender}>
-                            {gender}
-                        </MenuItem>
-                    ))}
-                </TextField>
-                <TextField
+                options={[...genders, '']}
+                renderInput={(params) => <TextField {...params} label="מין" InputLabelProps={{shrink: true,}} variant="filled" />}
+                />
+
+                <Autocomplete 
                 id="neuteringStatus"
-                label="מעוקרת/מסורס (לפי חיתוך אוזן)"
-                select
-                onChange={e => {
-                    setFormInput({...formInput, neuteringStatus: e.target.value})
-                    setEdited(true)
-                }}
                 value={formInput.neuteringStatus}
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                >
-                    {['מעוקרת' ,'מסורס', 'לא מעוקרת/מסורס'].map(option => (
-                    <MenuItem key={option} value={option}>
-                        {option}
-                    </MenuItem>
-                    ))}
-                </TextField>
-                <TextField
-                id="age"
-                onChange={e => {
-                    setFormInput({...formInput, age: e.target.value})
+                onChange={(e, newValue) => {
+                    setFormInput({...formInput, neuteringStatus: newValue})
                     setEdited(true)
                 }}
+                options={['מעוקרת' ,'מסורס', 'לא מעוקרת/מסורס', '']}
+                renderInput={(params) => <TextField {...params} label="מעוקרת/מסורס (לפי חיתוך אוזן)" InputLabelProps={{shrink: true,}} variant="filled" />}
+                />
+
+                <Autocomplete 
+                id="age"
                 value={formInput.age}
-                label="גיל"
-                select
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
+                onChange={(e, newValue) => {
+                    setFormInput({...formInput, age: newValue})
+                    setEdited(true)
                 }}
-                >
-                    {ages.map(age => (
-                        <MenuItem key={age} value={age}>
-                            {age}
-                        </MenuItem>
-                    ))}
-                </TextField>
+                options={[...ages, '']}
+                renderInput={(params) => <TextField {...params}  label="גיל" InputLabelProps={{shrink: true,}} variant="filled" />}
+                />
                 <TextField
                 id="color"
                 onChange={handleChange}
@@ -353,43 +311,27 @@ function FirstTabEdit({setEdited}) {
                     shrink: true,
                 }}
                 />
-                <TextField
+                <Autocomplete 
                 id="physicalCon"
-                label="מצב גופני"
-                type='number'
-                variant="filled"
-                onChange={handleChange}
                 value={formInput.physicalCon}
-                sx={{ width: 220 }}
-                InputProps={{ inputProps: { min: 1, max: 5 } }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                />
-
-                <TextField
-                id="severityLev"
-                label="דרגת חומרה"
-                onChange={e => {
-                    setFormInput({...formInput, severityLev: e.target.value})
+                onChange={(e, newValue) => {
+                    setFormInput({...formInput, physicalCon: newValue})
                     setEdited(true)
                 }}
+                options={['1','2','3','4','5', '']}
+                renderInput={(params) => <TextField {...params}  label="מצב גופני" InputLabelProps={{shrink: true,}} variant="filled" />}
+                />
+
+                <Autocomplete 
+                id="severityLev"
                 value={formInput.severityLev}
-                select
-                variant="filled"
-                sx={{ width: 220 }}
-                InputProps={{ inputProps: { min: 1, max: 5 } }}
-                InputLabelProps={{
-                    shrink: true,
+                onChange={(e, newValue) => {
+                    setFormInput({...formInput, severityLev: newValue})
+                    setEdited(true)
                 }}
-                >
-                    {severityLevels.map(level => (
-                        <MenuItem key={level} value={level}>
-                            {level}
-                        </MenuItem>
-                    ))}
-                    
-                </TextField>
+                options={[...severityLevels, '']}
+                renderInput={(params) => <TextField {...params}  label="דרגת חומרה" InputLabelProps={{shrink: true,}} variant="filled" />}
+                />
                 <TextField
                 id="medicalProb"
                 onChange={handleChange}
@@ -403,49 +345,27 @@ function FirstTabEdit({setEdited}) {
                     shrink: true,
                 }}
                 />
-                <TextField
+                <Autocomplete 
                 id="mainDiagnosis"
-                onChange={e => {
-                    setFormInput({...formInput, mainDiagnosis: e.target.value})
-                    setEdited(true)
-                }}
                 value={formInput.mainDiagnosis}
-                select
-                label="אבחנה ראשית"
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                >
-                    {diagnoses.map(diagnosis => (
-                        <MenuItem key={diagnosis.diagnosisName} value={diagnosis.diagnosisName}>
-                            {diagnosis.diagnosisName}
-                        </MenuItem>
-                    ))}
-                </TextField>
-                
-                <TextField
-                id="secondaryDiagnosis"
-                onChange={e => {
-                    setFormInput({...formInput, secondaryDiagnosis: e.target.value})
+                onChange={(e, newValue) => {
+                    setFormInput({...formInput, mainDiagnosis: newValue})
                     setEdited(true)
                 }}
+                options={[...diagnoses.map(diagnosis => diagnosis.diagnosisName), '']}
+                renderInput={(params) => <TextField {...params}  label="אבחנה ראשית" InputLabelProps={{shrink: true,}} variant="filled" />}
+                />
+
+                <Autocomplete 
+                id="secondaryDiagnosis"
                 value={formInput.secondaryDiagnosis}
-                select
-                label="אבחנה משנית"
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
+                onChange={(e, newValue) => {
+                    setFormInput({...formInput, secondaryDiagnosis: newValue})
+                    setEdited(true)
                 }}
-                >
-                    {diagnoses.map(diagnosis => (
-                        <MenuItem key={diagnosis._id} value={diagnosis.diagnosisName}>
-                            {diagnosis.diagnosisName}
-                        </MenuItem>
-                    ))}
-                </TextField>
+                options={[...diagnoses.map(diagnosis => diagnosis.diagnosisName), '']}
+                renderInput={(params) => <TextField {...params}  label="אבחנה משנית" InputLabelProps={{shrink: true,}} variant="filled" />}
+                />
             </div>
             <div className="form-column">
                 <h2>אשפוז</h2>
@@ -694,6 +614,7 @@ function FirstTabEdit({setEdited}) {
             </div>
         </div>
         <div className="btn">
+            <PDFdocument medicalFile={medicalFile}/>
             <Button 
             onClick={handleSubmit}
             variant='contained'

@@ -27,7 +27,11 @@ function Management() {
     return (
         <Box>
             <Box sx={{display: 'flex'}}>
-                <Tabs value={tabIndex} onChange={handleTabChange} sx={{ '& .MuiTabs-indicator': { backgroundColor: 'CadetBlue' },'& .Mui-selected': { color: 'CadetBlue' },}}>
+                <Tabs 
+                value={tabIndex} 
+                onChange={handleTabChange} 
+                TabIndicatorProps={{ sx: { display: 'none' } }}
+                sx={{ '& .MuiTabs-indicator': { backgroundColor: 'CadetBlue' },'& .Mui-selected': { color: 'CadetBlue' },'& .MuiTabs-flexContainer': {flexWrap: 'wrap'},}}                >
                     <Tab label="טיפולים" />
                     <Tab label="תרופות" />
                     <Tab label="בדיקות" />
@@ -38,7 +42,9 @@ function Management() {
                     <img src={subLogo} alt='איגוד ערים גוש דן' className='sub-logo' />
                 </div>                
                 <Button variant="contained" onClick={onBack}
-                sx={{position: 'absolute', right: '50px', backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}}}>
+                sx={{position: 'absolute', right: '50px',backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
+                '@media (max-width: 1200px)': {marginTop: '60px'}}}
+                >
                     חזרה
                 </Button>
             </Box>

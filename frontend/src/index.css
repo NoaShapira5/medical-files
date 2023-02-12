@@ -218,7 +218,14 @@ h2, a {
   list-style-type: none;
 }
 
-.MuiDataGrid-root.MuiDataGrid-root--densityStandard, .muirtl-1efca2s-MuiPickersToolbar-root-MuiDateTimePickerToolbar-root{
+.MuiDataGrid-root.MuiDataGrid-root--densityStandard,
+ .muirtl-1efca2s-MuiPickersToolbar-root-MuiDateTimePickerToolbar-root,
+  .muirtl-4rdffl-MuiDataGrid-panelFooter,
+   .muirtl-hlj6pa-MuiDialogActions-root,
+    .muirtl-1hbyad5-MuiTypography-root, 
+    .muirtl-12wnr2w-MuiButtonBase-root-MuiCheckbox-root,
+    .link
+    {
   direction: ltr;
   transform: rotateY(180deg);
 } 
@@ -228,7 +235,7 @@ h2, a {
     color: #141414;
   }
 
-  .MuiDataGrid-columnHeaderTitle {
+  .MuiDataGrid-columnHeaderTitle{
     transform: rotateY(180deg);
   }
 
@@ -249,6 +256,7 @@ h2, a {
     display: flex;
     justify-content: space-evenly;
   }
+
 
 @media (max-width: 800px) {
   .tables {

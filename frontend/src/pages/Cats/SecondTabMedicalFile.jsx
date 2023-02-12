@@ -163,7 +163,7 @@ function SecondTabMedicalFile() {
         {
             field: 'file',
             headerName: 'קובץ מצורף',
-            renderCell: (cellValues) => (<a href={cellValues.value}>{cellValues?.value[0]?.split('/')[4]}</a>),
+            renderCell: (cellValues) => (<a className='link' target="_blank" rel="noreferrer noopener" href={cellValues.value}>{cellValues?.value[0]?.split('/')[4]}</a>),
             width: 310,
 
         },
@@ -199,6 +199,11 @@ function SecondTabMedicalFile() {
                 </Tooltip>
                 )}
                 <DataGrid
+                initialState={{
+                    sorting: {
+                      sortModel: [{ field: 'dateTime', sort: 'desc' }],
+                    },
+                }}
                 columns={headCells}
                 rows={operations}
                 sx={{ height: 400, width: '100%'}}

@@ -1,7 +1,6 @@
 import { Button, IconButton, Tooltip } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { uploadImages } from "../features/medicalFiles/medicalFilesSlice";
-import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
 import { deleteImage } from "../features/medicalFiles/medicalFilesSlice";
 
@@ -47,8 +46,7 @@ function Images({images, setFormInput, formInput, setEdited}) {
         onClick={handleSubmitUpload}
         sx={{color: 'CadetBlue', marginTop: '10px'}}
         >
-        שמירת הקובץ&nbsp;
-          <AddIcon />     
+        שמירת הקובץ     
         </Button>
     </div>
     <h3>רשימת התמונות:</h3>
@@ -59,7 +57,7 @@ function Images({images, setFormInput, formInput, setEdited}) {
                 <IconButton onClick={() => handleDelete(image)}>
                     <ClearIcon />
                 </IconButton>
-                <a  href={image} target="_blank">{image?.split('/')[4]}</a>
+                <a  href={image} target="_blank" rel="noreferrer noopener">{image?.split('/')[4]}</a>
             </li>
         </Tooltip>
         ))}

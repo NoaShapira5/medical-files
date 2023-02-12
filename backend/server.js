@@ -17,7 +17,9 @@ app.use(express.urlencoded({extended: false}))
 
 app.use('/api/users', require('./routes/userRoutes'))
 app.use('/api/medicalFiles', require('./routes/medicalFileRoutes'))
+app.use('/api/dogMedicalFiles', require('./routes/dogMedicalFileRoute'))
 app.use('/api/operations', require('./routes/operationRoutes'))
+app.use('/api/dogOperations', require('./routes/dogOperationRoute'))
 app.use('/api/management', require('./routes/managementRoute'))
 
 // Serve Frontend

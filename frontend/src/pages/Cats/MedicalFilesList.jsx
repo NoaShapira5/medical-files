@@ -31,6 +31,9 @@ function MedicalFilesList() {
   const dispatch = useDispatch()
   const {medicalFiles, isLoading} = useSelector(state => state.medicalFiles)
   const [selected, setSelected] = useState([]);
+  const [filterModel, setFilterModel] = useState({
+    items: []
+  })
 
   useEffect(() => {
     dispatch(getMedicalFiles())
@@ -54,7 +57,7 @@ function MedicalFilesList() {
     {
       field: 'cageNum',
       headerName: 'כלוב מספר',
-      width: 120,
+      width: 80,
       disableExport: true,
       type: 'number',
       headerAlign: 'left',
@@ -63,7 +66,7 @@ function MedicalFilesList() {
     {
       field: 'arrivalDate',
       headerName: 'תאריך הגעה',
-      width: 120,
+      width: 90,
       type: 'date',
       valueFormatter: (cellValues) => new Date(cellValues?.value).toLocaleString(["ban", "id"]).split(' ')[0]
 
@@ -95,9 +98,16 @@ function MedicalFilesList() {
       type: 'string'
     },
     {
+      field: 'phoneOne',
+      headerName: 'טלפון 1',
+      width: 120,
+      type: 'string',
+      disableExport: true
+    },
+    {
       field: 'gender',
       headerName: 'מין',
-      width: 120,
+      width: 50,
       type: 'string'
     },
     {
@@ -214,7 +224,7 @@ function MedicalFilesList() {
     {
       field: 'releaseDate',
       headerName: 'תאריך שחרור',
-      width: 120,
+      width: 90,
       type: 'date',
       valueFormatter: (cellValues) => {
         if(cellValues.value) {
@@ -238,6 +248,26 @@ function MedicalFilesList() {
       disableExport: true,
       type: 'string'
     },
+    {
+      field: 'hospitalizationCageNum',
+      headerName: 'מספר כלוב אשפוז',
+      width: 120,
+      type: 'number',
+      disableExport: true,
+      headerAlign: 'left',
+      align: 'left'
+    },
+    {
+      field: 'images',
+      headerName: 'תמונה',
+      width: 100,
+      disableExport: true,
+      type: 'string',
+      renderCell: (cellValues) => (<a className='link' target="_blank" rel="noreferrer noopener" href={cellValues.value[0]}>{cellValues?.value[0]?.split('/')[4]}</a>),
+
+    },
+
+
   ];
 
   if(isLoading) {
@@ -247,7 +277,7 @@ function MedicalFilesList() {
   return (
     <ThemeProvider theme={theme}>
       <Paper
-       sx={{ height: 470, width: '100%' }}
+       sx={{ height: 500, width: '100%' }}
        >
           <div className="container">
             <div className="title">
@@ -267,9 +297,46 @@ function MedicalFilesList() {
               <DeleteIcon /> <span style={{fontSize: '19px'}}>מחיקה</span>
             </IconButton>
           </Tooltip>)}
-          
+          <Button variant="outlined" onClick={() => setFilterModel({items : [{
+            columnField: "releaseDate",
+            operatorValue: "isEmpty"
+          }]})}
+          >
+            חתולים שלא שוחררו
+          </Button>
+
+          <Button variant='outlined' onClick={() => setFilterModel({items: [{
+            columnField: 'arrivalDate',
+            operatorValue: 'onOrAfter',
+            value: `${new Date().getFullYear()}-${new Date().getMonth() + 1 > 10 ? new Date().getMonth() + 1 : '0' + (new Date().getMonth() + 1)}-01`
+          }]})}>
+            הגיעו החודש
+          </Button>
+
+          <Button variant='outlined' onClick={() => setFilterModel({items: [{
+            columnField: 'releaseDate',
+            operatorValue: 'onOrAfter',
+            value: `${new Date().getFullYear()}-${new Date().getMonth() + 1 > 10 ? new Date().getMonth() + 1 : '0' + (new Date().getMonth() + 1)}-01`
+          }]})}>
+            שוחררו החודש
+          </Button>
+
+          <Button variant='outlined' onClick={() => setFilterModel({items: [{
+            columnField: 'arrivalDate',
+            operatorValue: 'onOrAfter',
+            value: `${new Date().getFullYear()}-01-01`
+          }]})}>
+            הגיעו השנה
+          </Button>
+
+          <Button variant="outlined" onClick={() => setFilterModel({items: []})}>
+            איפוס הפילטרים
+          </Button>
+
           <DataGrid
           className='data-grid'
+          filterModel={filterModel}
+          onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
           columns={headCells}
           rows={medicalFiles}
           sx={{ height: 400, width: '100%', cursor: 'pointer' }}

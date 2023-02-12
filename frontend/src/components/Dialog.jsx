@@ -5,7 +5,6 @@ import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -76,7 +75,6 @@ export default function CustomizedDialogs({children}) {
         <DialogContent dividers>
           {children}
         </DialogContent>
-        <DialogActions>
           <Button 
           autoFocus
           onClick={handleClose}
@@ -84,7 +82,6 @@ export default function CustomizedDialogs({children}) {
           sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}}}>
             חזרה לתיק הרפואי
           </Button>
-        </DialogActions>
       </BootstrapDialog>
     </div>
   );
