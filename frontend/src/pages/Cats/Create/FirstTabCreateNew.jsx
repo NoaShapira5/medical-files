@@ -7,7 +7,6 @@ import {toast} from 'react-toastify'
 import {createMedicalFile, editMedicalFile} from '../../../features/medicalFiles/medicalFilesSlice'
 import Spinner from "../../../components/Spinner";
 import { useEffect } from "react";
-import { getCommunities, getDiagnoses } from "../../../features/management/managementSlice";
 import CustomizedDialogs from '../../../components/Dialog';
 import Images from '../../../components/Images';
 
@@ -63,12 +62,10 @@ function FirstTabCreateNew({setEdited}) {
     })
 
     useEffect(() => {
-        dispatch(getCommunities())
-        dispatch(getDiagnoses())
         if(medicalFile) {
             setFormInput(medicalFile)
         }
-    }, [medicalFile, dispatch])
+    }, [medicalFile])
 
     const getTotalDays = (date1, date2) => {
         if(!date1 || !date2) {

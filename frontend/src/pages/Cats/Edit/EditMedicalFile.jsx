@@ -1,5 +1,6 @@
 import { Box, Tab, Tabs, Button} from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getCommunities, getDiagnoses, getMedicines, getTreatments, getExaminations } from "../../../features/management/managementSlice";
 import FirstTabEdit from './FirstTabEdit';
 import SecondTabMedicalFile from '../SecondTabMedicalFile'
 import ThirdTabMedicalFile from '../ThirdTabMedicalFile'
@@ -12,9 +13,17 @@ import subLogo from '../../../logos/subLogo.png'
 function EditMedicalFile({edited, setEdited}) {
     const [tabIndex, setTabIndex] = useState(0);
 
-
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    useEffect(() => {
+        dispatch(getCommunities())
+        dispatch(getDiagnoses())
+        dispatch(getMedicines())
+        dispatch(getTreatments())
+        dispatch(getExaminations())
+
+    }, [dispatch])
 
     const handleTabChange = (event, newTabIndex) => {
         if(edited) {

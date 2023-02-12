@@ -49,8 +49,6 @@ function ThirdTabMedicalFile() {
 
     useEffect(() => {
       if(medicalFile) {
-        dispatch(getExaminations())
-        dispatch(getTreatments())
         dispatch(getMedicalFileOperations(medicalFile._id))
       }
     }, [dispatch, medicalFile])

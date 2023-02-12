@@ -69,8 +69,6 @@ function FirstTabEdit({setEdited}) {
     }, [medicalFileId, dispatch])
 
     useEffect(() => {
-        dispatch(getCommunities())
-        dispatch(getDiagnoses())
         if(medicalFile) {
           setFormInput(medicalFile)
         }
@@ -221,6 +219,14 @@ function FirstTabEdit({setEdited}) {
                     shrink: true,
                 }}
                 />
+                <Button
+                onClick={() => setFormInput({...formInput, feederName: formInput.refName})}
+                variant="containd"
+                sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
+                }}
+                >
+                    זהה לפונה
+                </Button>
                 <TextField
                 id="phoneOne"
                 onChange={handleChange}

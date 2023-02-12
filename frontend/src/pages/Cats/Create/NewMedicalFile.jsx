@@ -1,5 +1,6 @@
 import { Box, Tab, Tabs, Button } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getCommunities, getDiagnoses, getMedicines, getTreatments, getExaminations } from "../../../features/management/managementSlice";
 import FirstTabCreateNew from './FirstTabCreateNew';
 import SecondTabMedicalFile from '../SecondTabMedicalFile'
 import ThirdTabMedicalFile from '../ThirdTabMedicalFile'
@@ -14,6 +15,16 @@ function NewMedicalFile({edited, setEdited}) {
     const dispatch = useDispatch()
 
     const navigate = useNavigate()
+
+    useEffect(() => {
+        dispatch(getCommunities())
+        dispatch(getDiagnoses())
+        dispatch(getMedicines())
+        dispatch(getTreatments())
+        dispatch(getExaminations())
+
+    }, [dispatch])
+
 
     const onBack = () => {
         if(edited) {

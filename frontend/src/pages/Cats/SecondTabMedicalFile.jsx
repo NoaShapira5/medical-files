@@ -15,7 +15,6 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import dayjs from "dayjs"
 import { useSelector, useDispatch } from "react-redux"
 import { createMedicalFileOperation, deleteOperation, getMedicalFileOperations, editOperation } from "../../features/operation/operationSlice"
-import {getMedicines, getTreatments, getExaminations} from '../../features/management/managementSlice'
 import {toast} from 'react-toastify'
 import { useEffect } from "react"
 import {RadioGroup, FormControlLabel, Radio, FormControl} from "@mui/material"
@@ -47,9 +46,6 @@ function SecondTabMedicalFile() {
     useEffect(() => {
         if(medicalFile) {
             dispatch(getMedicalFileOperations(medicalFile._id))
-            dispatch(getMedicines())
-            dispatch(getTreatments())
-            dispatch(getExaminations())
         }
         
     }, [dispatch, medicalFile])
@@ -151,7 +147,7 @@ function SecondTabMedicalFile() {
         {
             field: 'type',
             headerName: 'סוג',
-            width: 310,
+            width: 120,
 
         },
         {
