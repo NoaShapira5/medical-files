@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const operationSchema = mongoose.Schema({
+const catOperationSchema = mongoose.Schema({
     dateTime: {
         type: Date,
         required: [true, 'Please add an date and time']
@@ -52,4 +52,4 @@ const operationSchema = mongoose.Schema({
     timestamps: true,
 })
 
-module.exports = mongoose.model('Operation', operationSchema)
+module.exports = mongoose.model('CatOperation', catOperationSchema)

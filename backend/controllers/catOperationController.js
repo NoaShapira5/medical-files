@@ -1,7 +1,7 @@
 const asyncHandler = require('express-async-handler')
 
-const MedicalFile = require('../models/medicalFileModel')
-const Operation = require('../models/operationModel')
+const CatMedicalFile = require('../models/catMedicalFileModel')
+const CatOperation = require('../models/catOperationModel')
 const Treatment = require('../models/treatmentModel')
 const Examination = require('../models/examinationModel')
 
@@ -11,7 +11,7 @@ const Examination = require('../models/examinationModel')
 const getMedicalFileOperations = asyncHandler(async (req, res) => {
     const {medicalFileId} = req.params
 
-    const operations = await Operation.find({medicalFile: medicalFileId})
+    const operations = await CatOperation.find({medicalFile: medicalFileId})
 
     res.status(200).json({operations})
 })
@@ -27,10 +27,10 @@ const createMedicalFileOperation = asyncHandler(async (req, res) => {
     }
 
     // Get medicalFile using id
-    const medicalFile = await MedicalFile.findById(fileId)
+    const medicalFile = await CatMedicalFile.findById(fileId)
     let operation
     if(type === 'הנחיות') {
-        operation = await Operation.create({
+        operation = await CatOperation.create({
             dateTime,
             type,
             content,
@@ -42,7 +42,7 @@ const createMedicalFileOperation = asyncHandler(async (req, res) => {
             medicalFile: medicalFile.id
         })
     } else if(type === 'הערות') {
-        operation = await Operation.create({
+        operation = await CatOperation.create({
             dateTime,
             type,
             content,
@@ -54,7 +54,7 @@ const createMedicalFileOperation = asyncHandler(async (req, res) => {
         })
         
     } else if(type === 'תרופה') {
-        operation = await Operation.create({
+        operation = await CatOperation.create({
             dateTime,
             type,
             content,
@@ -79,7 +79,7 @@ const createMedicalFileOperation = asyncHandler(async (req, res) => {
             throw new Error('Not found')
         }
         financed = result.price ? true : false
-        operation = await Operation.create({
+        operation = await CatOperation.create({
             dateTime,
             type,
             content,
@@ -101,7 +101,7 @@ const createMedicalFileOperation = asyncHandler(async (req, res) => {
 // @access Private
 const deleteOperarions = asyncHandler(async (req, res) => {
     const {body} = req.body
-    await Operation.deleteMany({ _id: {
+    await CatOperation.deleteMany({ _id: {
         $in: body
     }})
     res.status(200).json(body)
@@ -112,7 +112,7 @@ const deleteOperarions = asyncHandler(async (req, res) => {
 // @access Private
 const deleteOperarionsByMedicalFile = asyncHandler(async (req, res) => {
     const {body} = req.body
-    await Operation.deleteMany({ medicalFile: {
+    await CatOperation.deleteMany({ medicalFile: {
         $in: body
     }})
     res.status(200).json(body)
@@ -122,7 +122,7 @@ const deleteOperarionsByMedicalFile = asyncHandler(async (req, res) => {
 // @route PUT /api/operations/:operationId
 // @access Private
 const updateOperation = asyncHandler(async(req, res) => {
-    const operation = await Operation.findById(req.params.operationId)
+    const operation = await CatOperation.findById(req.params.operationId)
 
     if(!operation) {
         res.status(404)
@@ -195,7 +195,7 @@ const updateOperation = asyncHandler(async(req, res) => {
             medicalFile: medicalFile.id,
         }
     }
-    const updated = await Operation.findByIdAndUpdate(req.params.operationId, updatedOperation, {new: true})
+    const updated = await CatOperation.findByIdAndUpdate(req.params.operationId, updatedOperation, {new: true})
     res.status(201).json(updated)
 })
 

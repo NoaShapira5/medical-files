@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const {getMedicalFileOperations, createMedicalFileOperation, deleteOperarions, deleteOperarionsByMedicalFile, updateOperation} = require('../controllers/operationController')
+const {getMedicalFileOperations, createMedicalFileOperation, deleteOperarions, deleteOperarionsByMedicalFile, updateOperation} = require('../controllers/catOperationController')
 
 const {protect} = require('../middleware/authMiddleware')
 const {multer, sendUploadToGCS} = require('../middleware/uploadMiddleware')

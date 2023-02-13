@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const medicalFileSchema = mongoose.Schema({
+const catMedicalFileSchema = mongoose.Schema({
     arrivalDate: {
         type: Date,
         required: [true, 'Please add an arrival date']
@@ -143,4 +143,4 @@ const medicalFileSchema = mongoose.Schema({
     timestamps: true
 })
 
-module.exports = mongoose.model('MedicalFile', medicalFileSchema)
+module.exports = mongoose.model('CatMedicalFile', catMedicalFileSchema)

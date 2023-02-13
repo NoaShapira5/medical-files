@@ -1,12 +1,12 @@
 const asyncHandler = require('express-async-handler')
 
-const MedicalFile = require('../models/medicalFileModel')
+const CatMedicalFile = require('../models/catMedicalFileModel')
 
 // @desc Get medical files
 // @route GET /api/medicalFiles
 // @access Private
 const getMedicalFiles = asyncHandler(async (req, res) => {
-    const medicalFiles = await MedicalFile.find({})
+    const medicalFiles = await CatMedicalFile.find({})
     res.status(200).json({medicalFiles})
 })
 
@@ -19,7 +19,7 @@ const createMedicalFile = asyncHandler(async(req, res) => {
         throw new Error('נא למלא את שדות החובה: תאריך הגעה, מספר הכלוב ומספר הפנייה')
     }
 
-    const medicalFile = await MedicalFile.create(req.body)
+    const medicalFile = await CatMedicalFile.create(req.body)
     
 
     if(medicalFile) {
@@ -40,7 +40,7 @@ const createMedicalFile = asyncHandler(async(req, res) => {
 // @access Private
 const deleteMedicalFile = asyncHandler(async (req, res) => {
     const {body} = req.body
-    await MedicalFile.deleteMany({ _id: {
+    await CatMedicalFile.deleteMany({ _id: {
         $in: body
     }})
     res.status(200).json(body)
@@ -50,7 +50,7 @@ const deleteMedicalFile = asyncHandler(async (req, res) => {
 // @route GET /api/meidcalFiles/:medicalFileId
 // @access Private
 const getMedicalFile = asyncHandler(async (req, res) => {
-    const medicalFile = await MedicalFile.findById(req.params.medicalFileId)
+    const medicalFile = await CatMedicalFile.findById(req.params.medicalFileId)
 
     if(!medicalFile) {
         res.status(404)
@@ -63,7 +63,7 @@ const getMedicalFile = asyncHandler(async (req, res) => {
 // @route PUT /api/medicalFiles/:medicalFileId
 // @access Private
 const updateMedicalFile = asyncHandler(async (req, res) => {
-    const medicalFile = await MedicalFile.findById(req.params.medicalFileId)
+    const medicalFile = await CatMedicalFile.findById(req.params.medicalFileId)
 
     if(!medicalFile) {
         res.status(404)
@@ -78,7 +78,7 @@ const updateMedicalFile = asyncHandler(async (req, res) => {
         throw new Error('ניתן להעלות מקסימום 3 תמונות')
     }
     delete req.body['__v']
-    const updatedMedicalFile = await MedicalFile.findByIdAndUpdate(req.params.medicalFileId, {...req.body, $inc: { __v: 1 }}, {new: true})
+    const updatedMedicalFile = await CatMedicalFile.findByIdAndUpdate(req.params.medicalFileId, {...req.body, $inc: { __v: 1 }}, {new: true})
     res.status(200).json(updatedMedicalFile)
 })
 
