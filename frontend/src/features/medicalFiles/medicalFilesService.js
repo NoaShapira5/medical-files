@@ -89,6 +89,14 @@ const editMedicalFile = async (medicalFile, token) => {
             Authorization: `Bearer ${token}`
         }
     }
+    const formData = new FormData()
+    for(const image of medicalFile.images) {
+        formData.append("images", image)
+    }
+    const res = await axios.post(API_URL + '/upload', formData)
+    if(res.data.files.length > 0) {
+        medicalFile.images = res.data.files
+    }
     const response = await axios.put(API_URL + '/' + medicalFile._id, medicalFile, config)
     return response.data
 

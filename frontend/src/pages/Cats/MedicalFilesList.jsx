@@ -74,7 +74,7 @@ function MedicalFilesList() {
     {
       field: 'refNum',
       headerName: 'מספר פנייה',
-      width: 120,
+      width: 80,
       type: 'number',
       headerAlign: 'left',
       align: 'left'
@@ -88,7 +88,7 @@ function MedicalFilesList() {
     {
       field: 'trappingAd',
       headerName: 'כתובת הלכידה',
-      width: 120,
+      width: 180,
       type: 'string'
     },
     {
@@ -128,7 +128,7 @@ function MedicalFilesList() {
     {
       field: 'color',
       headerName: 'צבע',
-      width: 120,
+      width: 100,
       type: 'string'
     },
     {
@@ -250,8 +250,8 @@ function MedicalFilesList() {
     },
     {
       field: 'hospitalizationCageNum',
-      headerName: 'מספר כלוב אשפוז',
-      width: 120,
+      headerName: 'כלוב אשפוז',
+      width: 80,
       type: 'number',
       disableExport: true,
       headerAlign: 'left',

@@ -174,7 +174,6 @@ function FirstTabCreateNew({setEdited}) {
                 onChange={handleChange}
                 value={formInput.refNum}
                 label="*מספר פנייה"
-                type="number"
                 variant="filled"
                 sx={{ width: 220 }}
                 InputLabelProps={{

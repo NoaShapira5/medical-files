@@ -32,8 +32,8 @@ function Management() {
                 onChange={handleTabChange} 
                 TabIndicatorProps={{ sx: { display: 'none' } }}
                 sx={{ '& .MuiTabs-indicator': { backgroundColor: 'CadetBlue' },'& .Mui-selected': { color: 'CadetBlue' },'& .MuiTabs-flexContainer': {flexWrap: 'wrap'},}}                >
-                    <Tab label="טיפולים" />
-                    <Tab label="תרופות" />
+                    <Tab label="טיפולים לדיווח ותשלום" />
+                    <Tab label="טיפולים ותרופות" />
                     <Tab label="בדיקות" />
                     <Tab label="רשות מקומית" />
                     <Tab label="אבחנות" />

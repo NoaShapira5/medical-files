@@ -10,7 +10,7 @@ const catMedicalFileSchema = mongoose.Schema({
         required: [true, 'Please add cage number']
     },
     refNum: {
-        type: Number,
+        type: String,
         required: [true, 'Please add refrence number']
     },
     refName: {

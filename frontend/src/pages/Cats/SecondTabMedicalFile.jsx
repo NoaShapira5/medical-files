@@ -135,25 +135,25 @@ function SecondTabMedicalFile() {
         setContents(operation[0].content)
     }
 
-    const types = ['טיפול', 'תרופה', 'בדיקה', 'הנחיות', 'הערות']
+    const types = ['טיפול לדיווח ותשלום', 'טיפולים ותרופות', 'בדיקה', 'הנחיות', 'הערות']
 
     const headCells = [
         {
             field: 'dateTime',
             headerName: 'תאריך ושעה',
             valueFormatter: (cellValues) => new Date(cellValues?.value).toLocaleString('he-IL'),
-            width: 310
+            width: 150
         },
         {
             field: 'type',
             headerName: 'סוג',
-            width: 120,
+            width: 100,
 
         },
         {
             field: 'content',
             headerName: 'תוכן',
-            width: 310,
+            width: 550,
 
         },
         {
@@ -264,10 +264,10 @@ function SecondTabMedicalFile() {
                     ))}
                 </TextField>
 
-                {formInput.type === 'טיפול' && (
+                {formInput.type === 'טיפול לדיווח ותשלום' && (
                 <>
                     <FormControl sx={{ m: 1, width: 300 }}>
-                        <InputLabel shrink={true}>טיפולים לדוח תמיכה</InputLabel>
+                        <InputLabel shrink={true}>טיפול לדיווח ותשלום</InputLabel>
                         <Select 
                         id="content"
                         multiple
@@ -298,10 +298,10 @@ function SecondTabMedicalFile() {
                     />
                 </>
                 )}
-                {formInput.type === 'תרופה' && (
+                {formInput.type === 'טיפולים ותרופות' && (
                 <>
                     <FormControl sx={{ m: 1, width: 300 }}>
-                        <InputLabel shrink={true}>תרופה</InputLabel>
+                        <InputLabel shrink={true}>טיפולים ותרופות</InputLabel>
                         <Select 
                         id="content"
                         multiple

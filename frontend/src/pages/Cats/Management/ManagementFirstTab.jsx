@@ -82,7 +82,7 @@ function ManagementFirstTab() {
   const headCells = [
     {
       field: 'treatmentName',
-      headerName: 'טיפול',
+      headerName: 'טיפולים לדיווח ותשלום',
       width: 300
     },
     {
@@ -153,7 +153,7 @@ function ManagementFirstTab() {
           onChange={handleChange}
           value={formInput.treatmentName}
           multiline
-          label="טיפול"
+          label="טיפולים לדיווח ותשלום"
           variant="filled"
           sx={{ width: 220 }}
           InputLabelProps={{

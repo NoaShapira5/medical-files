@@ -6,7 +6,7 @@ const dogMedicalFileSchema = mongoose.Schema({
         required: [true, 'Please add an arrival date']
     },
     refNum: {
-        type: Number,
+        type: String,
         required: [true, 'Please add refrence number']
     },
     refName: {

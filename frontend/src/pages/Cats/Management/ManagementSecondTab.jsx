@@ -80,7 +80,7 @@ function ManagementSecondTab() {
   const headCells = [
     {
       field: 'medicineName',
-      headerName: 'תרופה',
+      headerName: 'טיפולים ותרופות',
       width: 300
     },
 
@@ -140,7 +140,7 @@ function ManagementSecondTab() {
           onChange={handleChange}
           value={formInput.medicineName}
           multiline
-          label="תרופה"
+          label="טיפולים ותרופות"
           variant="filled"
           sx={{ width: 220 }}
           InputLabelProps={{
@@ -155,7 +155,7 @@ function ManagementSecondTab() {
             variant="contained"
             sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px'}}
             onClick={handleSave}>
-                שמור תרופה
+                שמור טיפול ותרופה
             </Button>
             <Button 
             variant="contained"
@@ -170,7 +170,7 @@ function ManagementSecondTab() {
                 variant="contained"
                 sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'}, position: 'relative', top: '18px'}}
                 onClick={handleSubmit}>
-                 הוסף תרופה
+                 הוסף טיפול ותרופה
                  </Button>
           )}
           

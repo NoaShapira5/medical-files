@@ -8,7 +8,6 @@ import {editMedicalFile, getMedicalFile} from '../../../features/medicalFiles/me
 import Spinner from "../../../components/Spinner";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getDiagnoses, getCommunities } from "../../../features/management/managementSlice";
 import CustomizedDialogs from '../../../components/Dialog';
 import Images from '../../../components/Images';
 import PDFdocument from "../../../components/PDFdocument";
@@ -82,6 +81,15 @@ function FirstTabEdit({setEdited}) {
         const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
         return Difference_In_Days
     }
+
+    const handleFileUpload = (e) => {
+        if (!e.target.files) {
+          return;
+        }
+        setFormInput({
+            ...formInput,
+           images: e.target.files})
+    };
 
     const handleChange = (e) => {
         setEdited(true)
@@ -157,7 +165,6 @@ function FirstTabEdit({setEdited}) {
                 onChange={handleChange}
                 value={formInput.refNum}
                 label="*מספר פנייה"
-                type="number"
                 variant="filled"
                 sx={{ width: 220 }}
                 InputLabelProps={{
@@ -298,6 +305,22 @@ function FirstTabEdit({setEdited}) {
                     shrink: true,
                 }}
                 />
+                {/* <div className="formImages">
+                    <label className='formLabel' style={{textAlign: 'center'}}>תמונות</label>
+                    <p style={{textAlign: 'center'}}>
+                         מקסימום שלוש תמונות
+                    </p>    
+                    <input 
+                    className='formInputFile'
+                    type='file'
+                    id='images'
+                    name='images'
+                    onChange={handleFileUpload}
+                    max='3'
+                    accept='.jpg,.png,.jpeg'
+                    multiple
+                    />
+                </div> */}
                 <CustomizedDialogs>
                     <Images images={medicalFile?.images} setFormInput={setFormInput} formInput={formInput} setEdited={setEdited}/>
                 </CustomizedDialogs>
