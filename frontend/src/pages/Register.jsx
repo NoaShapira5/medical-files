@@ -13,10 +13,11 @@ function Register() {
         name: '',
         email:'',
         password: '',
-        password2: ''
+        password2: '',
+        isAdmin: false
     })
 
-    const {name, email, password, password2} = formData
+    const {name, email, password, password2, isAdmin} = formData
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -30,6 +31,14 @@ function Register() {
         }))
     }
 
+    const handleRadio = (e) => {
+      const isAdmin = e.target.value === 'true' ? true: false;
+      setFormData(prevState => ({
+        ...prevState,
+        [e.target.name]: isAdmin
+    }))
+    }
+
     const onSubmit = (e) => {
         e.preventDefault()
         if(password !== password2) {
@@ -38,7 +47,8 @@ function Register() {
             const userData = {
                 name,
                 email,
-                password
+                password,
+                isAdmin
             }
 
             dispatch(register(userData)).unwrap().then((user) => {
@@ -64,6 +74,17 @@ function Register() {
         <p><input type="email" id="email"  name="email" value={email} onChange={onChange} placeholder="אימייל" dir="rtl" required/></p>
         <p><input type="password" id="password" name="password" value={password} onChange={onChange} placeholder="סיסמה" dir="rtl" required/></p>
         <p><input type="password" id="password2" name="password2" value={password2} onChange={onChange} placeholder="אימות סיסמה" dir="rtl" required/></p>
+        <div className="radio">
+          <p>הרשאות מנהל</p>
+          <div>
+            <p><input type="radio" name="isAdmin" value={true} checked={isAdmin === true} onChange={handleRadio}/></p>
+            <label>כן</label>
+          </div>
+          <div>
+            <p><input type="radio" name="isAdmin" value={false} checked={isAdmin === false} onChange={handleRadio}/></p>
+            <label>לא</label>
+          </div>
+        </div>
           <Button
           type="submit"
           variant='contained'

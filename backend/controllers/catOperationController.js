@@ -53,7 +53,7 @@ const createMedicalFileOperation = asyncHandler(async (req, res) => {
             medicalFile: medicalFile.id
         })
         
-    } else if(type === 'תרופה') {
+    } else if(type === 'טיפולים ותרופות') {
         operation = await CatOperation.create({
             dateTime,
             type,
@@ -69,7 +69,7 @@ const createMedicalFileOperation = asyncHandler(async (req, res) => {
     } else {
         let financed
         let result
-        if(type === 'טיפול') {
+        if(type === 'טיפול לדיווח ותשלום') {
             result = await Treatment.findOne({treatmentName: content})
         } else if(type === 'בדיקה') {
             result = await Examination.findOne({examinationName: content})

@@ -5,6 +5,7 @@ import ManagementSecondTab from './ManagementSecondTab';
 import ManagementThirdTab from './ManagementThirdTab';
 import ManagementFourthTab from './ManagementFourthTab';
 import ManagementFifthTab from './ManagementFifthTab'
+import ManagementSixthTab from './ManagementSixthTab';
 import { back } from '../../../features/medicalFiles/medicalFilesSlice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -37,6 +38,7 @@ function Management() {
                     <Tab label="בדיקות" />
                     <Tab label="רשות מקומית" />
                     <Tab label="אבחנות" />
+                    <Tab label="משתמשים" />
                 </Tabs>
                 <div className="image">
                     <img src={subLogo} alt='איגוד ערים גוש דן' className='sub-logo' />
@@ -74,6 +76,11 @@ function Management() {
                 {tabIndex === 4 && (
                 <Box>
                     <ManagementFifthTab />
+                </Box>
+                )}
+                {tabIndex === 5 && (
+                <Box>
+                    <ManagementSixthTab />
                 </Box>
                 )}
             </Box>
