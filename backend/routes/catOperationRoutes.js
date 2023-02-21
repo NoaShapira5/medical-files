@@ -12,7 +12,7 @@ router.route('/by-medicalfile').delete(protect, deleteOperarionsByMedicalFile)
 
 
 // Process the file upload and upload to Google Cloud Storage.
-router.post('/uploadFile', multer.array('file', 1), sendUploadToGCS, (req, res, next) => {
+router.post('/uploadFile', multer.array('file', 3), sendUploadToGCS, (req, res, next) => {
     res.status(200).json({ file: req.files.map(file => file.cloudStoragePublicUrl) });
 })
 

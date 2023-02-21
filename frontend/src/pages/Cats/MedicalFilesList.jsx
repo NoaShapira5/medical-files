@@ -266,6 +266,14 @@ function MedicalFilesList() {
       renderCell: (cellValues) => (<a className='link' target="_blank" rel="noreferrer noopener" href={cellValues.value[0]}>{cellValues?.value[0]?.split('/')[4]}</a>),
 
     },
+    {
+      field: 'community',
+      headerName: 'רשות מקומית',
+      disableExport: true,
+      width: 100,
+      type: 'string',
+      hide: true
+    }
 
 
   ];
@@ -334,6 +342,11 @@ function MedicalFilesList() {
           </Button>
 
           <DataGrid
+          initialState={{
+            sorting: {
+              sortModel: [{ field: 'arrivalDate', sort: 'desc' }],
+            },
+          }}
           className='data-grid'
           filterModel={filterModel}
           onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}

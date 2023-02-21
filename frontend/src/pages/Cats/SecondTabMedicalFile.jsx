@@ -22,7 +22,6 @@ import Spinner from '../../components/Spinner'
 import ListItemText from '@mui/material/ListItemText';
 
 
-
 const theme = createTheme(
     {
       palette: {
@@ -53,7 +52,8 @@ function SecondTabMedicalFile() {
     const [edit, setEdit] = useState(false)
     const [selected, setSelected] = useState([]);
     const [contents, setContents] = useState([])
-    const [fileName, setFileName] = useState('')
+    const [numOfFiles, setNumOfFiles] = useState(0)
+
     const initialState = {
         dateTime: dayjs().toDate(),
         type: '',
@@ -61,7 +61,7 @@ function SecondTabMedicalFile() {
         active: true,
         print: true,
         comments: '',
-        file: '',
+        file: [],
         userName: user.name,
         fileId: medicalFile?._id
     }
@@ -71,11 +71,10 @@ function SecondTabMedicalFile() {
         if (!e.target.files) {
           return;
         }
-        const {name} = e.target.files[0]
-        setFileName(name)
+       setNumOfFiles(e.target.files.length)
         setFormInput({
             ...formInput,
-           file: e.target.files[0]})
+           file: e.target.files})
     };
 
     const handleChange = (e) => {
@@ -159,7 +158,7 @@ function SecondTabMedicalFile() {
         {
             field: 'file',
             headerName: 'קובץ מצורף',
-            renderCell: (cellValues) => (<a className='link' target="_blank" rel="noreferrer noopener" href={cellValues.value}>{cellValues?.value[0]?.split('/')[4]}</a>),
+            renderCell: (cellValues) => (<a className='link' target="_blank" rel="noreferrer noopener" href={cellValues.value[0]}>{cellValues?.value[0]?.split('/')[4]}</a>),
             width: 310,
 
         },
@@ -424,8 +423,10 @@ function SecondTabMedicalFile() {
                     sx={{ marginRight: "1rem" , backgroundColor: '#D3D3D3', position: 'relative', top: '18px'}}
                     >   
                         העלאת קובץ
-                        <input type="file" max='1' accept='.jpg,.png,.jpeg,.pdf,.xlsx,.docx' hidden onChange={handleFileUpload} />
+                        <input multiple type="file" max='3' accept='.jpg,.png,.jpeg,.pdf,.xlsx,.docx' hidden onChange={handleFileUpload} />
                     </Button>
+
+                    <span style={{position: 'relative', top: '18px'}}>נבחרו {numOfFiles} קבצים</span>
 
                     <FormControl sx={{marginLeft: '20px', marginRight: '20px'}}>
                         <FormLabel>להדפסה:</FormLabel>
@@ -434,9 +435,6 @@ function SecondTabMedicalFile() {
                             <FormControlLabel value={false} control={<Radio />} label="לא" />
                         </RadioGroup>
                     </FormControl>
-
-                    <span style={{position: 'relative', top: '18px'}}>{fileName}</span>
-
 
                     {edit ? 
                     (

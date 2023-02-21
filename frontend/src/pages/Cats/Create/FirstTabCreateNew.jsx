@@ -519,16 +519,16 @@ function FirstTabCreateNew({setEdited}) {
                     >
                     </DatePicker>
                 </LocalizationProvider>
-                <TextField
+
+                <Autocomplete 
                 id="releaseLocation"
-                onChange={handleChange}
                 value={formInput.releaseLocation}
-                label="לאן שוחרר"
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
+                onChange={(e, newValue) => {
+                    setFormInput({...formInput, releaseLocation: newValue})
+                    setEdited(true)
                 }}
+                options={['מקום הלכידה/איסוף','אימוץ', 'עמותה', 'אחר', '']}
+                renderInput={(params) => <TextField {...params}  label="לאן שוחרר" InputLabelProps={{shrink: true,}} variant="filled" />}
                 />
 
                 <Autocomplete 

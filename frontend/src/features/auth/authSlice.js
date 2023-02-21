@@ -6,13 +6,15 @@ import {extractErrorMessage} from '../../utils'
 const user = JSON.parse(localStorage.getItem('user'))
 
 const initialState = {
+    users: [],
     user: user ? user : null,
     isLoading: false,
 }
 
 export const register = createAsyncThunk('auth/register', async (user, thunkAPI) => {
     try {
-        return await authService.register(user)
+        const token = thunkAPI.getState().auth.user.token
+        return await authService.register(user, token)
     } catch (error) {
         return thunkAPI.rejectWithValue(extractErrorMessage(error))
     }
@@ -21,6 +23,34 @@ export const register = createAsyncThunk('auth/register', async (user, thunkAPI)
 export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
     try {
         return await authService.login(user)
+    } catch (error) {
+        return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+})
+
+export const getUsers = createAsyncThunk('auth/getUses', async (_, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await authService.getUsers(token)
+    } catch (error) {
+        return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+})
+
+export const deleteUsers = createAsyncThunk('auth/deleteUsers', async (userIds, thunkAPI)=> {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await authService.deleteUsers(userIds, token)
+    } catch (error) {
+        return thunkAPI.rejectWithValue(extractErrorMessage(error))
+    }
+})
+
+// edit user
+export const editUser = createAsyncThunk('auth/edit', async (user, thunkAPI) => {
+    try {
+        const token = thunkAPI.getState().auth.user.token
+        return await authService.editUser(user, token)
     } catch (error) {
         return thunkAPI.rejectWithValue(extractErrorMessage(error))
     }
@@ -46,6 +76,7 @@ export const authSlice = createSlice({
             })
             .addCase(register.fulfilled, (state, action) => {
                 state.isLoading = false
+                state.users.push(action.payload)
             })
             .addCase(register.rejected, (state) => {
                 state.isLoading = false
@@ -58,6 +89,27 @@ export const authSlice = createSlice({
                 state.user = action.payload
             })
             .addCase(login.rejected, (state) => {
+                state.isLoading = false
+            })
+            .addCase(getUsers.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(getUsers.fulfilled, (state, action) => {
+                state.users = action.payload.users
+                state.isLoading = false
+            })
+            .addCase(deleteUsers.fulfilled, (state, action) => {
+                state.users = state.users.filter(user => !(action.payload.includes(user._id)))
+            })
+            .addCase(editUser.pending, (state) => {
+                state.isLoading = true
+            })
+            .addCase(editUser.fulfilled, (state, action) => {
+                state.isLoading = false
+                state.users = state.users.map(user =>
+                    user._id === action.payload._id ? action.payload : user)
+            })
+            .addCase(editUser.rejected, (state) => {
                 state.isLoading = false
             })
     }

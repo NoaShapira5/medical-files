@@ -15,8 +15,6 @@ import Management from './pages/Cats/Management/Management';
 import { useSelector } from 'react-redux';
 import Selection from './pages/Selection';
 import { useState } from 'react';
-import RegisterButton from './components/RegisterButton';
-import Register from './pages/Register'
 import ManagementButton from './components/ManagementButton';
 
 function App() {
@@ -68,11 +66,9 @@ function App() {
 
           <Route path='/no-permission' element={<NoPermission />} />
           <Route path='/management' element={<AdminRoute><Management /></AdminRoute>} />
-          <Route path = '/register' element={<AdminRoute><Register /></AdminRoute>} />
         </Routes>
         <div>
           {user && (<Logout edited={catEdited} setEdited={setCatEdited}/>)}
-          {user?.isAdmin && (<RegisterButton />)}
           {user?.isAdmin && (<ManagementButton />)}
         </div>
       </Router>

@@ -74,9 +74,9 @@ function Register() {
         <p><input type="email" id="email"  name="email" value={email} onChange={onChange} placeholder="אימייל" dir="rtl" required/></p>
         <p><input type="password" id="password" name="password" value={password} onChange={onChange} placeholder="סיסמה" dir="rtl" required/></p>
         <p><input type="password" id="password2" name="password2" value={password2} onChange={onChange} placeholder="אימות סיסמה" dir="rtl" required/></p>
-        <div className="radio">
-          <p>הרשאות מנהל</p>
-          <div>
+        <div className="radio" id="isAdmin">
+          <p className="radioLabel">הרשאות מנהל</p>
+          <div >
             <p><input type="radio" name="isAdmin" value={true} checked={isAdmin === true} onChange={handleRadio}/></p>
             <label>כן</label>
           </div>

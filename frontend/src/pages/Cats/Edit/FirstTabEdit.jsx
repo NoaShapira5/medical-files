@@ -505,48 +505,28 @@ function FirstTabEdit({setEdited}) {
                     >
                     </DatePicker>
                 </LocalizationProvider>
-                <TextField
+
+                <Autocomplete 
                 id="releaseLocation"
-                onChange={e => {
-                    setFormInput({...formInput, releaseLocation: e.target.value})
-                    setEdited(true)
-                }}                
                 value={formInput.releaseLocation}
-                label="לאן שוחרר"
-                select
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
-                }}
-                >
-                    {['מקום הלכידה/איסוף','אימוץ', 'עמותה', 'אחר'].map(option => (
-                    <MenuItem key={option} value={option}>
-                        {option}
-                    </MenuItem>
-                    ))}
-                </TextField>
-                <TextField
-                id="death"
-                onChange={e => {
-                    setFormInput({...formInput, death: e.target.value})
+                onChange={(e, newValue) => {
+                    setFormInput({...formInput, releaseLocation: newValue})
                     setEdited(true)
                 }}
+                options={['מקום הלכידה/איסוף','אימוץ', 'עמותה', 'אחר', '']}
+                renderInput={(params) => <TextField {...params}  label="לאן שוחרר" InputLabelProps={{shrink: true,}} variant="filled" />}
+                />
+
+                <Autocomplete 
+                id="death"
                 value={formInput.death}
-                select
-                label='מוות'
-                variant="filled"
-                sx={{ width: 220 }}
-                InputLabelProps={{
-                    shrink: true,
+                onChange={(e, newValue) => {
+                    setFormInput({...formInput, death: newValue})
+                    setEdited(true)
                 }}
-                >
-                    {['מת', 'המתת חסד', 'חי'].map(option => (
-                    <MenuItem key={option} value={option}>
-                        {option}
-                    </MenuItem>
-                    ))}   
-                </TextField>
+                options={['מת', 'המתת חסד', 'חי', '']}
+                renderInput={(params) => <TextField {...params}  label='מוות' InputLabelProps={{shrink: true,}} variant="filled" />}
+                />
                 
                 
             </div>

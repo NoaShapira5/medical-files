@@ -10,7 +10,9 @@ const createMedicalFileOperation = async (operationData, token) => {
         }
     }
     const formData = new FormData();
-    formData.append("file", operationData.file)
+    for(const file of operationData.file) {
+        formData.append("file", file)
+    }
     
     const res = await axios.post(API_URL + '/uploadFile', formData)
     operationData.file = res.data.file
