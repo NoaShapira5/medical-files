@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { uploadImages } from "../features/medicalFiles/medicalFilesSlice";
 import ClearIcon from '@mui/icons-material/Clear';
 import { deleteImage } from "../features/medicalFiles/medicalFilesSlice";
+import {toast} from 'react-toastify'
 
 function Images({images, setFormInput, formInput, setEdited}) {
 
@@ -11,6 +12,11 @@ function Images({images, setFormInput, formInput, setEdited}) {
     const handleFileUpload = (e) => {
         if (!e.target.files) {
           return;
+        }
+        for(const file of e.target.files) {
+            if (file.size > 1000000) {
+                toast.error('הקובץ גדול מדי')
+            }
         }
         setFormInput({
             ...formInput,

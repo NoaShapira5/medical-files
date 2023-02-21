@@ -86,6 +86,11 @@ function FirstTabEdit({setEdited}) {
         if (!e.target.files) {
           return;
         }
+        for(const file of e.target.files) {
+            if (file.size > 1000000) {
+                toast.error('הקובץ גדול מדי')
+            }
+        }
         setFormInput({
             ...formInput,
            images: e.target.files})
