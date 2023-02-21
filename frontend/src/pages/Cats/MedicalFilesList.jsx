@@ -15,6 +15,7 @@ import {toast} from 'react-toastify'
 import Spinner from '../../components/Spinner'
 import subLogo from '../../logos/subLogo.png'
 import {deleteOperationsByMedicalFile} from '../../features/operation/operationSlice'
+import { GridLinkOperator } from '@mui/x-data-grid';
 
 const theme = createTheme(
   {
@@ -30,9 +31,10 @@ function MedicalFilesList() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {medicalFiles, isLoading} = useSelector(state => state.medicalFiles)
+  const [filteredMedicalFiles, setFilteredeMedicaldFiles] = useState([])
   const [selected, setSelected] = useState([]);
   const [filterModel, setFilterModel] = useState({
-    items: []
+    items: [],
   })
 
   useEffect(() => {
@@ -305,13 +307,15 @@ function MedicalFilesList() {
               <DeleteIcon /> <span style={{fontSize: '19px'}}>מחיקה</span>
             </IconButton>
           </Tooltip>)}
-          <Button variant="outlined" onClick={() => setFilterModel({items : [{
-            columnField: "releaseDate",
-            operatorValue: "isEmpty"
-          }]})}
+
+          <Button variant="outlined" onClick={() => {
+            setFilterModel({items: []})
+            setFilteredeMedicaldFiles(medicalFiles.filter(medicalFile => medicalFile.releaseDate === null || medicalFile.death === ""))
+          }}
           >
-            חתולים שלא שוחררו
+            חתולים במרפאה
           </Button>
+
 
           <Button variant='outlined' onClick={() => setFilterModel({items: [{
             columnField: 'arrivalDate',
@@ -337,7 +341,11 @@ function MedicalFilesList() {
             הגיעו השנה
           </Button>
 
-          <Button variant="outlined" onClick={() => setFilterModel({items: []})}>
+          <Button variant="outlined" onClick={() => {
+            setFilterModel({items: []})
+            setFilteredeMedicaldFiles([])
+            }}
+          >
             איפוס הפילטרים
           </Button>
 
@@ -351,7 +359,7 @@ function MedicalFilesList() {
           filterModel={filterModel}
           onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
           columns={headCells}
-          rows={medicalFiles}
+          rows={filteredMedicalFiles?.length > 0 ? filteredMedicalFiles : medicalFiles}
           sx={{ height: 400, width: '100%', cursor: 'pointer' }}
           getRowId={row => row._id}
           checkboxSelection
