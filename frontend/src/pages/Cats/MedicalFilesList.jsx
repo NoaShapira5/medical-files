@@ -15,7 +15,6 @@ import {toast} from 'react-toastify'
 import Spinner from '../../components/Spinner'
 import subLogo from '../../logos/subLogo.png'
 import {deleteOperationsByMedicalFile} from '../../features/operation/operationSlice'
-import { GridLinkOperator } from '@mui/x-data-grid';
 
 const theme = createTheme(
   {
@@ -310,7 +309,7 @@ function MedicalFilesList() {
 
           <Button variant="outlined" onClick={() => {
             setFilterModel({items: []})
-            setFilteredeMedicaldFiles(medicalFiles.filter(medicalFile => medicalFile.releaseDate === null || medicalFile.death === ""))
+            setFilteredeMedicaldFiles(medicalFiles.filter(medicalFile => medicalFile.releaseDate === null && medicalFile.death === ""))
           }}
           >
             חתולים במרפאה

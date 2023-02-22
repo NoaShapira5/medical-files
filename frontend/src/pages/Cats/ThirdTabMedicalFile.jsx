@@ -1,7 +1,6 @@
 import { Paper } from "@mui/material"
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { getExaminations, getTreatments } from "../../features/management/managementSlice"
 import { getMedicalFileOperations } from "../../features/operation/operationSlice"
 import {toast} from 'react-toastify'
 import Spinner from '../../components/Spinner'
@@ -20,7 +19,7 @@ function ThirdTabMedicalFile() {
     const {operations} = useSelector(state => state.operation)
     const {medicalFile} = useSelector(state => state.medicalFiles)
 
-    const relOperations = operations.filter(operation => (operation.type === 'טיפול' || operation.type === 'בדיקה') && operation.financed)
+    const relOperations = operations.filter(operation => (operation.type === 'טיפול לדיווח ותשלום' || operation.type === 'בדיקה') && operation.financed)
     const contents = relOperations.map(relOperations => relOperations.content)
     const flatContents = contents.flat()
     const counts = flatContents.reduce((accumulator, value) => {
