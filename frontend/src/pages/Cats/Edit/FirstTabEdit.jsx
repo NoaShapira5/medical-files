@@ -310,7 +310,7 @@ function FirstTabEdit({setEdited}) {
                     shrink: true,
                 }}
                 />
-                <div className="formImages">
+                {/* <div className="formImages">
                     <label className='formLabel' style={{textAlign: 'center'}}>תמונות</label>
                     <p style={{textAlign: 'center'}}>
                          מקסימום שלוש תמונות
@@ -325,7 +325,7 @@ function FirstTabEdit({setEdited}) {
                     accept='.jpg,.png,.jpeg'
                     multiple
                     />
-                </div>
+                </div> */}
                 <CustomizedDialogs>
                     <Images images={medicalFile?.images} setFormInput={setFormInput} formInput={formInput} setEdited={setEdited}/>
                 </CustomizedDialogs>

@@ -14,7 +14,7 @@ function Images({images, setFormInput, formInput, setEdited}) {
           return;
         }
         for(const file of e.target.files) {
-            if (file.size > 1000000) {
+            if (file.size > 5000000) {
                 toast.error('הקובץ גדול מדי')
             }
         }

@@ -139,6 +139,28 @@ function FirstTabCreateNew({setEdited}) {
       }}
       noValidate
       autoComplete="off">
+        {medicalFile ? (
+            <div className="btn btn-responsive" style={{position: 'relative'}}>
+                <Button 
+                onClick={handleSave}
+                variant='contained'
+                sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
+                '@media (min-width: 800px)': { position: 'absolute', bottom: '8px', right: '16px'}}}
+                >                
+                שמירת שינוים</Button>
+             </div>
+        ) : (
+            <div className="btn btn-responsive" style={{position: 'relative'}}>
+                <Button 
+                onClick={handleSubmit}
+                variant='contained'
+                sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
+                '@media (min-width: 800px)': { position: 'absolute', bottom: '8px', right: '16px'}}}
+                >
+                שמירת תיק רפואי חדש</Button>
+            </div>
+
+        )}
         <div className="columns">
             <div className="form-column">
                 <h2>פרטי האירוע</h2>
@@ -621,7 +643,7 @@ function FirstTabCreateNew({setEdited}) {
                 sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
                 '@media (min-width: 800px)': { position: 'absolute', bottom: '8px', right: '16px'}}}
                 >
-                יצירת תיק רפואי חדש</Button>
+                שמירת תיק רפואי חדש</Button>
             </div>
 
         )}

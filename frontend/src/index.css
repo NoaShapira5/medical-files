@@ -276,5 +276,11 @@ h2, a {
 
 .radio {
   display: flex;
-  
+}
+
+
+@media (min-width: 800px) {
+  .btn-responsive {
+    display: none;
+  }
 }

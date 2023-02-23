@@ -286,7 +286,7 @@ function MedicalFilesList() {
   return (
     <ThemeProvider theme={theme}>
       <Paper
-       sx={{ height: 500, width: '100%' }}
+       sx={{ height: 900, width: '100%' }}
        >
           <div className="container">
             <div className="title">
@@ -309,7 +309,7 @@ function MedicalFilesList() {
 
           <Button variant="outlined" onClick={() => {
             setFilterModel({items: []})
-            setFilteredeMedicaldFiles(medicalFiles.filter(medicalFile => medicalFile.releaseDate === null && medicalFile.death === ""))
+            setFilteredeMedicaldFiles(medicalFiles.filter(medicalFile => (medicalFile.releaseDate === null || medicalFile.releaseDate === '') && (medicalFile.death === "" || medicalFile.death === null)))
           }}
           >
             חתולים במרפאה
@@ -359,7 +359,7 @@ function MedicalFilesList() {
           onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
           columns={headCells}
           rows={filteredMedicalFiles?.length > 0 ? filteredMedicalFiles : medicalFiles}
-          sx={{ height: 400, width: '100%', cursor: 'pointer' }}
+          sx={{ height: 800, width: '100%', cursor: 'pointer' }}
           getRowId={row => row._id}
           checkboxSelection
           onRowClick={(row) => navigate(`/medical-file/${row.id}`)}
