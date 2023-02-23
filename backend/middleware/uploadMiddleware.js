@@ -15,7 +15,7 @@ const storage = new Storage({ projectId: process.env.GOOGLE_PROJECTID,
 const multer = Multer({
     storage: Multer.memoryStorage(),
     limits: {
-      fileSize: 1024 * 1024
+      fileSize: 5 * 1024 * 1024
     },
   });
 

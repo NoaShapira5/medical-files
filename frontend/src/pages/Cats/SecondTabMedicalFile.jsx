@@ -10,13 +10,12 @@ import { heIL as coreHeIl } from '@mui/material/locale';
 import { LocalizationProvider } from "@mui/x-date-pickers"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { DateTimePicker } from "@mui/x-date-pickers"
-import { useState } from "react"
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import dayjs from "dayjs"
 import { useSelector, useDispatch } from "react-redux"
 import { createMedicalFileOperation, deleteOperation, getMedicalFileOperations, editOperation } from "../../features/operation/operationSlice"
 import {toast} from 'react-toastify'
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import {RadioGroup, FormControlLabel, Radio, FormControl} from "@mui/material"
 import Spinner from '../../components/Spinner'
 import ListItemText from '@mui/material/ListItemText';
@@ -39,6 +38,10 @@ function SecondTabMedicalFile() {
     const {medicalFile} = useSelector(state => state.medicalFiles)
     const {operations, isLoading} = useSelector(state => state.operation)
     const {medicines, treatments, examinations} = useSelector(state => state.management)
+
+    const [filterModel, setFilterModel] = useState({
+        items: [],
+      })
 
     const dispatch = useDispatch()
 
@@ -72,7 +75,7 @@ function SecondTabMedicalFile() {
           return;
         }
         for(const file of e.target.files) {
-            if (file.size > 1000000) {
+            if (file.size > 5000000) {
                 toast.error('הקובץ גדול מדי')
             }
         }
@@ -146,18 +149,21 @@ function SecondTabMedicalFile() {
             field: 'dateTime',
             headerName: 'תאריך ושעה',
             valueFormatter: (cellValues) => new Date(cellValues?.value).toLocaleString('he-IL'),
-            width: 150
+            width: 150,
+            type: 'date'
         },
         {
             field: 'type',
             headerName: 'סוג',
-            width: 100,
+            width: 140,
+            type: 'string'
 
         },
         {
             field: 'content',
             headerName: 'תוכן',
             width: 550,
+            type: 'string'
 
         },
         {
@@ -165,13 +171,28 @@ function SecondTabMedicalFile() {
             headerName: 'קובץ מצורף',
             renderCell: (cellValues) => (<a className='link' target="_blank" rel="noreferrer noopener" href={cellValues.value[0]}>{cellValues?.value[0]?.split('/')[4]}</a>),
             width: 310,
+            type: 'string'
 
         },
         {
             field: 'userName',
             headerName: 'שם',
-            width: 310,
+            width: 80,
+            type: 'string'
 
+        },
+        {
+        field: 'active',
+        headerName: 'הנחיה פעילה',
+        width: 100,
+        type: 'string',
+        valueFormatter: (cellValues) => {
+            if(cellValues?.value) {
+                return 'כן'
+            } else if(cellValues?.value === false) {
+                return 'לא'
+            }
+        }
         }
     ]
     if(!medicalFile) {
@@ -198,7 +219,25 @@ function SecondTabMedicalFile() {
                         </IconButton>
                 </Tooltip>
                 )}
+
+                <Button variant='outlined' onClick={() => setFilterModel({items: [{
+                    columnField: 'active',
+                    operatorValue: 'equals',
+                    value: 'true'
+                }]})}>
+                    הנחיות פעילות
+                </Button>
+
+                <Button variant="outlined" onClick={() => {
+                setFilterModel({items: []})
+                }}
+                >
+                    איפוס הפילטרים
+                </Button>
+                
                 <DataGrid
+                filterModel={filterModel}
+                onFilterModelChange={(newFilterModel) => setFilterModel(newFilterModel)}
                 initialState={{
                     sorting: {
                       sortModel: [{ field: 'dateTime', sort: 'desc' }],

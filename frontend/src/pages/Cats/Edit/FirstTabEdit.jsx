@@ -1,5 +1,5 @@
 import { useState } from "react";
-import {Button, Paper, MenuItem, Autocomplete, TextField} from "@mui/material";
+import {Button, Paper, Autocomplete, TextField} from "@mui/material";
 import {DatePicker, LocalizationProvider} from '@mui/x-date-pickers'
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import { useSelector, useDispatch } from "react-redux";
@@ -87,7 +87,7 @@ function FirstTabEdit({setEdited}) {
           return;
         }
         for(const file of e.target.files) {
-            if (file.size > 1000000) {
+            if (file.size > 5000000) {
                 toast.error('הקובץ גדול מדי')
             }
         }
