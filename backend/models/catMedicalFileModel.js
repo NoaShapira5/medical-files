@@ -136,6 +136,10 @@ const catMedicalFileSchema = mongoose.Schema({
     surgical: {
         type: String,
         required: [false]
+    },
+    totalFinanced: {
+        type: Number,
+        required: false
     }
 
 },

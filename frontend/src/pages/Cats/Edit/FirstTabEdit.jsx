@@ -73,7 +73,16 @@ function FirstTabEdit({setEdited}) {
         }
       }, [medicalFile, dispatch])
 
+    // parse a date in yyyy-mm-dd format
+    function parseDate(input) {
+        var parts = input.match(/(\d+)/g);
+        // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+        return new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
+  }
+
     const getTotalDays = (date1, date2) => {
+        date1 = typeof date1 === 'string' ? parseDate(date1) : date1
+        date2 = typeof date2 === 'string' ? parseDate(date2) : date2
         // To calculate the time difference of two dates
         const Difference_In_Time = date2.getTime() - date1.getTime();
       
@@ -130,6 +139,17 @@ function FirstTabEdit({setEdited}) {
       }}
       noValidate
       autoComplete="off">
+         
+        <div className="btn btn-responsive" style={{position: 'relative'}}>
+            <Button 
+            onClick={handleSubmit}
+            variant='contained'
+            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
+            '@media (min-width: 800px)': { position: 'absolute', bottom: '8px', right: '16px'}}}
+            >                
+            שמירת שינוים</Button>
+        </div>
+        
         <div className="columns">
             <div className="form-column">
                 <h2>פרטי האירוע</h2>
@@ -418,43 +438,54 @@ function FirstTabEdit({setEdited}) {
                 }}
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker 
-                    inputFormat="DD/MM/YYYY"
-                    value={formInput.hospitalStartDate}
-                    onChange={(newValue) => {
-                        setFormInput({...formInput, hospitalStartDate: newValue.toDate()})
-                        setEdited(true)
-                    }}
-                    renderInput={(params) => <TextField {...params}             
-                    id="hospitalStartDate"
-                    label="תאריך התחלה"
-                    variant="filled"
-                    sx={{ width: 220 }}
-                    InputLabelProps={{
-                        shrink: true,
-                    }} />}
-                    >
-                    </DatePicker>
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        <DatePicker 
+                        inputFormat="DD/MM/YYYY"
+                        value={formInput.hospitalStartDate}
+                        onChange={(newValue) => {
+                            setFormInput({...formInput, hospitalStartDate: newValue.toDate()})
+                            setEdited(true)
+                        }}
+                        renderInput={(params) => <TextField {...params}             
+                        id="hospitalStartDate"
+                        label="תאריך התחלה"
+                        variant="filled"
+                        sx={{ width: 220 }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }} />}
+                        >
+                        </DatePicker>
+                        <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, hospitalStartDate: null})}>
+                            איפוס
+                        </Button>
+                    </div>
+                    
                 </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker 
-                    inputFormat="DD/MM/YYYY"
-                    value={formInput.hospitalEndDate}
-                    onChange={(newValue) => {
-                        setFormInput({...formInput, hospitalEndDate: newValue.toDate(), totalHospitalDays: getTotalDays(formInput.hospitalStartDate, newValue.toDate())})
-                        setEdited(true)
-                    }}
-                    renderInput={(params) => <TextField {...params}             
-                    id="hospitalEndDate"
-                    label="תאריך סיום"
-                    variant="filled"
-                    sx={{ width: 220 }}
-                    InputLabelProps={{
-                        shrink: true,
-                    }} />}
-                    >
-                    </DatePicker>
-                </LocalizationProvider>
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker 
+                        inputFormat="DD/MM/YYYY"
+                        value={formInput.hospitalEndDate}
+                        onChange={(newValue) => {
+                            setFormInput({...formInput, hospitalEndDate: newValue.toDate(), totalHospitalDays: getTotalDays(formInput.hospitalStartDate, newValue.toDate())})
+                            setEdited(true)
+                        }}
+                        renderInput={(params) => <TextField {...params}             
+                        id="hospitalEndDate"
+                        label="תאריך סיום"
+                        variant="filled"
+                        sx={{ width: 220 }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }} />}
+                        >
+                        </DatePicker>
+                    </LocalizationProvider>
+                    <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, hospitalStartDate: null})}>
+                                איפוס
+                    </Button>
+                </div>
                 <TextField
                 id="totalHospitalDays"
                 onChange={handleChange}
@@ -472,45 +503,54 @@ function FirstTabEdit({setEdited}) {
             
             <div className="form-column">
                 <h2>לאחר טיפול</h2>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker 
-                    inputFormat="DD/MM/YYYY"
-                    value={formInput.neuteringDate}
-                    onChange={(newValue) => {
-                        setFormInput({...formInput, neuteringDate: newValue.toDate()})
-                        setEdited(true)
-                    }}
-                    renderInput={(params) => <TextField {...params}             
-                    id="neuteringDate"
-                    label="תאריך עיקור/סירוס"
-                    variant="filled"
-                    sx={{ width: 220 }}
-                    InputLabelProps={{
-                        shrink: true,
-                    }} />}
-                    >
-                    </DatePicker>
-                </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker 
-                    inputFormat="DD/MM/YYYY"
-                    value={formInput.releaseDate}
-                    onChange={(newValue) => {
-                        setFormInput({...formInput, releaseDate: newValue.toDate()})
-                        setEdited(true)
-                    }}
-                    renderInput={(params) => <TextField {...params}             
-                    id="releaseDate"
-                    label="תאריך שחרור"
-                    variant="filled"
-                    sx={{ width: 220 }}
-                    InputLabelProps={{
-                        shrink: true,
-                    }} />}
-                    >
-                    </DatePicker>
-                </LocalizationProvider>
-
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker 
+                        inputFormat="DD/MM/YYYY"
+                        value={formInput.neuteringDate}
+                        onChange={(newValue) => {
+                            setFormInput({...formInput, neuteringDate: newValue.toDate()})
+                            setEdited(true)
+                        }}
+                        renderInput={(params) => <TextField {...params}             
+                        id="neuteringDate"
+                        label="תאריך עיקור/סירוס"
+                        variant="filled"
+                        sx={{ width: 220 }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }} />}
+                        >
+                        </DatePicker>
+                    </LocalizationProvider>
+                    <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, hospitalStartDate: null})}>
+                                    איפוס
+                    </Button>
+                </div>
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker 
+                        inputFormat="DD/MM/YYYY"
+                        value={formInput.releaseDate}
+                        onChange={(newValue) => {
+                            setFormInput({...formInput, releaseDate: newValue.toDate()})
+                            setEdited(true)
+                        }}
+                        renderInput={(params) => <TextField {...params}             
+                        id="releaseDate"
+                        label="תאריך שחרור"
+                        variant="filled"
+                        sx={{ width: 220 }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }} />}
+                        >
+                        </DatePicker>
+                    </LocalizationProvider>
+                    <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, hospitalStartDate: null})}>
+                            איפוס
+                    </Button>
+                </div>
                 <Autocomplete 
                 id="releaseLocation"
                 value={formInput.releaseLocation}

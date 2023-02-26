@@ -99,8 +99,12 @@ input[id=email]:focus, input[id=password]:focus, input[id=name]:focus, input[id=
 
 .form-column {
   display: flex;
-  align-items: center;
   flex-direction: column;
+}
+
+.form-column h2 {
+  text-align: center;
+
 }
 
 .columns {
@@ -111,6 +115,9 @@ input[id=email]:focus, input[id=password]:focus, input[id=name]:focus, input[id=
 @media (max-width: 800px) {
   .columns {
     flex-direction: column;
+  }
+  .form-column {
+    align-items: center;
   }
 }
 

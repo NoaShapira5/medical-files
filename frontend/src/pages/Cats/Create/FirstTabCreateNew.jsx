@@ -67,10 +67,19 @@ function FirstTabCreateNew({setEdited}) {
         }
     }, [medicalFile])
 
+    // parse a date in yyyy-mm-dd format
+    function parseDate(input) {
+        var parts = input.match(/(\d+)/g);
+        // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+        return new Date(parts[0], parts[1]-1, parts[2]); // months are 0-based
+    }
+
     const getTotalDays = (date1, date2) => {
         if(!date1 || !date2) {
             return 0
         }
+        date1 = typeof date1 === 'string' ? parseDate(date1) : date1
+        date2 = typeof date2 === 'string' ? parseDate(date2) : date2
         // To calculate the time difference of two dates
         const Difference_In_Time = date2.getTime() - date1.getTime();
       
@@ -455,44 +464,54 @@ function FirstTabCreateNew({setEdited}) {
                         shrink: true,
                     }}
                     />
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker 
-                        inputFormat="DD/MM/YYYY"
-                        value={formInput.hospitalStartDate}
-                        onChange={(newValue) => {
-                            setFormInput({...formInput, hospitalStartDate: newValue.toDate()})
-                            setEdited(true)
-                        }}
-                        renderInput={(params) => <TextField {...params}             
-                        id="hospitalStartDate"
-                        label="תאריך התחלה"
-                        variant="filled"
-                        sx={{ width: 220 }}
-                        InputLabelProps={{
-                            shrink: true,
-                        }} />}
-                        >
-                        </DatePicker>
-                    </LocalizationProvider>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DatePicker 
-                        inputFormat="DD/MM/YYYY"
-                        value={formInput.hospitalEndDate}
-                        onChange={(newValue) => {
-                            setFormInput({...formInput, hospitalEndDate: newValue.toDate(), totalHospitalDays: getTotalDays(formInput.hospitalStartDate, newValue.toDate())})
-                            setEdited(true)
-                        }}
-                        renderInput={(params) => <TextField {...params}             
-                        id="hospitalEndDate"
-                        label="תאריך סיום"
-                        variant="filled"
-                        sx={{ width: 220 }}
-                        InputLabelProps={{
-                            shrink: true,
-                        }} />}
-                        >
-                        </DatePicker>
-                    </LocalizationProvider>
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker 
+                            inputFormat="DD/MM/YYYY"
+                            value={formInput.hospitalStartDate}
+                            onChange={(newValue) => {
+                                setFormInput({...formInput, hospitalStartDate: newValue.toDate()})
+                                setEdited(true)
+                            }}
+                            renderInput={(params) => <TextField {...params}             
+                            id="hospitalStartDate"
+                            label="תאריך התחלה"
+                            variant="filled"
+                            sx={{ width: 220 }}
+                            InputLabelProps={{
+                                shrink: true,
+                            }} />}
+                            >
+                            </DatePicker>
+                        </LocalizationProvider>
+                        <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, hospitalStartDate: null})}>
+                                איפוס
+                        </Button>
+                    </div>
+                    <div style={{display: 'flex', alignItems: 'center'}}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker 
+                            inputFormat="DD/MM/YYYY"
+                            value={formInput.hospitalEndDate}
+                            onChange={(newValue) => {
+                                setFormInput({...formInput, hospitalEndDate: newValue.toDate(), totalHospitalDays: getTotalDays(formInput.hospitalStartDate, newValue.toDate())})
+                                setEdited(true)
+                            }}
+                            renderInput={(params) => <TextField {...params}             
+                            id="hospitalEndDate"
+                            label="תאריך סיום"
+                            variant="filled"
+                            sx={{ width: 220 }}
+                            InputLabelProps={{
+                                shrink: true,
+                            }} />}
+                            >
+                            </DatePicker>
+                        </LocalizationProvider>
+                        <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, hospitalStartDate: null})}>
+                                איפוס
+                        </Button>
+                    </div>
                     <TextField
                     id="totalHospitalDays"
                     onChange={handleChange}
@@ -508,45 +527,54 @@ function FirstTabCreateNew({setEdited}) {
                 </div>
             <div className="form-column">
                 <h2>לאחר טיפול</h2>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker 
-                    inputFormat="DD/MM/YYYY"
-                    value={formInput.neuteringDate}
-                    onChange={(newValue) => {
-                        setFormInput({...formInput, neuteringDate: newValue.toDate()})
-                        setEdited(true)
-                    }}
-                    renderInput={(params) => <TextField {...params}             
-                    id="neuteringDate"
-                    label="תאריך עיקור/סירוס"
-                    variant="filled"
-                    sx={{ width: 220 }}
-                    InputLabelProps={{
-                        shrink: true,
-                    }} />}
-                    >
-                    </DatePicker>
-                </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker 
-                    inputFormat="DD/MM/YYYY"
-                    value={formInput.releaseDate}
-                    onChange={(newValue) => {
-                        setFormInput({...formInput, releaseDate: newValue.toDate()})
-                        setEdited(true)
-                    }}
-                    renderInput={(params) => <TextField {...params}             
-                    id="releaseDate"
-                    label="תאריך שחרור"
-                    variant="filled"
-                    sx={{ width: 220 }}
-                    InputLabelProps={{
-                        shrink: true,
-                    }} />}
-                    >
-                    </DatePicker>
-                </LocalizationProvider>
-
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker 
+                        inputFormat="DD/MM/YYYY"
+                        value={formInput.neuteringDate}
+                        onChange={(newValue) => {
+                            setFormInput({...formInput, neuteringDate: newValue.toDate()})
+                            setEdited(true)
+                        }}
+                        renderInput={(params) => <TextField {...params}             
+                        id="neuteringDate"
+                        label="תאריך עיקור/סירוס"
+                        variant="filled"
+                        sx={{ width: 220 }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }} />}
+                        >
+                        </DatePicker>
+                    </LocalizationProvider>
+                    <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, hospitalStartDate: null})}>
+                        איפוס
+                    </Button>
+                </div>
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker 
+                        inputFormat="DD/MM/YYYY"
+                        value={formInput.releaseDate}
+                        onChange={(newValue) => {
+                            setFormInput({...formInput, releaseDate: newValue.toDate()})
+                            setEdited(true)
+                        }}
+                        renderInput={(params) => <TextField {...params}             
+                        id="releaseDate"
+                        label="תאריך שחרור"
+                        variant="filled"
+                        sx={{ width: 220 }}
+                        InputLabelProps={{
+                            shrink: true,
+                        }} />}
+                        >
+                        </DatePicker>
+                    </LocalizationProvider>
+                    <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, hospitalStartDate: null})}>
+                        איפוס
+                    </Button>
+                </div>
                 <Autocomplete 
                 id="releaseLocation"
                 value={formInput.releaseLocation}
