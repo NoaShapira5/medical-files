@@ -1,7 +1,5 @@
 import { Paper } from "@mui/material"
-import { useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { getMedicalFileOperations } from "../../features/operation/operationSlice"
+import { useSelector } from "react-redux"
 import {toast} from 'react-toastify'
 import Spinner from '../../components/Spinner'
 import Table from '@mui/material/Table';
@@ -11,46 +9,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-function ThirdTabMedicalFile() {
+function ThirdTabMedicalFile({relevantExam, relevantTreat, calcAmount, calcTotalCount}) {
 
-    const dispatch = useDispatch()
-
-    const {treatments, examinations, isLoading} = useSelector(state => state.management)
-    const {operations} = useSelector(state => state.operation)
+    const {isLoading} = useSelector(state => state.management)
     const {medicalFile} = useSelector(state => state.medicalFiles)
-
-    const relOperations = operations.filter(operation => (operation.type === 'טיפול לדיווח ותשלום' || operation.type === 'בדיקה') && operation.financed)
-    const contents = relOperations.map(relOperations => relOperations.content)
-    const flatContents = contents.flat()
-    const counts = flatContents.reduce((accumulator, value) => {
-      accumulator[value] = ++accumulator[value] || 1;
-      return accumulator;
-    }, {})
-    const relevantTreat = treatments.filter(treatment => treatment.price !== undefined)
-    const relevantExam = examinations.filter(examination => examination.price !== undefined)  
-
-    const calcAmount = (item) => {
-        if(item.examinationName) {
-            return counts[item.examinationName] ? (counts[item.examinationName] <= item.range[1] ? counts[item.examinationName] : item.range[1]) : 0
-        } else {
-            return counts[item.treatmentName] ? (counts[item.treatmentName] <= item.range[1] ? counts[item.treatmentName] : item.range[1]) : 0
-        }  
-    }
-    let totalCount = 0
-    for(const examination of relevantExam) {
-        totalCount += (calcAmount(examination) * examination.price)
-    }
-    for(const treatment of relevantTreat) {
-        totalCount += (calcAmount(treatment) * treatment.price)
-    }
-    totalCount += (medicalFile.totalHospitalDays * 30) + (medicalFile.death === 'המתת חסד' ? 90 : 0)
-
-
-    useEffect(() => {
-      if(medicalFile) {
-        dispatch(getMedicalFileOperations(medicalFile._id))
-      }
-    }, [dispatch, medicalFile])
 
     if(!medicalFile) {
       toast.error('עליך ליצור קודם תיק רפואי')
@@ -141,7 +103,7 @@ function ThirdTabMedicalFile() {
                     </TableRow>
                 </TableBody>
             </Table>
-            <h2 style={{textAlign: 'center'}}>סך הכל: {totalCount}</h2>
+            <h2 style={{textAlign: 'center'}}>סך הכל: {calcTotalCount()}</h2>
         </TableContainer>
     </div>
   )

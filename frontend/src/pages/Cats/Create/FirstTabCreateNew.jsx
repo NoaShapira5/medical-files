@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import CustomizedDialogs from '../../../components/Dialog';
 import Images from '../../../components/Images';
 
-function FirstTabCreateNew({setEdited}) {
+function FirstTabCreateNew({setEdited, calcTotalCount}) {
     const {isLoading, medicalFile} = useSelector(state => state.medicalFiles)
     const {communities, diagnoses} = useSelector(state => state.management)
     const {user} = useSelector(state => state.auth)
@@ -53,6 +53,7 @@ function FirstTabCreateNew({setEdited}) {
         releaseDate: null,
         releaseLocation: '',
         death: '',
+        totalFinanced: 0,
         userName: user.name,
         examinations: '',
         imaging: '',
@@ -596,6 +597,28 @@ function FirstTabCreateNew({setEdited}) {
                 options={['מת', 'המתת חסד', 'חי', '']}
                 renderInput={(params) => <TextField {...params}  label='מוות' InputLabelProps={{shrink: true,}} variant="filled" />}
                 />
+                {medicalFile && <div style={{display: 'flex', alignItems: 'center'}}>
+                    <TextField
+                    id="totalFinanced"
+                    value={formInput.totalFinanced}
+                    label='עלות הטיפול (ש"ח)'
+                    variant="filled"
+                    type="number"
+                    sx={{ width: 220 }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    InputProps={{
+                    readOnly: true,
+                    }}
+                    />
+                    <Button
+                    variant="outlined" 
+                    size="small"
+                    onClick={() => setFormInput({...formInput, totalFinanced: calcTotalCount()})}>
+                        חישוב
+                    </Button>
+                </div>}
                   
             </div>
             

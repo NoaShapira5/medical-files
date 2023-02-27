@@ -4,17 +4,45 @@ import { getCommunities, getDiagnoses, getMedicines, getTreatments, getExaminati
 import FirstTabEdit from './FirstTabEdit';
 import SecondTabMedicalFile from '../SecondTabMedicalFile'
 import ThirdTabMedicalFile from '../ThirdTabMedicalFile'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { back } from '../../../features/medicalFiles/medicalFilesSlice';
 import { useNavigate } from 'react-router-dom';
 import subLogo from '../../../logos/subLogo.png'
+import { getMedicalFileOperations } from "../../../features/operation/operationSlice"
 
 
 function EditMedicalFile({edited, setEdited}) {
+    const [counts, setCounts] = useState('')
+    const [relevantExam, setRelevantExam] = useState('')
+    const [relevantTreat, setRelevantTreat] = useState('')
     const [tabIndex, setTabIndex] = useState(0);
+    const {treatments, examinations} = useSelector(state => state.management)
+    const {operations} = useSelector(state => state.operation)
+    const {medicalFile} = useSelector(state => state.medicalFiles)
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const calcAmount = (item) => {
+        if(item.examinationName) {
+            return counts[item.examinationName] ? (counts[item.examinationName] <= item.range[1] ? counts[item.examinationName] : item.range[1]) : 0
+        } else {
+            return counts[item.treatmentName] ? (counts[item.treatmentName] <= item.range[1] ? counts[item.treatmentName] : item.range[1]) : 0
+        }  
+    }
+
+    const calcTotalCount = () => {
+        let totalCount = 0
+        for(const examination of relevantExam) {
+            totalCount += (calcAmount(examination) * examination.price)
+        }
+        for(const treatment of relevantTreat) {
+            totalCount += (calcAmount(treatment) * treatment.price)
+        }
+        totalCount += (medicalFile.totalHospitalDays * 30) + (medicalFile.death === 'המתת חסד' ? 90 : 0)
+        return totalCount
+    }
+
 
     useEffect(() => {
         dispatch(getCommunities())
@@ -24,6 +52,25 @@ function EditMedicalFile({edited, setEdited}) {
         dispatch(getExaminations())
 
     }, [dispatch])
+
+    useEffect(() => {
+        if(medicalFile) {
+          dispatch(getMedicalFileOperations(medicalFile._id))
+        }
+    }, [dispatch, medicalFile])
+
+    useEffect(() => {
+        const relOperations = operations.filter(operation => (operation.type === 'טיפול לדיווח ותשלום' || operation.type === 'בדיקה') && operation.financed)
+        const contents = relOperations.map(relOperations => relOperations.content)
+        const flatContents = contents.flat()
+        setCounts(flatContents.reduce((accumulator, value) => {
+        accumulator[value] = ++accumulator[value] || 1;
+        return accumulator;
+        }, {}))
+        setRelevantTreat(treatments.filter(treatment => treatment.price !== undefined))
+        setRelevantExam(examinations.filter(examination => examination.price !== undefined))
+    }, [operations, treatments, examinations])
+  
 
     const handleTabChange = (event, newTabIndex) => {
         if(edited) {
@@ -78,7 +125,7 @@ function EditMedicalFile({edited, setEdited}) {
                 {tabIndex === 0 && (
                 <Box>
                     
-                    <FirstTabEdit setEdited={setEdited}/>
+                    <FirstTabEdit setEdited={setEdited} calcTotalCount={calcTotalCount}/>
                     
                 </Box>
                 )}
@@ -89,7 +136,7 @@ function EditMedicalFile({edited, setEdited}) {
                 )}
                 {tabIndex === 2 && (
                 <Box>
-                    <ThirdTabMedicalFile />
+                    <ThirdTabMedicalFile relevantExam={relevantExam} relevantTreat={relevantTreat} calcAmount={calcAmount} calcTotalCount={calcTotalCount}/>
                 </Box>
                 )}
             </Box>

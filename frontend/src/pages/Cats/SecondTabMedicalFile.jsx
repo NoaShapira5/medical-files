@@ -205,7 +205,7 @@ function SecondTabMedicalFile() {
   return (
     <Box sx={{ width: '100%' }}>
         <ThemeProvider theme={theme}>
-            <Paper sx={{ height: 400, width: '100%', mb: 2 }}>
+            <Paper sx={{ height: 440, width: '100%', mb: 2 }}>
                 {selected.length > 0 && (
                 <Tooltip title="Delete">
                     <IconButton onClick={() => onDelete(selected)}>

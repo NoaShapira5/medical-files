@@ -12,7 +12,7 @@ import CustomizedDialogs from '../../../components/Dialog';
 import Images from '../../../components/Images';
 import PDFdocument from "../../../components/PDFdocument";
 
-function FirstTabEdit({setEdited}) {
+function FirstTabEdit({setEdited, calcTotalCount}) {
     const {isLoading, medicalFile} = useSelector(state => state.medicalFiles)
     const {communities, diagnoses} = useSelector(state => state.management)
     const {user} = useSelector(state => state.auth)
@@ -58,7 +58,7 @@ function FirstTabEdit({setEdited}) {
         imaging: '',
         nonSurgical: '',
         surgical: '',
-        medicalFile: '',
+        totalFinanced: '',
         createdAt: ''
 
     })
@@ -91,19 +91,19 @@ function FirstTabEdit({setEdited}) {
         return Difference_In_Days
     }
 
-    const handleFileUpload = (e) => {
-        if (!e.target.files) {
-          return;
-        }
-        for(const file of e.target.files) {
-            if (file.size > 5000000) {
-                toast.error('הקובץ גדול מדי')
-            }
-        }
-        setFormInput({
-            ...formInput,
-           images: e.target.files})
-    };
+    // const handleFileUpload = (e) => {
+    //     if (!e.target.files) {
+    //       return;
+    //     }
+    //     for(const file of e.target.files) {
+    //         if (file.size > 5000000) {
+    //             toast.error('הקובץ גדול מדי')
+    //         }
+    //     }
+    //     setFormInput({
+    //         ...formInput,
+    //        images: e.target.files})
+    // };
 
     const handleChange = (e) => {
         setEdited(true)
@@ -232,6 +232,7 @@ function FirstTabEdit({setEdited}) {
                 />
                 <Autocomplete 
                 id="community"
+                isOptionEqualToValue={(option, value) => option._id === value._id}
                 value={formInput.community}
                 onChange={(e, newValue) => {
                     setFormInput({...formInput, community: newValue})
@@ -402,6 +403,7 @@ function FirstTabEdit({setEdited}) {
                 />
                 <Autocomplete 
                 id="mainDiagnosis"
+                isOptionEqualToValue={(option, value) => option._id === value._id}
                 value={formInput.mainDiagnosis}
                 onChange={(e, newValue) => {
                     setFormInput({...formInput, mainDiagnosis: newValue})
@@ -413,6 +415,7 @@ function FirstTabEdit({setEdited}) {
 
                 <Autocomplete 
                 id="secondaryDiagnosis"
+                isOptionEqualToValue={(option, value) => option._id === value._id}
                 value={formInput.secondaryDiagnosis}
                 onChange={(e, newValue) => {
                     setFormInput({...formInput, secondaryDiagnosis: newValue})
@@ -572,6 +575,28 @@ function FirstTabEdit({setEdited}) {
                 options={['מת', 'המתת חסד', 'חי', '']}
                 renderInput={(params) => <TextField {...params}  label='מוות' InputLabelProps={{shrink: true,}} variant="filled" />}
                 />
+                <div style={{display: 'flex', alignItems: 'center'}}>
+                    <TextField
+                    id="totalFinanced"
+                    value={formInput.totalFinanced}
+                    label='עלות הטיפול (ש"ח)'
+                    variant="filled"
+                    type="number"
+                    sx={{ width: 220 }}
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    InputProps={{
+                    readOnly: true,
+                    }}
+                    />
+                    <Button
+                    variant="outlined" 
+                    size="small"
+                    onClick={() => setFormInput({...formInput, totalFinanced: calcTotalCount()})}>
+                        חישוב
+                    </Button>
+                </div>
                 
                 
             </div>

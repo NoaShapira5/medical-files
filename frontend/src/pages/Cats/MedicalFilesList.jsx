@@ -277,7 +277,7 @@ function MedicalFilesList() {
     },
     {
       field: 'totalFinanced',
-      headerName: 'סך הכל',
+      headerName: 'סך הכל עלות הטיפול',
       type: 'number',
       hide: true
     }
@@ -352,10 +352,6 @@ function MedicalFilesList() {
           >
             איפוס הפילטרים
           </Button>
-
-          {/* <Button variant="outlined">
-            חישוב מחיר כולל לאקסל
-          </Button> */}
 
           <DataGrid
           initialState={{
