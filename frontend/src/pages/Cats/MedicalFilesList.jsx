@@ -62,7 +62,7 @@ function MedicalFilesList() {
       disableExport: true,
       type: 'number',
       headerAlign: 'left',
-      align: 'left'
+      align: 'center'
     },
     {
       field: 'arrivalDate',
@@ -78,7 +78,7 @@ function MedicalFilesList() {
       width: 80,
       type: 'number',
       headerAlign: 'left',
-      align: 'left'
+      align: 'center'
     },
     {
       field: 'refName',
@@ -124,7 +124,7 @@ function MedicalFilesList() {
       width: 120,
       hide: true,
       type: 'number',
-      headerAlign: 'left'
+      headerAlign: 'center'
     },
     {
       field: 'color',
@@ -139,7 +139,7 @@ function MedicalFilesList() {
       hide: true,
       type: 'number',
       headerAlign: 'left',
-      align: 'left'
+      align: 'center'
     },
     {
       
@@ -197,7 +197,7 @@ function MedicalFilesList() {
       hide: true,
       type: 'number',
       headerAlign: 'left',
-      align: 'left'
+      align: 'center'
 
     },
     {
@@ -256,7 +256,7 @@ function MedicalFilesList() {
       type: 'number',
       disableExport: true,
       headerAlign: 'left',
-      align: 'left'
+      align: 'center'
     },
     {
       field: 'images',
@@ -277,9 +277,11 @@ function MedicalFilesList() {
     },
     {
       field: 'totalFinanced',
-      headerName: 'סך הכל עלות הטיפול',
+      headerName: 'עלות הטיפול',
       type: 'number',
-      hide: true
+      width: 80,
+      headerAlign: 'left',
+      align: 'center'
     }
 
   ];

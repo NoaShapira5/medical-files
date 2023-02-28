@@ -485,7 +485,7 @@ function FirstTabEdit({setEdited, calcTotalCount}) {
                         >
                         </DatePicker>
                     </LocalizationProvider>
-                    <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, hospitalStartDate: null})}>
+                    <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, hospitalEndDate: null})}>
                                 איפוס
                     </Button>
                 </div>
@@ -526,7 +526,7 @@ function FirstTabEdit({setEdited, calcTotalCount}) {
                         >
                         </DatePicker>
                     </LocalizationProvider>
-                    <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, hospitalStartDate: null})}>
+                    <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, neuteringDate: null})}>
                                     איפוס
                     </Button>
                 </div>
@@ -550,7 +550,7 @@ function FirstTabEdit({setEdited, calcTotalCount}) {
                         >
                         </DatePicker>
                     </LocalizationProvider>
-                    <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, hospitalStartDate: null})}>
+                    <Button variant="outlined" size="small" onClick={() => setFormInput({...formInput, releaseDate: null})}>
                             איפוס
                     </Button>
                 </div>
