@@ -76,7 +76,7 @@ function MedicalFilesList() {
       field: 'refNum',
       headerName: 'מספר פנייה',
       width: 80,
-      type: 'number',
+      type: 'text',
       headerAlign: 'left',
       align: 'center'
     },
@@ -143,11 +143,11 @@ function MedicalFilesList() {
     },
     {
       
-        field: 'severityLev',
-        headerName: 'דרגת חומרה',
-        width: 120,
-        hide: true,
-        type: 'string'
+      field: 'severityLev',
+      headerName: 'דרגת חומרה',
+      width: 120,
+      hide: true,
+      type: 'string'
 
     },
     {
