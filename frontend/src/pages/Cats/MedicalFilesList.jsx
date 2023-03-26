@@ -76,7 +76,7 @@ function MedicalFilesList() {
       field: 'refNum',
       headerName: 'מספר פנייה',
       width: 80,
-      type: 'text',
+      type: 'string',
       headerAlign: 'left',
       align: 'center'
     },

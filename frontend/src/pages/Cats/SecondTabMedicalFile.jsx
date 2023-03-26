@@ -169,7 +169,11 @@ function SecondTabMedicalFile() {
         {
             field: 'file',
             headerName: 'קובץ מצורף',
-            renderCell: (cellValues) => (<a className='link' target="_blank" rel="noreferrer noopener" href={cellValues.value[0]}>{cellValues?.value[0]?.split('/')[4]}</a>),
+            renderCell: (cellValues) => (
+            <ul className='link'>
+                {cellValues.value.map((value, index) => (<li key={index}><a className='link' target="_blank" rel="noreferrer noopener" href={value}>{value?.split('/')[4]}</a></li>))}
+            </ul>
+            ),
             width: 310,
             type: 'string'
 

@@ -83,9 +83,9 @@ function FirstTabCreateNew({setEdited, calcTotalCount}) {
         date2 = typeof date2 === 'string' ? parseDate(date2) : date2
         // To calculate the time difference of two dates
         const Difference_In_Time = date2.getTime() - date1.getTime();
-      
+
         // To calculate the no. of days between two dates
-        const Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+        const Difference_In_Days = Math.ceil(Difference_In_Time / (1000 * 3600 * 24));
         return Difference_In_Days
     }
 
@@ -384,7 +384,7 @@ function FirstTabCreateNew({setEdited, calcTotalCount}) {
                     onChange={handleChange}
                     value={formInput.history}
                     label="היסטוריה"
-                    type="text"
+                    type="string"
                     variant="filled"
                     sx={{ width: 220 }}
                     InputLabelProps={{
@@ -420,7 +420,7 @@ function FirstTabCreateNew({setEdited, calcTotalCount}) {
                     value={formInput.medicalProb}
                     multiline
                     label="בעיה רפואית"
-                    type="text"
+                    type="string"
                     variant="filled"
                     sx={{ width: 220 }}
                     InputLabelProps={{
