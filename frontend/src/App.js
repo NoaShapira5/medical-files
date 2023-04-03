@@ -16,6 +16,7 @@ import { useSelector } from 'react-redux';
 import Selection from './pages/Selection';
 import { useState } from 'react';
 import ManagementButton from './components/ManagementButton';
+import PDF from './pages/PDF'
 
 function App() {
   const [dogEdited, setDogEdited] = useState(false)
@@ -47,6 +48,11 @@ function App() {
           element={<PrivateRoute>
                     <EditMedicalFile  setEdited={setCatEdited} edited={catEdited}/>
                   </PrivateRoute>} />
+          
+          <Route
+          path='/pdf/:medicalFileId'
+          element={<PDF />}
+          />
 
           <Route path='/login' element={<Login />} />
 

@@ -10,9 +10,12 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CustomizedDialogs from '../../../components/Dialog';
 import Images from '../../../components/Images';
-import PDFdocument from "../../../components/PDFdocument";
+import { useNavigate } from "react-router-dom";
 
 function FirstTabEdit({setEdited, calcTotalCount}) {
+
+    const navigate = useNavigate()
+
     const {isLoading, medicalFile} = useSelector(state => state.medicalFiles)
     const {communities, diagnoses} = useSelector(state => state.management)
     const {user} = useSelector(state => state.auth)
@@ -693,13 +696,22 @@ function FirstTabEdit({setEdited, calcTotalCount}) {
                 />
             </div>
         </div>
+        
         <div className="btn">
-            <PDFdocument medicalFile={medicalFile}/>
+            <Button 
+            onClick={() => navigate(`/pdf/${medicalFileId}`)}
+            sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
+            '@media (min-width: 800px)': { position: 'absolute', bottom: '8px', right: '150px'}}}
+            variant='contained'
+            >
+                דף טיפולים
+            </Button>
             <Button 
             onClick={handleSubmit}
             variant='contained'
             sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
-            '@media (min-width: 800px)': { position: 'absolute', bottom: '8px', right: '16px'}}}>
+            '@media (min-width: 800px)': { position: 'absolute', bottom: '8px', right: '16px'}}}
+            >
             שמירת שינוים</Button>
         </div>
       </Paper>

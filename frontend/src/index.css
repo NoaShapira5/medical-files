@@ -294,3 +294,34 @@ ul {
     display: none;
   }
 }
+
+.title {
+  text-decoration: underline;
+  font-weight: lighter;
+  font-size: x-large;
+}
+
+.subtitle {
+  text-decoration: underline;
+}
+
+.details {
+  display: flex;
+  gap: 250px;
+}
+
+.head {
+  display: flex;
+  gap: 50px;
+  font-size: 1.17em;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+td {
+  height: 20px;
+}
+
