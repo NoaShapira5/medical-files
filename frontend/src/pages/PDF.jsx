@@ -1,7 +1,7 @@
 import mainLogo from '../logos/mainLogo.png'
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getMedicalFile } from '../features/medicalFiles/medicalFilesSlice';
 import Spinner from '../components/Spinner';
 
@@ -10,9 +10,28 @@ function PDF() {
   const dispatch = useDispatch()
   const {medicalFileId} = useParams()
   const {isLoading, medicalFile} = useSelector(state => state.medicalFiles)
+  const [nextSevenDays, setNextSevenDays] = useState([])
 
   useEffect(() => {
+    const formatDate = (date) => {
+      const dd = String(date.getDate()).padStart(2, '0')
+      let mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+      let yyyy = date.getFullYear();
+      date = dd + '/' + mm + '/' + yyyy;
+      return date
+    }
+    const getTheNextSevenDays = () => {
+    let sevenDates = [0,1,2,3,4,5,6]
+    let today = new Date();
+    for(let i = 0; i < sevenDates.length; i++) {
+      let newDate = new Date()
+      newDate.setDate(today.getDate() + sevenDates[i])
+      sevenDates[i] = formatDate(newDate)
+    }
+    return sevenDates
+  }
     dispatch(getMedicalFile(medicalFileId))
+    setNextSevenDays(getTheNextSevenDays())
   }, [medicalFileId, dispatch])
 
   let today = new Date();
@@ -21,12 +40,15 @@ function PDF() {
   let yyyy = today.getFullYear();
 
   today = dd + '/' + mm + '/' + yyyy;
+
+  
+
   if(isLoading) {
     return <Spinner />
   }
   return (
     <div>
-      <img src={mainLogo} style={{height: '70px'}}/>
+      <img src={mainLogo} style={{height: '70px'}} alt='השירותים הוטרינרים גוש דן'/>
 
       <div className="head">
         <h1 className='title'>דף טיפולים אשפוז חתולים</h1>
@@ -44,7 +66,7 @@ function PDF() {
         </div>
         <div className="column-details">
           <h3 className='subtitle'>פרטי הפונה:</h3>
-          <h3>שם:{medicalFile && medicalFile.refName}</h3>
+          <h3>שם: {medicalFile && medicalFile.refName}</h3>
           <h3>טלפון: {medicalFile && medicalFile.phoneOne}</h3>
           <h3 className='subtitle'>מקום הלכידה:</h3>
           <h3>כתובת: {medicalFile && medicalFile.trappingAd}</h3>
@@ -80,31 +102,7 @@ function PDF() {
             
           <tr style={{height: '33.333%'}}>
             <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
-          <tr style={{height: '33.333%'}}>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
-          <tr style={{height: '33.333%'}}>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
-          <tr style={{height: '33.333%'}}>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
+            <td rowSpan='3'>{nextSevenDays[0]}</td>
             <td rowSpan='3'></td>
             <td rowSpan='3'></td>
             <td rowSpan='3'></td>
@@ -128,31 +126,7 @@ function PDF() {
 
           <tr style={{height: '33.333%'}}>
             <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
-          <tr style={{height: '33.333%'}}>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
-          <tr style={{height: '33.333%'}}>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
-          <tr style={{height: '33.333%'}}>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
+            <td rowSpan='3'>{nextSevenDays[1]}</td>
             <td rowSpan='3'></td>
             <td rowSpan='3'></td>
             <td rowSpan='3'></td>
@@ -176,31 +150,7 @@ function PDF() {
 
           <tr style={{height: '33.333%'}}>
             <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
-          <tr style={{height: '33.333%'}}>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
-          <tr style={{height: '33.333%'}}>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
-
-          <tr style={{height: '33.333%'}}>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
+            <td rowSpan='3'>{nextSevenDays[2]}</td>
             <td rowSpan='3'></td>
             <td rowSpan='3'></td>
             <td rowSpan='3'></td>
@@ -224,7 +174,79 @@ function PDF() {
 
           <tr style={{height: '33.333%'}}>
             <td rowSpan='3'></td>
+            <td rowSpan='3'>{nextSevenDays[3]}</td>
             <td rowSpan='3'></td>
+            <td rowSpan='3'></td>
+            <td rowSpan='3'></td>
+            <td rowSpan='3'></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '33.333%'}}>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '33.333%'}}>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '33.333%'}}>
+            <td rowSpan='3'></td>
+            <td rowSpan='3'>{nextSevenDays[4]}</td>
+            <td rowSpan='3'></td>
+            <td rowSpan='3'></td>
+            <td rowSpan='3'></td>
+            <td rowSpan='3'></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '33.333%'}}>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '33.333%'}}>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '33.333%'}}>
+            <td rowSpan='3'></td>
+            <td rowSpan='3'>{nextSevenDays[5]}</td>
+            <td rowSpan='3'></td>
+            <td rowSpan='3'></td>
+            <td rowSpan='3'></td>
+            <td rowSpan='3'></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '33.333%'}}>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '33.333%'}}>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '33.333%'}}>
+            <td rowSpan='3'></td>
+            <td rowSpan='3'>{nextSevenDays[6]}</td>
             <td rowSpan='3'></td>
             <td rowSpan='3'></td>
             <td rowSpan='3'></td>
