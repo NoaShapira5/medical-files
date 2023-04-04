@@ -266,10 +266,7 @@ function PDF() {
             <td></td>
             <td></td>
             <td></td>
-          </tr>
-
-            
-          
+          </tr>     
         </thead>
       </table>
 

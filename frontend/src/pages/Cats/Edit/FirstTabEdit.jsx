@@ -10,11 +10,8 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import CustomizedDialogs from '../../../components/Dialog';
 import Images from '../../../components/Images';
-import { useNavigate } from "react-router-dom";
 
 function FirstTabEdit({setEdited, calcTotalCount}) {
-
-    const navigate = useNavigate()
 
     const {isLoading, medicalFile} = useSelector(state => state.medicalFiles)
     const {communities, diagnoses} = useSelector(state => state.management)
@@ -699,7 +696,7 @@ function FirstTabEdit({setEdited, calcTotalCount}) {
         
         <div className="btn">
             <Button 
-            onClick={() => navigate(`/pdf/${medicalFileId}`)}
+            onClick={() => window.open(`/pdf/${medicalFileId}`, '_blank')}
             sx={{backgroundColor: 'CadetBlue', '&:hover': {backgroundColor:'#4c7e80'},
             '@media (min-width: 800px)': { position: 'absolute', bottom: '8px', right: '150px'}}}
             variant='contained'
