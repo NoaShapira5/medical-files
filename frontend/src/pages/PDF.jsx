@@ -57,22 +57,22 @@ function PDF() {
 
       <div className="details">
         <div className="column-details">
-          <h3>מספר פנייה: {medicalFile && medicalFile.refNum}</h3>
-          <h3>כלוב אשפוז: {medicalFile && medicalFile.hospitalizationCageNum}</h3>
-          <h3>שם החתול:</h3>
-          <h3>מין: {medicalFile && medicalFile.gender}</h3>
-          <h3>מעוקר/מסורס: {medicalFile && medicalFile.neuteringStatus}</h3>
-          <h3>צבע: {medicalFile && medicalFile.color}</h3>
+          <h4>מספר פנייה: {medicalFile && medicalFile.refNum}</h4>
+          <h4>כלוב אשפוז: {medicalFile && medicalFile.hospitalizationCageNum}</h4>
+          <h4>שם החתול:</h4>
+          <h4>מין: {medicalFile && medicalFile.gender}</h4>
+          <h4>מעוקר/מסורס: {medicalFile && medicalFile.neuteringStatus}</h4>
+          <h4>צבע: {medicalFile && medicalFile.color}</h4>
         </div>
         <div className="column-details">
-          <h3 className='subtitle'>פרטי הפונה:</h3>
-          <h3>שם: {medicalFile && medicalFile.refName}</h3>
-          <h3>טלפון: {medicalFile && medicalFile.phoneOne}</h3>
-          <h3 className='subtitle'>מקום הלכידה:</h3>
-          <h3>כתובת: {medicalFile && medicalFile.trappingAd}</h3>
-          <h3 className='subtitle'>כללי:</h3>
-          <h3>אבחנה: {medicalFile && medicalFile.mainDiagnosis}</h3>
-          <h3>דגשים/מזון מיוחדים:</h3>
+          <h4 className='subtitle'>פרטי הפונה:</h4>
+          <h4>שם: {medicalFile && medicalFile.refName}</h4>
+          <h4>טלפון: {medicalFile && medicalFile.phoneOne}</h4>
+          <h4 className='subtitle'>מקום הלכידה:</h4>
+          <h4>כתובת: {medicalFile && medicalFile.trappingAd}</h4>
+          <h4 className='subtitle'>כללי:</h4>
+          <h4>אבחנה: {medicalFile && medicalFile.mainDiagnosis}</h4>
+          <h4>דגשים/מזון מיוחדים:</h4>
         </div>   
       </div>
 
@@ -100,73 +100,109 @@ function PDF() {
           </tr>
           
             
-          <tr style={{height: '33.333%'}}>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'>{nextSevenDays[0]}</td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
+          <tr style={{height: '20%'}}>
+            <td rowSpan='5'></td>
+            <td rowSpan='5'>{nextSevenDays[0]}</td>
+            <td rowSpan='5'></td>
+            <td rowSpan='5'></td>
+            <td rowSpan='5'></td>
+            <td rowSpan='5'></td>
             <td></td>
             <td></td>
             <td></td>
           </tr>
 
-          <tr style={{height: '33.333%'}}>
+          <tr style={{height: '20%'}}>
             <td></td>
             <td></td>
             <td></td>
           </tr>
 
-          <tr style={{height: '33.333%'}}>
+          <tr style={{height: '20%'}}>
             <td></td>
             <td></td>
             <td></td>
           </tr>
 
-          <tr style={{height: '33.333%'}}>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'>{nextSevenDays[1]}</td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
+          <tr style={{height: '20%'}}>
             <td></td>
             <td></td>
             <td></td>
           </tr>
 
-          <tr style={{height: '33.333%'}}>
+          <tr style={{height: '20%'}}>
             <td></td>
             <td></td>
             <td></td>
           </tr>
 
-          <tr style={{height: '33.333%'}}>
+          <tr style={{height: '20%'}}>
+            <td rowSpan='5'></td>
+            <td rowSpan='5'>{nextSevenDays[1]}</td>
+            <td rowSpan='5'></td>
+            <td rowSpan='5'></td>
+            <td rowSpan='5'></td>
+            <td rowSpan='5'></td>
             <td></td>
             <td></td>
             <td></td>
           </tr>
 
-          <tr style={{height: '33.333%'}}>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'>{nextSevenDays[2]}</td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
-            <td rowSpan='3'></td>
+          <tr style={{height: '20%'}}>
             <td></td>
             <td></td>
             <td></td>
           </tr>
 
-          <tr style={{height: '33.333%'}}>
+          <tr style={{height: '20%'}}>
             <td></td>
             <td></td>
             <td></td>
           </tr>
 
-          <tr style={{height: '33.333%'}}>
+          <tr style={{height: '20%'}}>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '20%'}}>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '20%'}}>
+            <td rowSpan='5'></td>
+            <td rowSpan='5'>{nextSevenDays[2]}</td>
+            <td rowSpan='5'></td>
+            <td rowSpan='5'></td>
+            <td rowSpan='5'></td>
+            <td rowSpan='5'></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '20%'}}>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '20%'}}>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '20%'}}>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+
+          <tr style={{height: '20%'}}>
             <td></td>
             <td></td>
             <td></td>

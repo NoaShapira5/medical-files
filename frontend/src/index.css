@@ -307,9 +307,12 @@ ul {
 
 .details {
   display: flex;
-  gap: 180px;
+  gap: 100px;
 }
 
+h4 {
+  margin: 5px;
+}
 .head {
   display: flex;
   gap: 50px;
@@ -322,7 +325,7 @@ table, th, td {
 }
 
 td {
-  height: 20px;
+  height: 21px;
   text-align: center;
 }
 
